@@ -1,16 +1,17 @@
 import 'dart:convert';
 
-import 'package:api/entities/card.dart';
 import 'package:api/entities/event.dart';
 import 'package:api/entities/message.dart';
 import 'package:api/entities/player.dart';
 import 'package:api/entities/room.dart';
+import 'package:api/utils/json_manager.dart';
 import 'package:api/utils/pin_code_generator.dart';
 import 'package:shelf_plus/shelf_plus.dart';
 
 void main() => shelfRun(init, defaultBindPort: 8081);
 
 Handler init() {
+  print(JsonManager.getJsonList(path: 'data/black_cards.json'));
   var app = Router().plus;
 
   var rooms = <Room>[];
@@ -93,23 +94,6 @@ Handler init() {
     final room = Room(
       id: randomPinCode,
       winningScore: winningScore,
-      players: [],
-      blackCards: [
-        Card(
-          id: 1,
-          text: "%@, c'est tout le bonheur que je te souhaite, ma fille.",
-        ),
-        Card(
-          id: 2,
-          text:
-              "Quand %@ a vu %@, il a dit : \"C'est la plus belle chose que j'ai jamais vue.\"",
-        ),
-        Card(
-          id: 3,
-          text:
-              "Je suis désolé, monsieur, mais je ne peux pas prendre %@ au sérieux.",
-        ),
-      ],
     );
 
     rooms.add(room);

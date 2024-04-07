@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:api/entities/card.dart';
 import 'package:api/entities/player.dart';
+import 'package:api/utils/json_manager.dart';
 
 class Room {
   final String id;
@@ -21,12 +22,14 @@ class Room {
     required this.id,
     required this.winningScore,
     this.master,
-    required this.players,
+    List<Player>? players,
     this.currentRound = 0,
-    required this.blackCards,
-  });
+    List<Card>? blackCards,
+  })  : players = players ?? [],
+        blackCards = blackCards ?? [];
 
   factory Room.fromJson(Map<String, dynamic> json) {
+    print(json);
     return Room(
       id: json['id'],
       winningScore: json['winningScore'],
@@ -59,7 +62,39 @@ class Room {
   void startGame() {
     currentRound = 1;
     master = players[Random().nextInt(playerCount)];
+    loadBlackCards();
+    dealWhiteCards(count: 2);
     broadcastChange();
+  }
+
+  void loadBlackCards() {
+    // Get black cards from json
+    final jsonList = JsonManager.getJsonList(path: 'data/black_cards.json');
+
+    // Convert json to Card objects
+    final cards = jsonList.map((json) => Card.fromJson(json)).toList();
+
+    // Shuffle the cards
+    cards.shuffle();
+
+    // Add the cards to the room
+    blackCards = cards;
+  }
+
+  void dealWhiteCards({required int count}) {
+    for (var player in players) {
+      // Get white cards from json
+      final jsonList = JsonManager.getJsonList(path: 'data/white_cards.json');
+
+      // Convert json to Card objects
+      final cards = jsonList.map((json) => Card.fromJson(json)).toList();
+
+      // Shuffle the cards
+      cards.shuffle();
+
+      // Give the player the first `count` cards
+      player.cards.addAll(cards.take(count));
+    }
   }
 
   void broadcastChange() {

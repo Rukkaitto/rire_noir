@@ -4,17 +4,17 @@ import 'package:shelf_plus/shelf_plus.dart';
 class Player {
   bool isReady;
   final int score;
-  final List<Card> cards;
+  List<Card> cards;
   final WebSocketSession? ws;
   final String roomId;
 
   Player({
     this.isReady = false,
     required this.score,
-    this.cards = const [],
+    List<Card>? cards,
     this.ws,
     required this.roomId,
-  });
+  }) : cards = cards ?? [];
 
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
