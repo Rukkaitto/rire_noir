@@ -15,6 +15,7 @@ dependencies:
     path: ./api
   go_router: ^13.2.2
   dio: ^5.4.2+1
+  device_info_plus: ^10.0.1
 
 dev_dependencies:
   flutter_test:

@@ -1,22 +1,24 @@
 import 'package:api/entities/card.dart';
-import 'package:equatable/equatable.dart';
 import 'package:shelf_plus/shelf_plus.dart';
 
-class Player extends Equatable {
+class Player {
+  bool isReady;
   final int score;
   final List<Card> cards;
   final WebSocketSession? ws;
   final String roomId;
 
   Player({
+    this.isReady = false,
     required this.score,
-    required this.cards,
+    this.cards = const [],
     this.ws,
     required this.roomId,
   });
 
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
+      isReady: json['isReady'],
       score: json['score'],
       cards:
           (json['cards'] as List).map((card) => Card.fromJson(card)).toList(),
@@ -26,12 +28,10 @@ class Player extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
+      'isReady': isReady,
       'score': score,
       'cards': cards.map((card) => card.toJson()).toList(),
       'roomId': roomId,
     };
   }
-
-  @override
-  List<Object?> get props => [score, roomId];
 }

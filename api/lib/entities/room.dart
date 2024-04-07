@@ -1,29 +1,42 @@
 import 'dart:convert';
+import 'dart:math';
 
+import 'package:api/entities/card.dart';
 import 'package:api/entities/player.dart';
-import 'package:equatable/equatable.dart';
-import 'package:shelf_plus/shelf_plus.dart';
 
-class Room extends Equatable {
+class Room {
   final String id;
-  final int capacity;
   final int winningScore;
-  final List<Player> players;
+  Player? master;
+  List<Player> players;
+  int currentRound;
+  List<Card> blackCards;
+
+  int get playerCount => players.length;
+  bool get isEveryoneReady => players.every((player) => player.isReady);
+  bool get isGameStarted => currentRound > 0;
+  int get readyPlayerCount => players.where((player) => player.isReady).length;
 
   Room({
     required this.id,
-    required this.capacity,
     required this.winningScore,
+    this.master,
     required this.players,
+    this.currentRound = 0,
+    required this.blackCards,
   });
 
   factory Room.fromJson(Map<String, dynamic> json) {
     return Room(
       id: json['id'],
-      capacity: json['capacity'],
       winningScore: json['winningScore'],
+      master: json['master'] != null ? Player.fromJson(json['master']) : null,
       players: (json['players'] as List)
           .map((player) => Player.fromJson(player))
+          .toList(),
+      currentRound: json['currentRound'],
+      blackCards: (json['blackCards'] as List)
+          .map((card) => Card.fromJson(card))
           .toList(),
     );
   }
@@ -31,16 +44,22 @@ class Room extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'capacity': capacity,
       'winningScore': winningScore,
+      'master': master?.toJson(),
       'players': players.map((player) => player.toJson()).toList(),
+      'currentRound': currentRound,
+      'blackCards': blackCards.map((card) => card.toJson()).toList(),
     };
   }
 
-  void addSession(WebSocketSession user) {
-    final player = Player(score: 0, cards: [], ws: user, roomId: id);
-
+  void addPlayer(Player player) {
     players.add(player);
+  }
+
+  void startGame() {
+    currentRound = 1;
+    master = players[Random().nextInt(playerCount)];
+    broadcastChange();
   }
 
   void broadcastChange() {
@@ -49,7 +68,4 @@ class Room extends Equatable {
       player.ws?.send(encodedRoom);
     }
   }
-
-  @override
-  List<Object?> get props => [id, capacity, winningScore, players];
 }

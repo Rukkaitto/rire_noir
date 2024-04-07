@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:api/entities/event.dart';
 import 'package:flutter/material.dart';
+import 'package:rire_noir/features/room/presentation/widgets/waiting_room_widget.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:api/entities/room.dart';
 
@@ -36,9 +38,22 @@ class _RoomPageState extends State<RoomPage> {
     channel.sink.add(
       jsonEncode(
         {
-          'event': 'joinRoom',
+          'event': Event.joinRoom.toJson(),
           'data': {
             'pinCode': widget.pinCode,
+          },
+        },
+      ),
+    );
+  }
+
+  void ready(bool isReady) {
+    channel.sink.add(
+      jsonEncode(
+        {
+          'event': Event.ready.toJson(),
+          'data': {
+            'isReady': isReady,
           },
         },
       ),
@@ -49,23 +64,23 @@ class _RoomPageState extends State<RoomPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<Room>(
-        stream: channel.stream.map((event) => Room.fromJson(jsonDecode(event))),
+        stream: channel.stream.map((data) => Room.fromJson(jsonDecode(data))),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final room = snapshot.data!;
-            final playerCount = room.players.length;
 
-            return Center(
-              child: Column(
-                children: [
-                  Text(room.id),
-                  Text('$playerCount / ${room.capacity} joueurs'),
-                ],
-              ),
-            );
+            if (room.isEveryoneReady) {
+              return const Center(
+                child: Text('Tout le monde est prêt'),
+              );
+            } else {
+              return WaitingRoomWidget(room: room, ready: ready);
+            }
           }
 
-          return const CircularProgressIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         },
       ),
     );
