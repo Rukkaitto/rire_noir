@@ -8,6 +8,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  equatable: ^2.0.5
   shelf_plus: ^1.9.1
   # path: ^1.8.0
 
