@@ -4,14 +4,12 @@ import 'package:api/entities/event.dart';
 import 'package:api/entities/message.dart';
 import 'package:api/entities/player.dart';
 import 'package:api/entities/room.dart';
-import 'package:api/utils/json_manager.dart';
 import 'package:api/utils/pin_code_generator.dart';
 import 'package:shelf_plus/shelf_plus.dart';
 
 void main() => shelfRun(init, defaultBindPort: 8081);
 
 Handler init() {
-  print(JsonManager.getJsonList(path: 'data/black_cards.json'));
   var app = Router().plus;
 
   var rooms = <Room>[];
@@ -29,6 +27,7 @@ Handler init() {
         switch (message.event) {
           case Event.joinRoom:
             final pinCode = message.data['pinCode'];
+            final id = message.data['id'];
 
             Room room = rooms.firstWhere((room) => room.id == pinCode);
 
@@ -38,6 +37,7 @@ Handler init() {
             }
 
             final player = Player(
+              id: id,
               score: 0,
               ws: ws,
               roomId: room.id,
@@ -55,8 +55,11 @@ Handler init() {
 
             player.isReady = isReady;
 
-            room.startGame();
-            break;
+            if (room.isEveryoneReady) {
+              room.startGame();
+            }
+
+            room.broadcastChange();
           case Event.selectCard:
             break;
           case Event.selectWinner:

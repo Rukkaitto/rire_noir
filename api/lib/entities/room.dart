@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:api/entities/card.dart';
 import 'package:api/entities/player.dart';
-import 'package:api/utils/json_manager.dart';
+import 'package:api/utils/card_loader.dart';
 
 class Room {
   final String id;
@@ -12,6 +12,7 @@ class Room {
   List<Player> players;
   int currentRound;
   List<Card> blackCards;
+  List<Card> whiteCards;
 
   int get playerCount => players.length;
   bool get isEveryoneReady => players.every((player) => player.isReady);
@@ -25,8 +26,10 @@ class Room {
     List<Player>? players,
     this.currentRound = 0,
     List<Card>? blackCards,
+    List<Card>? whiteCards,
   })  : players = players ?? [],
-        blackCards = blackCards ?? [];
+        blackCards = blackCards ?? [],
+        whiteCards = whiteCards ?? [];
 
   factory Room.fromJson(Map<String, dynamic> json) {
     print(json);
@@ -62,38 +65,25 @@ class Room {
   void startGame() {
     currentRound = 1;
     master = players[Random().nextInt(playerCount)];
-    loadBlackCards();
-    dealWhiteCards(count: 2);
-    broadcastChange();
+    blackCards = CardLoader.loadCards(path: 'data/black_cards.json');
+    whiteCards = CardLoader.loadCards(path: 'data/white_cards.json');
+    dealWhiteCards(each: 3);
   }
 
-  void loadBlackCards() {
-    // Get black cards from json
-    final jsonList = JsonManager.getJsonList(path: 'data/black_cards.json');
-
-    // Convert json to Card objects
-    final cards = jsonList.map((json) => Card.fromJson(json)).toList();
-
-    // Shuffle the cards
-    cards.shuffle();
-
-    // Add the cards to the room
-    blackCards = cards;
+  void nextRound() {
+    currentRound++;
+    master = players[(players.indexOf(master!) + 1) % playerCount];
+    dealWhiteCards(each: 1);
   }
 
-  void dealWhiteCards({required int count}) {
+  void dealWhiteCards({required int each}) {
     for (var player in players) {
-      // Get white cards from json
-      final jsonList = JsonManager.getJsonList(path: 'data/white_cards.json');
+      // Remove `count` cards from the white cards deck
+      final dealtCards = whiteCards.sublist(0, each);
+      whiteCards.removeRange(0, each);
 
-      // Convert json to Card objects
-      final cards = jsonList.map((json) => Card.fromJson(json)).toList();
-
-      // Shuffle the cards
-      cards.shuffle();
-
-      // Give the player the first `count` cards
-      player.cards.addAll(cards.take(count));
+      // Add the cards to the player
+      player.cards.addAll(dealtCards);
     }
   }
 

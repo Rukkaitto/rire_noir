@@ -1,5 +1,6 @@
 import 'package:api/entities/room.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
 
 class WaitingRoomWidget extends StatefulWidget {
@@ -25,8 +26,18 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(widget.room.id),
-          Text('${widget.room.playerCount} joueurs'),
+          Text(
+            widget.room.id,
+            style: GoogleFonts.inter(
+              color: const Color(0xFFF5F2F0),
+            ),
+          ),
+          Text(
+            '${widget.room.playerCount} joueurs',
+            style: GoogleFonts.inter(
+              color: const Color(0xFFF5F2F0),
+            ),
+          ),
           MyButton(
             onPressed: () {
               setState(() {
