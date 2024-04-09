@@ -7,7 +7,11 @@ import 'package:api/entities/room.dart';
 import 'package:api/utils/pin_code_generator.dart';
 import 'package:shelf_plus/shelf_plus.dart';
 
-void main() => shelfRun(init, defaultBindPort: 8081);
+void main() => shelfRun(
+      init,
+      defaultBindAddress: '0.0.0.0',
+      defaultBindPort: 3001,
+    );
 
 Handler init() {
   var app = Router().plus;
@@ -17,7 +21,7 @@ Handler init() {
 
   // Web socket route
   app.get(
-    '/ws',
+    '/api/ws',
     () => WebSocketSession(
       onOpen: (ws) {},
       onClose: (ws) {},
@@ -61,15 +65,33 @@ Handler init() {
 
             room.broadcastChange();
           case Event.selectCard:
-            break;
+            final cardId = message.data['cardId'];
+
+            final player = players.firstWhere((player) => player.ws == ws);
+            final room = rooms.firstWhere((room) => room.id == player.roomId);
+
+            final isRoundOver = room.playCard(player.id, cardId);
+
+            if (isRoundOver) {
+              room.startReview();
+            }
+
+            room.broadcastChange();
           case Event.selectWinner:
-            break;
+            final winnerId = message.data['winnerId'];
+
+            final player = players.firstWhere((player) => player.ws == ws);
+            final room = rooms.firstWhere((room) => room.id == player.roomId);
+
+            room.selectWinner(winnerId);
+
+            room.broadcastChange();
         }
       },
     ),
   );
 
-  app.get('/room/<id>', (Request request, String id) {
+  app.get('/api/room/<id>', (Request request, String id) {
     final room = rooms
         .cast<Room?>()
         .firstWhere((room) => room!.id == id, orElse: () => null);
@@ -81,7 +103,7 @@ Handler init() {
     return Response.ok(jsonEncode(room.toJson()));
   });
 
-  app.post('/room', (Request request) async {
+  app.post('/api/room', (Request request) async {
     final body = await request.body.asJson;
 
     final winningScore = body['winningScore'];

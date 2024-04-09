@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rire_noir/core/services/environment_service/environment_service.dart';
 import 'package:rire_noir/core/services/router_service/app_routes.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
@@ -18,8 +19,8 @@ class CreateRoomPage extends StatelessWidget {
     }
 
     try {
-      final response = await Dio().post<String>(
-        'http://localhost:8081/room',
+      final response = await Dio().postUri<String>(
+        EnvironmentService().uri.resolve('/api/room'),
         data: {
           'winningScore': winningScoreInt,
         },

@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'playing_card_style.dart';
 
-class PlayingCard extends StatelessWidget {
+class PlayingCardWidget extends StatelessWidget {
   final String title;
   final PlayingCardStyle style;
 
-  const PlayingCard({
+  const PlayingCardWidget({
     super.key,
     required this.title,
     required this.style,
@@ -15,7 +15,8 @@ class PlayingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.maxFinite,
+      width: 310,
+      height: 480,
       padding: const EdgeInsets.all(25),
       decoration: BoxDecoration(
         border: Border.all(

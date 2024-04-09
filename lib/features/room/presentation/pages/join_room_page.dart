@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rire_noir/core/services/environment_service/environment_service.dart';
 import 'package:rire_noir/core/services/router_service/app_routes.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
@@ -13,7 +14,8 @@ class JoinRoomPage extends StatelessWidget {
     final pinCode = _pinCodeController.text;
 
     try {
-      await Dio().get('http://localhost:8081/room/$pinCode');
+      await Dio()
+          .getUri(EnvironmentService().uri.resolve('/api/room/$pinCode'));
 
       if (!context.mounted) {
         return;

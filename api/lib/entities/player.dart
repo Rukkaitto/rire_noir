@@ -1,11 +1,12 @@
-import 'package:api/entities/card.dart';
 import 'package:shelf_plus/shelf_plus.dart';
+
+import 'playing_card.dart';
 
 class Player {
   String id;
   bool isReady;
-  final int score;
-  List<Card> cards;
+  int score;
+  List<PlayingCard> cards;
   final WebSocketSession? ws;
   final String roomId;
 
@@ -13,7 +14,7 @@ class Player {
     required this.id,
     this.isReady = false,
     required this.score,
-    List<Card>? cards,
+    List<PlayingCard>? cards,
     this.ws,
     required this.roomId,
   }) : cards = cards ?? [];
@@ -23,8 +24,9 @@ class Player {
       id: json['id'],
       isReady: json['isReady'],
       score: json['score'],
-      cards:
-          (json['cards'] as List).map((card) => Card.fromJson(card)).toList(),
+      cards: (json['cards'] as List)
+          .map((card) => PlayingCard.fromJson(card))
+          .toList(),
       roomId: json['roomId'],
     );
   }

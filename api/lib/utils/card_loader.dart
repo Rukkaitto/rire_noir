@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:api/entities/card.dart';
+import 'package:api/entities/playing_card.dart';
 
 class CardLoader {
   static List<Map<String, dynamic>> getJsonList({required String path}) {
@@ -10,12 +10,12 @@ class CardLoader {
     return List<Map<String, dynamic>>.from(json);
   }
 
-  static List<Card> loadCards({required String path}) {
+  static List<PlayingCard> loadCards({required String path}) {
     // Get black cards from json
     final jsonList = CardLoader.getJsonList(path: path);
 
-    // Convert json to Card objects
-    final cards = jsonList.map((json) => Card.fromJson(json)).toList();
+    // Convert json to PlayingCard objects
+    final cards = jsonList.map((json) => PlayingCard.fromJson(json)).toList();
 
     // Shuffle the cards
     cards.shuffle();
