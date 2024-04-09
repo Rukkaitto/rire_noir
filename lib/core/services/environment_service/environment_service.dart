@@ -1,6 +1,6 @@
 class EnvironmentService {
   String get env {
-    return const String.fromEnvironment('ENV', defaultValue: 'prod');
+    return const String.fromEnvironment('ENV', defaultValue: 'local');
   }
 
   Uri get uri {
