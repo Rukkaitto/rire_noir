@@ -1,6 +1,7 @@
 services:
   api:
     image: lucasgoudin.com/rire_noir/api:latest
+    pull_policy: always
     platform: linux/amd64
     build: .
     ports: 
