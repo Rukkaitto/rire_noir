@@ -27,4 +27,13 @@ class PlayingCard {
       'playerId': playerId,
     };
   }
+
+  // Fills blanks and surrounds them with underscores
+  String fillInBlanks(List<PlayingCard> whiteCards) {
+    var filledInText = text;
+    for (final whiteCard in whiteCards) {
+      filledInText = filledInText.replaceFirst('%@', '@${whiteCard.text}@');
+    }
+    return filledInText;
+  }
 }

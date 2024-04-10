@@ -71,6 +71,16 @@ class Room {
     return master?.id == playerId;
   }
 
+  bool canIPlay(String playerId) {
+    final playedCardsCount = currentRound.whiteCards[playerId]?.length ?? 0;
+    final requiredCardsCount = currentBlackCard.requiredWhiteCardCount;
+    final isMaster = amITheMaster(playerId);
+
+    return !isMaster &&
+        mode == Mode.active &&
+        playedCardsCount < requiredCardsCount;
+  }
+
   void addPlayer(Player player) {
     players.add(player);
   }
@@ -82,12 +92,16 @@ class Room {
     dealWhiteCards(each: 3);
     final round = Round(
       blackCard: pickBlackCard(),
-      whiteCards: [],
+      whiteCards: players.fold({}, (map, player) {
+        map[player.id] = [];
+        return map;
+      }),
     );
     rounds.add(round);
   }
 
   void startReview() {
+    print("startReview");
     mode = Mode.review;
   }
 
@@ -105,7 +119,10 @@ class Room {
   void nextRound() {
     final round = Round(
       blackCard: pickBlackCard(),
-      whiteCards: [],
+      whiteCards: players.fold({}, (map, player) {
+        map[player.id] = [];
+        return map;
+      }),
     );
     rounds.add(round);
     final masterIndex = players.indexWhere((player) => player.id == master!.id);
@@ -140,14 +157,14 @@ class Room {
     final player = players.firstWhere((player) => player.id == playerId);
     final card = player.cards.firstWhere((card) => card.id == cardId);
     player.cards.remove(card);
-    card.playerId = playerId;
-    currentRound.whiteCards.add(card);
 
-    if (currentRound.playedCardCount == currentRoundPlayerCount) {
-      return true;
+    if (!currentRound.whiteCards.containsKey(playerId)) {
+      currentRound.whiteCards[playerId] = [];
     }
 
-    return false;
+    currentRound.whiteCards[playerId]!.add(card);
+
+    return currentRound.donePlayersCount == currentRoundPlayerCount;
   }
 
   void broadcastChange() {

@@ -27,7 +27,7 @@ class MasterViewWidget extends StatelessWidget {
               ),
             ),
             Text(
-              '(${room.currentRound.playedCardCount}/${room.currentRoundPlayerCount})',
+              '(${room.currentRound.donePlayersCount}/${room.currentRoundPlayerCount})',
               style: GoogleFonts.inter(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -38,7 +38,7 @@ class MasterViewWidget extends StatelessWidget {
         ),
         const SizedBox(height: 25),
         PlayingCardWidget(
-          title: room.currentRound.blackCard.formattedText,
+          text: room.currentRound.blackCard.formattedText,
           style: const PlayingCardStyleBlack(),
         ),
       ],

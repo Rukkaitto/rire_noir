@@ -10,16 +10,20 @@ void main() {
           'id': 1,
           'text': 'Hello, %@, %@!',
         },
-        'whiteCards': [
-          {
-            'id': 1,
-            'text': 'Hello',
-          },
-          {
-            'id': 2,
-            'text': 'World',
-          }
-        ],
+        'whiteCards': {
+          'abcd': [
+            {
+              'id': 1,
+              'text': 'Hello',
+            }
+          ],
+          'efgh': [
+            {
+              'id': 2,
+              'text': 'World',
+            }
+          ]
+        },
       };
 
       final round = Round.fromJson(json);
@@ -34,22 +38,116 @@ void main() {
           id: 1,
           text: 'Hello, %@, %@!',
         ),
-        whiteCards: [
-          PlayingCard(
-            id: 1,
-            text: 'Hello',
-          ),
-          PlayingCard(
-            id: 2,
-            text: 'World',
-          ),
-        ],
+        whiteCards: {
+          'abcd': [
+            PlayingCard(
+              id: 1,
+              text: 'Hello',
+            )
+          ],
+          'efgh': [
+            PlayingCard(
+              id: 2,
+              text: 'World',
+            )
+          ]
+        },
       );
 
       final json = round.toJson();
       expect(json['blackCard']['id'], 1);
       expect(json['blackCard']['text'], 'Hello, %@, %@!');
       expect(json['whiteCards'].length, 2);
+    });
+
+    test('donePlayersCount', () {
+      final round = Round(
+        blackCard: PlayingCard(
+          id: 1,
+          text: 'Hello, %@, %@!',
+        ),
+        whiteCards: {
+          'abcd': [
+            PlayingCard(
+              id: 1,
+              text: 'Hello',
+            )
+          ],
+          'efgh': [
+            PlayingCard(
+              id: 2,
+              text: 'World',
+            )
+          ]
+        },
+      );
+
+      expect(round.donePlayersCount, 0);
+
+      round.whiteCards['abcd']!.add(
+        PlayingCard(
+          id: 3,
+          text: 'World',
+          playerId: 'abcd',
+        ),
+      );
+
+      expect(round.donePlayersCount, 1);
+
+      round.whiteCards['efgh']!.add(
+        PlayingCard(
+          id: 4,
+          text: 'Hello',
+          playerId: 'efgh',
+        ),
+      );
+
+      expect(round.donePlayersCount, 2);
+    });
+
+    test('isOver', () {
+      final round = Round(
+        blackCard: PlayingCard(
+          id: 1,
+          text: 'Hello, %@, %@!',
+        ),
+        whiteCards: {
+          'abcd': [
+            PlayingCard(
+              id: 1,
+              text: 'Hello',
+            )
+          ],
+          'efgh': [
+            PlayingCard(
+              id: 2,
+              text: 'World',
+            )
+          ]
+        },
+      );
+
+      expect(round.isOver, false);
+
+      round.whiteCards['abcd']!.add(
+        PlayingCard(
+          id: 3,
+          text: 'World',
+          playerId: 'abcd',
+        ),
+      );
+
+      expect(round.isOver, false);
+
+      round.whiteCards['efgh']!.add(
+        PlayingCard(
+          id: 4,
+          text: 'Hello',
+          playerId: 'efgh',
+        ),
+      );
+
+      expect(round.isOver, true);
     });
   });
 }

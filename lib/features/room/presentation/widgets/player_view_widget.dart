@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
-import 'package:rire_noir/features/room/presentation/widgets/score_widget.dart';
 
 class PlayerViewWidget extends StatelessWidget {
   final Player player;
@@ -53,7 +52,7 @@ class PlayerViewWidget extends StatelessWidget {
           final card = player.cards[index];
 
           return PlayingCardWidget(
-            title: card.text,
+            text: card.text,
             style: const PlayingCardStyleWhite(),
           );
         },

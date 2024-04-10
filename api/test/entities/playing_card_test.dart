@@ -47,5 +47,25 @@ void main() {
       expect(playingCard.text, 'Hello, %@, %@!');
       expect(playingCard.playerId, '1');
     });
+
+    test('fillInBlanks', () {
+      final json = {
+        'id': 1,
+        'text': 'Hello, %@, %@!',
+      };
+
+      final playingCard = PlayingCard.fromJson(json);
+      final filledInText = playingCard.fillInBlanks([
+        PlayingCard(
+          id: 1,
+          text: 'World',
+        ),
+        PlayingCard(
+          id: 2,
+          text: 'Everyone',
+        ),
+      ]);
+      expect(filledInText, 'Hello, @World@, @Everyone@!');
+    });
   });
 }

@@ -121,9 +121,9 @@ void main() {
           Round(
             blackCard: PlayingCard(
               id: 1,
-              text: 'Hello, %@, %@!',
+              text: 'Hello, %@!',
             ),
-            whiteCards: [],
+            whiteCards: {},
           ),
         ],
         mode: Mode.active,
@@ -198,20 +198,20 @@ void main() {
               'id': 1,
               'text': 'Hello, %@, %@!',
             },
-            'whiteCards': [
-              {
-                'id': 1,
-                'text': 'Hello',
-              },
-              {
-                'id': 2,
-                'text': 'World',
-              },
-              {
-                'id': 3,
-                'text': '!',
-              },
-            ],
+            'whiteCards': {
+              'abcd': [
+                {
+                  'id': 1,
+                  'text': 'Hello',
+                }
+              ],
+              'efgh': [
+                {
+                  'id': 2,
+                  'text': 'World',
+                }
+              ]
+            },
           },
         ],
         'mode': 0,
@@ -258,13 +258,13 @@ void main() {
 
     test('currentRound', () {
       expect(tRoomStarted.currentRound.blackCard.id, 1);
-      expect(tRoomStarted.currentRound.blackCard.text, 'Hello, %@, %@!');
+      expect(tRoomStarted.currentRound.blackCard.text, 'Hello, %@!');
       expect(tRoomStarted.currentRound.whiteCards.length, 0);
     });
 
     test('currentBlackCard', () {
       expect(tRoomStarted.currentBlackCard.id, 1);
-      expect(tRoomStarted.currentBlackCard.text, 'Hello, %@, %@!');
+      expect(tRoomStarted.currentBlackCard.text, 'Hello, %@!');
     });
 
     test('currentRoundPlayerCount', () {

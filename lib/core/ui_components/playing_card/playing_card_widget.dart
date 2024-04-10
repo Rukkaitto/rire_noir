@@ -4,12 +4,12 @@ import 'playing_card_style.dart';
 import 'playing_card_title_widget.dart';
 
 class PlayingCardWidget extends StatelessWidget {
-  final String title;
+  final String text;
   final PlayingCardStyle style;
 
   const PlayingCardWidget({
     super.key,
-    required this.title,
+    required this.text,
     required this.style,
   });
 
@@ -31,7 +31,7 @@ class PlayingCardWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PlayingCardTitleWidget(title: title, style: style),
+          PlayingCardTitleWidget(text: text, style: style),
           Text(
             'Rire Noir',
             style: GoogleFonts.inter(

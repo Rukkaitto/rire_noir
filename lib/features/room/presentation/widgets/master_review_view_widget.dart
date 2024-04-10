@@ -3,7 +3,6 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
-import 'package:rire_noir/core/ui_components/playing_card/playing_card_title_widget.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
 
@@ -21,7 +20,7 @@ class MasterReviewViewWidget extends StatelessWidget {
     required AxisDirection direction,
   }) {
     if (direction == AxisDirection.up) {
-      final card = round.whiteCards[index];
+      final card = round.whiteCards.values.elementAt(index).first;
       context.read<WebSocketCubit>().selectWinner(card.playerId!);
     }
   }
@@ -30,51 +29,26 @@ class MasterReviewViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 310,
-      child: Stack(
-        children: [
-          const PlayingCardWidget(
-            title: '',
-            style: PlayingCardStyleBlack(),
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(25),
-                child: PlayingCardTitleWidget(
-                  title: round.blackCard.formattedText,
-                  style: const PlayingCardStyleBlack(),
-                ),
-              ),
-              Expanded(
-                child: SizedBox(
-                  width: 310,
-                  height: 480,
-                  child: AppinioSwiper(
-                    onSwipeEnd: (previousIndex, currentIndex, activity) {
-                      _onSwipe(
-                        context,
-                        index: currentIndex,
-                        direction: activity.direction,
-                      );
-                    },
-                    loop: true,
-                    cardCount: round.whiteCards.length,
-                    cardBuilder: (BuildContext context, int index) {
-                      final card = round.whiteCards[index];
+      height: 480,
+      child: AppinioSwiper(
+        onSwipeEnd: (previousIndex, currentIndex, activity) {
+          _onSwipe(
+            context,
+            index: currentIndex,
+            direction: activity.direction,
+          );
+        },
+        loop: true,
+        cardCount: round.whiteCards.length,
+        cardBuilder: (BuildContext context, int index) {
+          final card = round.blackCard;
+          final whiteCards = round.whiteCards.values.elementAt(index);
 
-                      return PlayingCardWidget(
-                        title: card.text,
-                        style: const PlayingCardStyleWhite(),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+          return PlayingCardWidget(
+            text: card.fillInBlanks(whiteCards),
+            style: const PlayingCardStyleBlack(),
+          );
+        },
       ),
     );
   }

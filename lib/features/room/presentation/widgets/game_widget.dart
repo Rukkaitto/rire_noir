@@ -32,28 +32,29 @@ class GameWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ScoreWidget(score: me.score),
-                Expanded(
-                  child: Builder(
-                    builder: (context) {
-                      switch (room.mode) {
-                        case Mode.active:
-                          if (room.amITheMaster(state.uuid)) {
-                            return MasterViewWidget(room: room);
-                          } else {
-                            return PlayerViewWidget(player: me, canPlay: true);
-                          }
-                        case Mode.review:
-                          if (room.amITheMaster(state.uuid)) {
-                            return MasterReviewViewWidget(
-                                round: room.currentRound);
-                          } else {
-                            return PlayerViewWidget(player: me, canPlay: false);
-                          }
-                        case Mode.finished:
-                          return const Placeholder();
-                      }
-                    },
-                  ),
+                Builder(
+                  builder: (context) {
+                    switch (room.mode) {
+                      case Mode.active:
+                        if (room.amITheMaster(state.uuid)) {
+                          return MasterViewWidget(room: room);
+                        } else {
+                          return PlayerViewWidget(
+                            player: me,
+                            canPlay: room.canIPlay(state.uuid),
+                          );
+                        }
+                      case Mode.review:
+                        if (room.amITheMaster(state.uuid)) {
+                          return MasterReviewViewWidget(
+                              round: room.currentRound);
+                        } else {
+                          return PlayerViewWidget(player: me, canPlay: false);
+                        }
+                      case Mode.finished:
+                        return const Placeholder();
+                    }
+                  },
                 ),
               ],
             ),
