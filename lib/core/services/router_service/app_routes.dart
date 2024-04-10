@@ -25,4 +25,9 @@ class AppRoutes {
     path: 'room',
     name: 'joinedRoom',
   );
+
+  static const AppRoute scratchpad = AppRoute(
+    path: '/scratchpad',
+    name: 'Scratchpad',
+  );
 }

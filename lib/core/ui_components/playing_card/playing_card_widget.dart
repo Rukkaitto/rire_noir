@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'playing_card_style.dart';
+import 'playing_card_title_widget.dart';
 
 class PlayingCardWidget extends StatelessWidget {
   final String title;
@@ -30,14 +31,7 @@ class PlayingCardWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: GoogleFonts.inter(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: style.foregroundColor,
-            ),
-          ),
+          PlayingCardTitleWidget(title: title, style: style),
           Text(
             'Rire Noir',
             style: GoogleFonts.inter(

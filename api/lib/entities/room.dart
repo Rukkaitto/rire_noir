@@ -117,6 +117,12 @@ class Room {
     for (var player in players) {
       // Remove `count` cards from the white cards deck
       final dealtCards = whiteCards.sublist(0, each);
+
+      // Assign the player id to the cards
+      for (var card in dealtCards) {
+        card.playerId = player.id;
+      }
+
       whiteCards.removeRange(0, each);
 
       // Add the cards to the player

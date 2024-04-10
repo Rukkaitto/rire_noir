@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rire_noir/core/services/environment_service/environment_service.dart';
 import 'package:rire_noir/features/home/presentation/pages/home_page.dart';
 import 'package:rire_noir/features/room/presentation/pages/create_room_page.dart';
 import 'package:rire_noir/features/room/presentation/pages/join_room_page.dart';
 import 'package:rire_noir/features/room/presentation/pages/room_page.dart';
+import 'package:rire_noir/features/scratchpad/presentation/pages/scratchpad_page.dart';
 
 import 'app_route.dart';
 import 'app_routes.dart';
@@ -20,8 +22,15 @@ class RouterService {
 
   static GoRouter createRouter() {
     final router = GoRouter(
-      initialLocation: AppRoutes.home.path,
+      initialLocation: getInitialLocation(),
       routes: <RouteBase>[
+        GoRoute(
+          name: AppRoutes.scratchpad.name,
+          path: AppRoutes.scratchpad.path,
+          builder: (context, state) {
+            return ScratchpadPage();
+          },
+        ),
         GoRoute(
           name: AppRoutes.home.name,
           path: AppRoutes.home.path,
@@ -93,5 +102,13 @@ class RouterService {
 
   void pop<T extends Object?>([T? result]) {
     router.pop<T>(result);
+  }
+
+  static String getInitialLocation() {
+    if (EnvironmentService().env == "scratchpad") {
+      return AppRoutes.scratchpad.path;
+    }
+
+    return AppRoutes.home.path;
   }
 }

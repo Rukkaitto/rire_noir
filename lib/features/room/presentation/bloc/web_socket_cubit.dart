@@ -67,4 +67,17 @@ class WebSocketCubit extends Cubit<WebSocketState> {
       ),
     );
   }
+
+  void selectWinner(String winnerId) {
+    state.channel?.sink.add(
+      jsonEncode(
+        {
+          'event': Event.selectWinner.toJson(),
+          'data': {
+            'winnerId': winnerId,
+          },
+        },
+      ),
+    );
+  }
 }

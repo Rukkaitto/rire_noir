@@ -5,6 +5,7 @@ import 'package:api/entities/message.dart';
 import 'package:api/entities/player.dart';
 import 'package:api/entities/room.dart';
 import 'package:api/utils/pin_code_generator.dart';
+import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 import 'package:shelf_plus/shelf_plus.dart';
 
 void main() => shelfRun(
@@ -26,7 +27,7 @@ Handler init() {
       onOpen: (ws) {},
       onClose: (ws) {},
       onMessage: (ws, dynamic data) {
-        final message = Message.fromJson(data);
+        final message = Message.fromJson(jsonDecode(data));
 
         switch (message.event) {
           case Event.joinRoom:
@@ -126,5 +127,5 @@ Handler init() {
     return Response.ok(room.id);
   });
 
-  return app.call;
+  return corsHeaders() >> app.call;
 }

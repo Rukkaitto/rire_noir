@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
+import 'package:rire_noir/features/room/presentation/widgets/score_widget.dart';
 
 class PlayerViewWidget extends StatelessWidget {
   final Player player;
@@ -29,35 +30,33 @@ class PlayerViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 310,
-        height: 480,
-        child: AppinioSwiper(
-          onSwipeEnd: (previousIndex, currentIndex, activity) {
-            _onSwipe(
-              context,
-              index: currentIndex,
-              direction: activity.direction,
-            );
-          },
-          swipeOptions: SwipeOptions.only(
-            up: canPlay,
-            left: true,
-            right: true,
-            down: true,
-          ),
-          loop: true,
-          cardCount: player.cards.length,
-          cardBuilder: (BuildContext context, int index) {
-            final card = player.cards[index];
-
-            return PlayingCardWidget(
-              title: card.text,
-              style: const PlayingCardStyleWhite(),
-            );
-          },
+    return SizedBox(
+      width: 310,
+      height: 480,
+      child: AppinioSwiper(
+        onSwipeEnd: (previousIndex, currentIndex, activity) {
+          _onSwipe(
+            context,
+            index: currentIndex,
+            direction: activity.direction,
+          );
+        },
+        swipeOptions: SwipeOptions.only(
+          up: canPlay,
+          left: true,
+          right: true,
+          down: true,
         ),
+        loop: true,
+        cardCount: player.cards.length,
+        cardBuilder: (BuildContext context, int index) {
+          final card = player.cards[index];
+
+          return PlayingCardWidget(
+            title: card.text,
+            style: const PlayingCardStyleWhite(),
+          );
+        },
       ),
     );
   }

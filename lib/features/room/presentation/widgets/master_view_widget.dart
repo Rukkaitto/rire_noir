@@ -14,39 +14,34 @@ class MasterViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 35),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      children: [
+        Column(
           children: [
-            Column(
-              children: [
-                Text(
-                  'En attente des réponses...',
-                  style: GoogleFonts.inter(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFFF5F2F0),
-                  ),
-                ),
-                Text(
-                  '(${room.currentRound.playedCardCount}/${room.currentRoundPlayerCount})',
-                  style: GoogleFonts.inter(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFFF5F2F0),
-                  ),
-                ),
-              ],
+            Text(
+              'En attente des réponses...',
+              style: GoogleFonts.inter(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFFF5F2F0),
+              ),
             ),
-            PlayingCardWidget(
-              title: room.currentRound.blackCard.formattedText,
-              style: const PlayingCardStyleBlack(),
+            Text(
+              '(${room.currentRound.playedCardCount}/${room.currentRoundPlayerCount})',
+              style: GoogleFonts.inter(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFFF5F2F0),
+              ),
             ),
           ],
         ),
-      ),
+        const SizedBox(height: 25),
+        PlayingCardWidget(
+          title: room.currentRound.blackCard.formattedText,
+          style: const PlayingCardStyleBlack(),
+        ),
+      ],
     );
   }
 }

@@ -331,6 +331,8 @@ void main() {
       expect(tRoomStarted.players[0].cards.length, 2);
       expect(tRoomStarted.players[1].cards.length, 2);
       expect(tRoomStarted.whiteCards.length, 1);
+      expect(tRoomStarted.players[0].cards.last.playerId,
+          tRoomStarted.players[0].id);
     });
 
     test('pickBlackCard', () {
