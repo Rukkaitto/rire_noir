@@ -22,7 +22,6 @@ class GameWidget extends StatelessWidget {
     return BlocBuilder<WebSocketCubit, WebSocketState>(
       builder: (context, state) {
         final me = room.players.firstWhere((player) => player.id == state.uuid);
-        print(room.mode);
 
         switch (room.mode) {
           case Mode.active:

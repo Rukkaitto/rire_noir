@@ -31,8 +31,6 @@ class JoinRoomPage extends StatelessWidget {
             content: Text('Code PIN invalide'),
           ),
         );
-      } else {
-        print(e);
       }
     }
   }
