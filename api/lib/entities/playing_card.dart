@@ -4,6 +4,7 @@ class PlayingCard {
   String? playerId;
 
   String get formattedText => text.replaceAll('%@', '_____');
+  int get requiredWhiteCardCount => text.split('%@').length - 1;
 
   PlayingCard({
     required this.id,

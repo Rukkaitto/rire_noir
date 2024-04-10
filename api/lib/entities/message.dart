@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'event.dart';
 
 class Message {
@@ -7,10 +6,9 @@ class Message {
 
   Message(this.event, this.data);
 
-  factory Message.fromJson(String message) {
-    final messageJson = jsonDecode(message);
-    final event = EventExtension.fromJson(messageJson['event']);
+  factory Message.fromJson(Map<String, dynamic> json) {
+    final event = EventExtension.fromJson(json['event']);
 
-    return Message(event, messageJson['data']);
+    return Message(event, json['data']);
   }
 }

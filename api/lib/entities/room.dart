@@ -108,7 +108,8 @@ class Room {
       whiteCards: [],
     );
     rounds.add(round);
-    master = players[(players.indexOf(master!) + 1) % playerCount];
+    final masterIndex = players.indexWhere((player) => player.id == master!.id);
+    master = players[masterIndex + 1 % playerCount];
     dealWhiteCards(each: 1);
   }
 
