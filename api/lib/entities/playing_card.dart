@@ -32,7 +32,7 @@ class PlayingCard {
   String fillInBlanks(List<PlayingCard> whiteCards) {
     var filledInText = text;
     for (final whiteCard in whiteCards) {
-      filledInText = filledInText.replaceFirst('%@', '@${whiteCard.text}@');
+      filledInText = filledInText.replaceFirst('%@', '{${whiteCard.text}}');
     }
     return filledInText;
   }

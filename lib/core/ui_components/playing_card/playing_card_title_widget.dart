@@ -12,42 +12,30 @@ class PlayingCardTitleWidget extends StatelessWidget {
 
   final String text;
   final PlayingCardStyle style;
+  static final regex = RegExp("(?={)|(?<=})");
 
   @override
   Widget build(BuildContext context) {
-    switch (style) {
-      case PlayingCardStyleWhite():
-        return Text(
-          text,
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: style.foregroundColor,
-          ),
-        );
-      case PlayingCardStyleBlack():
-        return RichText(
-          text: TextSpan(
-            style: GoogleFonts.inter(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: style.foregroundColor,
-            ),
-            children: text.split('@').asMap().entries.map((entry) {
-              final index = entry.key;
-              final text = entry.value;
-
-              if (index.isEven) {
-                return TextSpan(text: text);
-              } else {
-                return TextSpan(
-                  text: text,
-                  style: const TextStyle(decoration: TextDecoration.underline),
-                );
-              }
-            }).toList(),
-          ),
-        );
-    }
+    final split = text.split(regex);
+    return RichText(
+      text: TextSpan(
+        style: GoogleFonts.inter(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: style.foregroundColor,
+        ),
+        children: <InlineSpan>[
+          for (String text in split)
+            text.startsWith('{')
+                ? TextSpan(
+                    text: text.substring(1, text.length - 1),
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  )
+                : TextSpan(text: text),
+        ],
+      ),
+    );
   }
 }

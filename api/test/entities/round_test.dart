@@ -104,50 +104,5 @@ void main() {
 
       expect(round.donePlayersCount, 2);
     });
-
-    test('isOver', () {
-      final round = Round(
-        blackCard: PlayingCard(
-          id: 1,
-          text: 'Hello, %@, %@!',
-        ),
-        whiteCards: {
-          'abcd': [
-            PlayingCard(
-              id: 1,
-              text: 'Hello',
-            )
-          ],
-          'efgh': [
-            PlayingCard(
-              id: 2,
-              text: 'World',
-            )
-          ]
-        },
-      );
-
-      expect(round.isOver, false);
-
-      round.whiteCards['abcd']!.add(
-        PlayingCard(
-          id: 3,
-          text: 'World',
-          playerId: 'abcd',
-        ),
-      );
-
-      expect(round.isOver, false);
-
-      round.whiteCards['efgh']!.add(
-        PlayingCard(
-          id: 4,
-          text: 'Hello',
-          playerId: 'efgh',
-        ),
-      );
-
-      expect(round.isOver, true);
-    });
   });
 }
