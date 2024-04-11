@@ -27,7 +27,7 @@ class MasterViewWidget extends StatelessWidget {
               ),
             ),
             Text(
-              '(${room.currentRound.donePlayersCount}/${room.currentRoundPlayerCount})',
+              '(${room.currentRound.donePlayersCount}/${room.playerCount})',
               style: GoogleFonts.inter(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

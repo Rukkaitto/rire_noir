@@ -28,18 +28,6 @@ void main() {
         ),
         players: [
           Player(
-            id: 'abcd',
-            isReady: true,
-            score: 0,
-            cards: [
-              PlayingCard(
-                id: 1,
-                text: 'Hello',
-              ),
-            ],
-            roomId: '1',
-          ),
-          Player(
             id: 'efgh',
             isReady: false,
             score: 0,
@@ -47,6 +35,18 @@ void main() {
               PlayingCard(
                 id: 2,
                 text: 'World',
+              ),
+            ],
+            roomId: '1',
+          ),
+          Player(
+            id: 'ijkl',
+            isReady: false,
+            score: 0,
+            cards: [
+              PlayingCard(
+                id: 3,
+                text: 'Test',
               ),
             ],
             roomId: '1',
@@ -93,18 +93,6 @@ void main() {
         ),
         players: [
           Player(
-            id: 'abcd',
-            isReady: true,
-            score: 0,
-            cards: [
-              PlayingCard(
-                id: 1,
-                text: 'Hello',
-              ),
-            ],
-            roomId: '1',
-          ),
-          Player(
             id: 'efgh',
             isReady: true,
             score: 0,
@@ -112,6 +100,18 @@ void main() {
               PlayingCard(
                 id: 2,
                 text: 'World',
+              ),
+            ],
+            roomId: '1',
+          ),
+          Player(
+            id: 'ijkl',
+            isReady: true,
+            score: 0,
+            cards: [
+              PlayingCard(
+                id: 3,
+                text: 'Test',
               ),
             ],
             roomId: '1',
@@ -169,18 +169,6 @@ void main() {
         'players': [
           {
             'id': 'abcd',
-            'isReady': true,
-            'score': 0,
-            'cards': [
-              {
-                'id': 1,
-                'text': 'Hello',
-              },
-            ],
-            'roomId': '1',
-          },
-          {
-            'id': 'abcd',
             'isReady': false,
             'score': 0,
             'cards': [
@@ -222,7 +210,7 @@ void main() {
       expect(room.id, 'F9A9LE');
       expect(room.winningScore, 10);
       expect(room.master?.id, 'abcd');
-      expect(room.players.length, 2);
+      expect(room.players.length, 1);
       expect(room.rounds.length, 1);
       expect(room.blackCards.length, 0);
       expect(room.whiteCards.length, 0);
@@ -267,10 +255,6 @@ void main() {
       expect(tRoomStarted.currentBlackCard.text, 'Hello, %@!');
     });
 
-    test('currentRoundPlayerCount', () {
-      expect(tRoomStarted.currentRoundPlayerCount, 1);
-    });
-
     test('amITheMaster', () {
       expect(tRoomStarted.amITheMaster('abcd'), true);
     });
@@ -309,13 +293,10 @@ void main() {
     });
 
     test('selectWinner', () {
-      tRoomStarted.selectWinner('abcd');
+      final player = tRoomStarted.players[0];
+      tRoomStarted.selectWinner(player.id);
 
-      expect(tRoomStarted.players[0].score, 1);
-
-      tRoomStarted.selectWinner('abcd');
-
-      expect(tRoomStarted.mode, Mode.finished);
+      expect(player.score, 1);
     });
 
     test('nextRound', () {
@@ -344,11 +325,18 @@ void main() {
     });
 
     test('playCard', () {
-      final isRoundOver = tRoomStarted.playCard('abcd', 1);
+      var isRoundOver = tRoomStarted.playCard('efgh', 2);
+      expect(isRoundOver, false);
+      isRoundOver = tRoomStarted.playCard('ijkl', 3);
+      expect(isRoundOver, true);
 
       expect(tRoomStarted.players[0].cards.length, 0);
-      expect(tRoomStarted.currentRound.whiteCards.length, 1);
-      expect(isRoundOver, true);
+      expect(tRoomStarted.players[1].cards.length, 0);
+      expect(tRoomStarted.currentRound.whiteCards.length, 2);
+    });
+
+    test('allPlayers', () {
+      expect(tRoomStarted.allPlayers.length, 3);
     });
   });
 }

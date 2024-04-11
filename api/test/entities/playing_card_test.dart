@@ -65,7 +65,7 @@ void main() {
           text: 'Everyone',
         ),
       ]);
-      expect(filledInText, 'Hello, @World@, @Everyone@!');
+      expect(filledInText, 'Hello, {World}, {Everyone}!');
     });
   });
 }

@@ -22,7 +22,8 @@ class GameWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WebSocketCubit, WebSocketState>(
       builder: (context, state) {
-        final me = room.players.firstWhere((player) => player.id == state.uuid);
+        final me =
+            room.allPlayers.firstWhere((player) => player.id == state.uuid);
 
         return SafeArea(
           child: Padding(

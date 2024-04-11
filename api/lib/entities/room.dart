@@ -24,7 +24,13 @@ class Room {
   int get readyPlayerCount => players.where((player) => player.isReady).length;
   Round get currentRound => rounds.last;
   PlayingCard get currentBlackCard => currentRound.blackCard;
-  int get currentRoundPlayerCount => playerCount - 1;
+  List<Player> get allPlayers {
+    final allPlayers = players.toList();
+    if (master != null) {
+      allPlayers.add(master!);
+    }
+    return allPlayers;
+  }
 
   Room({
     required this.id,
@@ -87,6 +93,7 @@ class Room {
 
   void startGame() {
     master = players[Random().nextInt(playerCount)];
+    players.remove(master);
     blackCards = CardLoader.loadCards(path: 'data/black_cards.json');
     whiteCards = CardLoader.loadCards(path: 'data/white_cards.json');
     dealWhiteCards(each: 3);
@@ -101,7 +108,6 @@ class Room {
   }
 
   void startReview() {
-    print("startReview");
     mode = Mode.review;
   }
 
@@ -117,6 +123,9 @@ class Room {
   }
 
   void nextRound() {
+    final masterIndex = players.indexWhere((player) => player.id == master!.id);
+    master = players[masterIndex + 1 % playerCount];
+    players.remove(master);
     final round = Round(
       blackCard: pickBlackCard(),
       whiteCards: players.fold({}, (map, player) {
@@ -125,9 +134,8 @@ class Room {
       }),
     );
     rounds.add(round);
-    final masterIndex = players.indexWhere((player) => player.id == master!.id);
-    master = players[masterIndex + 1 % playerCount];
     dealWhiteCards(each: 1);
+    mode = Mode.active;
   }
 
   void dealWhiteCards({required int each}) {
@@ -164,13 +172,16 @@ class Room {
 
     currentRound.whiteCards[playerId]!.add(card);
 
-    return currentRound.donePlayersCount == currentRoundPlayerCount;
+    return currentRound.donePlayersCount == playerCount;
   }
 
   void broadcastChange() {
+    final encodedRoom = jsonEncode(toJson());
+
     for (var player in players) {
-      final encodedRoom = jsonEncode(toJson());
       player.ws?.send(encodedRoom);
     }
+
+    master?.ws?.send(encodedRoom);
   }
 }
