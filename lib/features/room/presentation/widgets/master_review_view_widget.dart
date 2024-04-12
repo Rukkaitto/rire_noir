@@ -31,7 +31,7 @@ class MasterReviewViewWidget extends StatelessWidget {
       width: 310,
       height: 480,
       child: AppinioSwiper(
-        onSwipeEnd: (previousIndex, currentIndex, activity) {
+        onSwipeEnd: (currentIndex, targetIndex, activity) {
           _onSwipe(
             context,
             index: currentIndex,
