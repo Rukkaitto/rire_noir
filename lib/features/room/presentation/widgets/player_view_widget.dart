@@ -6,8 +6,7 @@ import 'package:rire_noir/core/ui_components/dismissible_carousel/dismissible_ca
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
-
-import 'score_widget.dart';
+import 'package:rire_noir/features/room/presentation/widgets/player_layout_widget.dart';
 
 class PlayerViewWidget extends StatefulWidget {
   final Player player;
@@ -44,37 +43,24 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 17,
-            vertical: 35,
-          ),
-          child: ScoreWidget(
-            score: widget.player.score,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 60),
-          child: DismissibleCarousel(
-            alignment: Alignment.bottomCenter,
-            canDismiss: widget.canPlay,
-            onDismissed: (index) {
-              _onSwipe(context, index: index);
-            },
-            children: cards
-                .map(
-                  (card) => PlayingCardWidget(
-                    key: ValueKey(card.id),
-                    text: card.text,
-                    style: const PlayingCardStyleWhite(),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-      ],
+    return PlayerLayoutWidget(
+      player: widget.player,
+      child: DismissibleCarousel(
+        alignment: Alignment.bottomCenter,
+        canDismiss: widget.canPlay,
+        onDismissed: (index) {
+          _onSwipe(context, index: index);
+        },
+        children: cards
+            .map(
+              (card) => PlayingCardWidget(
+                key: ValueKey(card.id),
+                text: card.text,
+                style: const PlayingCardStyleWhite(),
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }

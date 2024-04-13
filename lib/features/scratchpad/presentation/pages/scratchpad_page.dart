@@ -41,8 +41,8 @@ class ScratchpadPage extends StatelessWidget {
         blackCard: PlayingCard(id: 1, text: 'Hello, %@, %@!'),
         whiteCards: {
           'player1': [
-            PlayingCard(id: 9, text: 'nine', playerId: 'player1'),
-            PlayingCard(id: 10, text: 'ten', playerId: 'player1'),
+            //PlayingCard(id: 9, text: 'nine', playerId: 'player1'),
+            //PlayingCard(id: 10, text: 'ten', playerId: 'player1'),
           ],
           'player2': [
             PlayingCard(id: 7, text: 'seven', playerId: 'player2'),

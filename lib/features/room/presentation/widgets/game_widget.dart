@@ -29,7 +29,10 @@ class GameWidget extends StatelessWidget {
             switch (room.mode) {
               case Mode.active:
                 if (room.amITheMaster(state.uuid)) {
-                  return MasterViewWidget(room: room);
+                  return MasterViewWidget(
+                    player: me,
+                    room: room,
+                  );
                 } else {
                   return PlayerViewWidget(
                     player: me,
