@@ -1,12 +1,15 @@
 import 'package:api/entities/player.dart';
-import 'package:appinio_swiper/appinio_swiper.dart';
+import 'package:api/entities/playing_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rire_noir/core/ui_components/dismissible_carousel/dismissible_carousel.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
 
-class PlayerViewWidget extends StatelessWidget {
+import 'score_widget.dart';
+
+class PlayerViewWidget extends StatefulWidget {
   final Player player;
   final bool canPlay;
 
@@ -16,47 +19,62 @@ class PlayerViewWidget extends StatelessWidget {
     required this.canPlay,
   });
 
+  @override
+  State<PlayerViewWidget> createState() => _PlayerViewWidgetState();
+}
+
+class _PlayerViewWidgetState extends State<PlayerViewWidget> {
+  List<PlayingCard> cards = [];
+
+  @override
+  void initState() {
+    cards = widget.player.cards;
+    super.initState();
+  }
+
   void _onSwipe(
     BuildContext context, {
     required int index,
-    required AxisDirection direction,
   }) {
-    if (direction == AxisDirection.up) {
-      final card = player.cards[index];
+    setState(() {
+      final card = cards.removeAt(index);
       context.read<WebSocketCubit>().playCard(card);
-    }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 310,
-      height: 480,
-      child: AppinioSwiper(
-        onSwipeEnd: (currentIndex, targetIndex, activity) {
-          _onSwipe(
-            context,
-            index: currentIndex,
-            direction: activity.direction,
-          );
-        },
-        swipeOptions: SwipeOptions.only(
-          up: canPlay,
-          left: true,
-          right: true,
-          down: true,
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 17,
+            vertical: 35,
+          ),
+          child: ScoreWidget(
+            score: widget.player.score,
+          ),
         ),
-        loop: true,
-        cardCount: player.cards.length,
-        cardBuilder: (BuildContext context, int index) {
-          final card = player.cards[index];
-
-          return PlayingCardWidget(
-            text: card.text,
-            style: const PlayingCardStyleWhite(),
-          );
-        },
-      ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 60),
+          child: DismissibleCarousel(
+            alignment: Alignment.bottomCenter,
+            canDismiss: widget.canPlay,
+            onDismissed: (index) {
+              _onSwipe(context, index: index);
+            },
+            children: cards
+                .map(
+                  (card) => PlayingCardWidget(
+                    key: ValueKey(card.id),
+                    text: card.text,
+                    style: const PlayingCardStyleWhite(),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      ],
     );
   }
 }

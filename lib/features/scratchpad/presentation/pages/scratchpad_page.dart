@@ -13,36 +13,26 @@ class ScratchpadPage extends StatelessWidget {
   final room = Room(
     id: 'A8BE92',
     winningScore: 10,
-    master: Player(id: 'abcd', score: 2, roomId: 'A8BE92'),
+    master: Player(id: 'master', score: 2, roomId: 'A8BE92'),
     players: [
       Player(
-        id: 'abcd',
-        score: 2,
-        roomId: 'A8BE92',
-        isReady: true,
-        cards: [
-          PlayingCard(id: 1, text: 'one', playerId: 'abcd'),
-          PlayingCard(id: 2, text: 'two', playerId: 'abcd'),
-        ],
-      ),
-      Player(
-        id: 'efgh',
+        id: 'player1',
         score: 0,
         roomId: 'A8BE92',
         isReady: true,
         cards: [
-          PlayingCard(id: 3, text: 'three', playerId: 'efgh'),
-          PlayingCard(id: 4, text: 'four', playerId: 'efgh'),
+          PlayingCard(id: 3, text: 'three', playerId: 'player1'),
+          PlayingCard(id: 4, text: 'four', playerId: 'player1'),
         ],
       ),
       Player(
-        id: 'ijkl',
+        id: 'player2',
         score: 5,
         roomId: 'A8BE92',
         isReady: true,
         cards: [
-          PlayingCard(id: 5, text: 'five', playerId: 'ijkl'),
-          PlayingCard(id: 6, text: 'six', playerId: 'ijkl'),
+          PlayingCard(id: 5, text: 'five', playerId: 'player2'),
+          PlayingCard(id: 6, text: 'six', playerId: 'player2'),
         ],
       ),
     ],
@@ -50,19 +40,20 @@ class ScratchpadPage extends StatelessWidget {
       Round(
         blackCard: PlayingCard(id: 1, text: 'Hello, %@, %@!'),
         whiteCards: {
-          'abcd': [
-            PlayingCard(id: 7, text: 'seven', playerId: 'abcd'),
-            PlayingCard(id: 8, text: 'eight', playerId: 'abcd'),
+          'player1': [
+            PlayingCard(id: 9, text: 'nine', playerId: 'player1'),
+            PlayingCard(id: 10, text: 'ten', playerId: 'player1'),
           ],
-          'efgh': [
-            PlayingCard(id: 9, text: 'nine', playerId: 'efgh'),
-            PlayingCard(id: 10, text: 'ten', playerId: 'efgh'),
+          'player2': [
+            PlayingCard(id: 7, text: 'seven', playerId: 'player2'),
+            PlayingCard(id: 8, text: 'eight', playerId: 'player2'),
           ],
         },
       ),
     ],
-    mode: Mode.review,
+    mode: Mode.active,
   );
+
   ScratchpadPage({super.key});
 
   @override
@@ -73,7 +64,7 @@ class ScratchpadPage extends StatelessWidget {
         create: (context) => WebSocketCubit(pinCode: room.id)
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           ..emit(
-            const WebSocketState(uuid: "abcd"),
+            const WebSocketState(uuid: "player1"),
           ),
         child: GameWidget(room: room),
       ),

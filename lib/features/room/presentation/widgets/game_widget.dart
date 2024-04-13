@@ -8,7 +8,6 @@ import 'package:rire_noir/features/room/presentation/widgets/master_review_view_
 
 import 'master_view_widget.dart';
 import 'player_view_widget.dart';
-import 'score_widget.dart';
 
 class GameWidget extends StatelessWidget {
   final Room room;
@@ -25,41 +24,34 @@ class GameWidget extends StatelessWidget {
         final me =
             room.allPlayers.firstWhere((player) => player.id == state.uuid);
 
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 35),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ScoreWidget(score: me.score),
-                Builder(
-                  builder: (context) {
-                    switch (room.mode) {
-                      case Mode.active:
-                        if (room.amITheMaster(state.uuid)) {
-                          return MasterViewWidget(room: room);
-                        } else {
-                          return PlayerViewWidget(
-                            player: me,
-                            canPlay: room.canIPlay(state.uuid),
-                          );
-                        }
-                      case Mode.review:
-                        if (room.amITheMaster(state.uuid)) {
-                          return MasterReviewViewWidget(
-                              round: room.currentRound);
-                        } else {
-                          return PlayerViewWidget(player: me, canPlay: false);
-                        }
-                      case Mode.finished:
-                        return const Placeholder();
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
+        return Builder(
+          builder: (context) {
+            switch (room.mode) {
+              case Mode.active:
+                if (room.amITheMaster(state.uuid)) {
+                  return MasterViewWidget(room: room);
+                } else {
+                  return PlayerViewWidget(
+                    player: me,
+                    canPlay: room.canIPlay(state.uuid),
+                  );
+                }
+              case Mode.review:
+                if (room.amITheMaster(state.uuid)) {
+                  return MasterReviewViewWidget(
+                    player: me,
+                    round: room.currentRound,
+                  );
+                } else {
+                  return PlayerViewWidget(
+                    player: me,
+                    canPlay: false,
+                  );
+                }
+              case Mode.finished:
+                return const Placeholder();
+            }
+          },
         );
       },
     );

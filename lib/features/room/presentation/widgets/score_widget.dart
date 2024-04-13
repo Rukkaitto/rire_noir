@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 
 class ScoreWidget extends StatelessWidget {
   final int score;
@@ -14,6 +16,8 @@ class ScoreWidget extends StatelessWidget {
     return Row(
       children: [
         const Spacer(),
+        SvgPicture.asset(AssetService().svgs.scoreIcon),
+        const SizedBox(width: 10),
         Text(
           score.toString(),
           style: GoogleFonts.inter(

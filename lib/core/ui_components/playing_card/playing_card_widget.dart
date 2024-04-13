@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 import 'playing_card_style.dart';
 import 'playing_card_title_widget.dart';
 
@@ -32,13 +34,23 @@ class PlayingCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PlayingCardTitleWidget(text: text, style: style),
-          Text(
-            'Rire Noir',
-            style: GoogleFonts.inter(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: style.foregroundColor,
-            ),
+          Row(
+            children: [
+              Text(
+                'Rire Noir',
+                style: GoogleFonts.inter(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: style.foregroundColor,
+                ),
+              ),
+              const SizedBox(width: 10),
+              SvgPicture.asset(
+                AssetService().svgs.logo,
+                width: 20,
+                height: 20,
+              ),
+            ],
           ),
         ],
       ),

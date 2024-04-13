@@ -175,6 +175,11 @@ class Room {
     return currentRound.donePlayersCount == playerCount;
   }
 
+  void broadcastToMaster() {
+    final encodedRoom = jsonEncode(toJson());
+    master?.ws?.send(encodedRoom);
+  }
+
   void broadcastChange() {
     final encodedRoom = jsonEncode(toJson());
 

@@ -1,14 +1,5 @@
 [
-  {
-    "id": 1,
-    "text": "%@, c'est tout le bonheur que je te souhaite, ma fille."
-  },
-  {
-    "id": 2,
-    "text": "Quand %@ a vu %@, il a dit : \"C'est la plus belle chose que j'ai jamais vue.\""
-  },
-  {
-    "id": 3,
-    "text": "Je suis désolé, monsieur, mais je ne peux pas prendre %@ au sérieux."
-  }
+  "%@, c'est tout le bonheur que je te souhaite, ma fille.",
+  "Quand %@ a vu %@, il a dit : \"C'est la plus belle chose que j'ai jamais vue.\"",
+  "Je suis désolé, monsieur, mais je ne peux pas prendre %@ au sérieux."
 ]

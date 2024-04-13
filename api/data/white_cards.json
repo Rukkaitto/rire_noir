@@ -1,42 +1,12 @@
 [
-  {
-    "id": 1,
-    "text": "Une étagère IKEA"
-  },
-  {
-    "id": 2,
-    "text": "Les arabes"
-  },
-  {
-    "id": 3,
-    "text": "Les noirs"
-  },
-  {
-    "id": 4,
-    "text": "Les blancs"
-  },
-  {
-    "id": 5,
-    "text": "Les juifs"
-  },
-  {
-    "id": 6,
-    "text": "Les roms"
-  },
-  {
-    "id": 7,
-    "text": "La France"
-  },
-  {
-    "id": 8,
-    "text": "Les musulmans"
-  },
-  {
-    "id": 9,
-    "text": "Les chrétiens"
-  },
-  {
-    "id": 10,
-    "text": "Les athées"
-  }
+  "Une étagère IKEA",
+  "Les arabes",
+  "Les noirs",
+  "Les blancs",
+  "Les juifs",
+  "Les roms",
+  "La France",
+  "Les musulmans",
+  "Les chrétiens",
+  "Les athées"
 ]
