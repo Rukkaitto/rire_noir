@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_state.dart';
 import 'package:rire_noir/features/room/presentation/widgets/master_review_view_widget.dart';
+import 'package:rire_noir/features/room/presentation/widgets/result_widget.dart';
 
 import 'master_view_widget.dart';
 import 'player_view_widget.dart';
@@ -52,7 +53,10 @@ class GameWidget extends StatelessWidget {
                   );
                 }
               case Mode.finished:
-                return const Placeholder();
+                return ResultWidget(
+                  player: me,
+                  room: room,
+                );
             }
           },
         );

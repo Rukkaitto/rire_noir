@@ -36,4 +36,9 @@ class PlayingCard {
     }
     return filledInText;
   }
+
+  @override
+  String toString() {
+    return 'PlayingCard(id: $id, text: $text, playerId: $playerId)';
+  }
 }

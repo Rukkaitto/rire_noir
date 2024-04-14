@@ -31,6 +31,14 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant PlayerViewWidget oldWidget) {
+    setState(() {
+      cards = widget.player.cards;
+    });
+    super.didUpdateWidget(oldWidget);
+  }
+
   void _onSwipe(
     BuildContext context, {
     required int index,

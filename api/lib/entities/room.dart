@@ -89,6 +89,11 @@ class Room {
         playedCardsCount < requiredCardsCount;
   }
 
+  bool didIWin(String playerId) {
+    return players
+        .any((player) => player.id == playerId && player.score == winningScore);
+  }
+
   void addPlayer(Player player) {
     players.add(player);
   }
