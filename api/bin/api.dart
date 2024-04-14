@@ -75,10 +75,9 @@ Handler init() {
 
             if (isRoundOver) {
               room.startReview();
-              room.broadcastChange();
             }
 
-            room.broadcastToMaster();
+            room.broadcastChange();
           case Event.selectWinner:
             final winnerId = message.data['winnerId'];
 

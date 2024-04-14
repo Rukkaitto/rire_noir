@@ -14,8 +14,9 @@ void main() {
       tRoom = Room(
         id: 'F9A9LE',
         winningScore: 10,
+        whiteCardCount: 3,
         master: Player(
-          id: 'abcd',
+          id: 'player1',
           isReady: true,
           score: 0,
           cards: [
@@ -28,90 +29,95 @@ void main() {
         ),
         players: [
           Player(
-            id: 'efgh',
+            id: 'player2',
             isReady: false,
             score: 0,
-            cards: [
-              PlayingCard(
-                id: 2,
-                text: 'World',
-              ),
-            ],
+            cards: [],
             roomId: '1',
           ),
           Player(
-            id: 'ijkl',
+            id: 'player3',
             isReady: false,
             score: 0,
-            cards: [
-              PlayingCard(
-                id: 3,
-                text: 'Test',
-              ),
-            ],
+            cards: [],
             roomId: '1',
           ),
         ],
         rounds: [],
         mode: Mode.active,
-        whiteCards: [
-          PlayingCard(
-            id: 1,
-            text: 'Hello',
-          ),
-          PlayingCard(
-            id: 2,
-            text: 'World',
-          ),
-          PlayingCard(
-            id: 3,
-            text: '!',
-          ),
-        ],
-        blackCards: [
-          PlayingCard(
-            id: 1,
-            text: 'Hello, %@, %@!',
-          ),
-        ],
+        whiteCards: [],
+        blackCards: [],
       );
 
       tRoomStarted = Room(
         id: 'F9A9LE',
         winningScore: 2,
         master: Player(
-          id: 'abcd',
+          id: 'player1',
           isReady: true,
           score: 0,
           cards: [
             PlayingCard(
               id: 1,
-              text: 'Hello',
+              text: 'card1',
+              playerId: 'player1',
+            ),
+            PlayingCard(
+              id: 2,
+              text: 'card2',
+              playerId: 'player1',
+            ),
+            PlayingCard(
+              id: 3,
+              text: 'card3',
+              playerId: 'player1',
             ),
           ],
           roomId: '1',
         ),
         players: [
           Player(
-            id: 'efgh',
+            id: 'player2',
             isReady: true,
             score: 0,
             cards: [
               PlayingCard(
-                id: 2,
-                text: 'World',
+                id: 4,
+                text: 'card4',
+                playerId: 'player2',
+              ),
+              PlayingCard(
+                id: 5,
+                text: 'card5',
+                playerId: 'player2',
+              ),
+              PlayingCard(
+                id: 6,
+                text: 'card6',
+                playerId: 'player2',
               ),
             ],
             roomId: '1',
           ),
           Player(
-            id: 'ijkl',
+            id: 'player3',
             isReady: true,
             score: 0,
             cards: [
               PlayingCard(
-                id: 3,
-                text: 'Test',
+                id: 7,
+                text: 'card7',
+                playerId: 'player3',
+              ),
+              PlayingCard(
+                id: 8,
+                text: 'card8',
+                playerId: 'player3',
+              ),
+              PlayingCard(
+                id: 9,
+                text: 'card9',
+                playerId: 'player3',
               ),
             ],
             roomId: '1',
@@ -127,20 +133,10 @@ void main() {
           ),
         ],
         mode: Mode.active,
-        whiteCards: [
-          PlayingCard(
-            id: 1,
-            text: 'Hello',
-          ),
-          PlayingCard(
-            id: 2,
-            text: 'World',
-          ),
-          PlayingCard(
-            id: 3,
-            text: '!',
-          ),
-        ],
+        whiteCards: List.generate(
+          50,
+          (index) => PlayingCard(id: index, text: 'card$index'),
+        ),
         blackCards: [
           PlayingCard(
             id: 1,
@@ -155,7 +151,7 @@ void main() {
         'id': 'F9A9LE',
         'winningScore': 10,
         'master': {
-          'id': 'abcd',
+          'id': 'player1',
           'isReady': true,
           'score': 0,
           'cards': [
@@ -168,7 +164,7 @@ void main() {
         },
         'players': [
           {
-            'id': 'abcd',
+            'id': 'player1',
             'isReady': false,
             'score': 0,
             'cards': [
@@ -187,13 +183,13 @@ void main() {
               'text': 'Hello, %@, %@!',
             },
             'whiteCards': {
-              'abcd': [
+              'player1': [
                 {
                   'id': 1,
                   'text': 'Hello',
                 }
               ],
-              'efgh': [
+              'player2': [
                 {
                   'id': 2,
                   'text': 'World',
@@ -209,7 +205,7 @@ void main() {
 
       expect(room.id, 'F9A9LE');
       expect(room.winningScore, 10);
-      expect(room.master?.id, 'abcd');
+      expect(room.master?.id, 'player1');
       expect(room.players.length, 1);
       expect(room.rounds.length, 1);
       expect(room.blackCards.length, 0);
@@ -222,7 +218,7 @@ void main() {
 
       expect(json['id'], 'F9A9LE');
       expect(json['winningScore'], 2);
-      expect(json['master']['id'], 'abcd');
+      expect(json['master']['id'], 'player1');
       expect(json['players'].length, 2);
       expect(json['rounds'].length, 1);
       expect(json['mode'], 0);
@@ -256,12 +252,12 @@ void main() {
     });
 
     test('amITheMaster', () {
-      expect(tRoomStarted.amITheMaster('abcd'), true);
+      expect(tRoomStarted.amITheMaster('player1'), true);
     });
 
     test('addPlayer', () {
       final player = Player(
-        id: 'abcd',
+        id: 'player1',
         isReady: true,
         score: 0,
         cards: [
@@ -303,17 +299,37 @@ void main() {
       tRoomStarted.nextRound();
 
       expect(tRoomStarted.rounds.length, 2);
-      expect(tRoomStarted.master?.id, 'efgh');
+      expect(tRoomStarted.master?.id, 'player2');
+      expect(tRoomStarted.players.length, 2);
     });
 
     test('dealWhiteCards', () {
-      tRoomStarted.dealWhiteCards(each: 1);
+      final player = tRoomStarted.players[0];
+      player.cards = [];
 
-      expect(tRoomStarted.players[0].cards.length, 2);
-      expect(tRoomStarted.players[1].cards.length, 2);
-      expect(tRoomStarted.whiteCards.length, 1);
-      expect(tRoomStarted.players[0].cards.last.playerId,
-          tRoomStarted.players[0].id);
+      tRoomStarted.dealWhiteCards();
+
+      expect(player.cards.length, 3);
+      expect(tRoomStarted.whiteCards.length, 47);
+
+      player.cards = [
+        PlayingCard(
+          id: 1,
+          text: 'card1',
+          playerId: player.id,
+        ),
+        PlayingCard(
+          id: 2,
+          text: 'card2',
+          playerId: player.id,
+        ),
+      ];
+
+      tRoomStarted.dealWhiteCards();
+
+      expect(player.cards.length, 3);
+      expect(tRoomStarted.whiteCards.length, 46);
+      expect(player.cards.every((card) => card.playerId == player.id), true);
     });
 
     test('pickBlackCard', () {
@@ -325,13 +341,13 @@ void main() {
     });
 
     test('playCard', () {
-      var isRoundOver = tRoomStarted.playCard('efgh', 2);
+      var isRoundOver = tRoomStarted.playCard('player2', 4);
       expect(isRoundOver, false);
-      isRoundOver = tRoomStarted.playCard('ijkl', 3);
+      isRoundOver = tRoomStarted.playCard('player3', 7);
       expect(isRoundOver, true);
 
-      expect(tRoomStarted.players[0].cards.length, 0);
-      expect(tRoomStarted.players[1].cards.length, 0);
+      expect(tRoomStarted.players[0].cards.length, 2);
+      expect(tRoomStarted.players[1].cards.length, 2);
       expect(tRoomStarted.currentRound.whiteCards.length, 2);
     });
 

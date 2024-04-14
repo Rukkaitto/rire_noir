@@ -11,6 +11,7 @@ import 'playing_card.dart';
 class Room {
   final String id;
   final int winningScore;
+  final int whiteCardCount;
   Player? master;
   List<Player> players;
   List<Round> rounds;
@@ -35,6 +36,7 @@ class Room {
   Room({
     required this.id,
     required this.winningScore,
+    this.whiteCardCount = 3,
     this.master,
     List<Player>? players,
     List<Round>? rounds,
@@ -92,11 +94,16 @@ class Room {
   }
 
   void startGame() {
-    master = players[Random().nextInt(playerCount)];
-    players.remove(master);
+    // Load cards
     blackCards = CardLoader.loadCards(path: 'data/black_cards.json');
     whiteCards = CardLoader.loadCards(path: 'data/white_cards.json');
-    dealWhiteCards(each: 3);
+
+    dealWhiteCards();
+
+    // Pick a master once the cards have been dealt
+    master = players[Random().nextInt(playerCount)];
+    players.remove(master);
+
     final round = Round(
       blackCard: pickBlackCard(),
       whiteCards: players.fold({}, (map, player) {
@@ -123,9 +130,17 @@ class Room {
   }
 
   void nextRound() {
+    // This is done before the master is changed so that the master doesn't get a card
+    dealWhiteCards();
+
+    // Re-add the master to the players list
     final masterIndex = players.indexWhere((player) => player.id == master!.id);
+    players.add(master!);
+
+    // Pick a new master
     master = players[masterIndex + 1 % playerCount];
     players.remove(master);
+
     final round = Round(
       blackCard: pickBlackCard(),
       whiteCards: players.fold({}, (map, player) {
@@ -134,21 +149,23 @@ class Room {
       }),
     );
     rounds.add(round);
-    dealWhiteCards(each: 1);
+
     mode = Mode.active;
   }
 
-  void dealWhiteCards({required int each}) {
+  void dealWhiteCards() {
     for (var player in players) {
+      final needed = whiteCardCount - player.cards.length;
+
       // Remove `count` cards from the white cards deck
-      final dealtCards = whiteCards.sublist(0, each);
+      final dealtCards = whiteCards.sublist(0, needed);
 
       // Assign the player id to the cards
       for (var card in dealtCards) {
         card.playerId = player.id;
       }
 
-      whiteCards.removeRange(0, each);
+      whiteCards.removeRange(0, needed);
 
       // Add the cards to the player
       player.cards.addAll(dealtCards);
