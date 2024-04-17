@@ -2,6 +2,7 @@ import 'package:api/entities/mode.dart';
 import 'package:api/entities/room.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_state.dart';
 import 'package:rire_noir/features/room/presentation/widgets/master_review_view_widget.dart';
@@ -25,40 +26,42 @@ class GameWidget extends StatelessWidget {
         final me =
             room.allPlayers.firstWhere((player) => player.id == state.uuid);
 
-        return Builder(
-          builder: (context) {
-            switch (room.mode) {
-              case Mode.active:
-                if (room.amITheMaster(state.uuid)) {
-                  return MasterViewWidget(
+        return ScrollingBackground(
+          child: Builder(
+            builder: (context) {
+              switch (room.mode) {
+                case Mode.active:
+                  if (room.amITheMaster(state.uuid)) {
+                    return MasterViewWidget(
+                      player: me,
+                      room: room,
+                    );
+                  } else {
+                    return PlayerViewWidget(
+                      player: me,
+                      canPlay: room.canIPlay(state.uuid),
+                    );
+                  }
+                case Mode.review:
+                  if (room.amITheMaster(state.uuid)) {
+                    return MasterReviewViewWidget(
+                      player: me,
+                      round: room.currentRound,
+                    );
+                  } else {
+                    return PlayerViewWidget(
+                      player: me,
+                      canPlay: false,
+                    );
+                  }
+                case Mode.finished:
+                  return ResultWidget(
                     player: me,
                     room: room,
                   );
-                } else {
-                  return PlayerViewWidget(
-                    player: me,
-                    canPlay: room.canIPlay(state.uuid),
-                  );
-                }
-              case Mode.review:
-                if (room.amITheMaster(state.uuid)) {
-                  return MasterReviewViewWidget(
-                    player: me,
-                    round: room.currentRound,
-                  );
-                } else {
-                  return PlayerViewWidget(
-                    player: me,
-                    canPlay: false,
-                  );
-                }
-              case Mode.finished:
-                return ResultWidget(
-                  player: me,
-                  room: room,
-                );
-            }
-          },
+              }
+            },
+          ),
         );
       },
     );

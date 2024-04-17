@@ -5,6 +5,7 @@ import 'package:api/entities/room.dart';
 import 'package:api/entities/round.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_state.dart';
 import 'package:rire_noir/features/room/presentation/widgets/game_widget.dart';
