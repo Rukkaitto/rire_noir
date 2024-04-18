@@ -4,6 +4,7 @@ import 'package:rire_noir/core/services/environment_service/environment_service.
 import 'package:rire_noir/core/services/router_service/app_routes.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
+import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
 
 class JoinRoomPage extends StatelessWidget {
   final TextEditingController _pinCodeController = TextEditingController();
@@ -54,8 +55,9 @@ class JoinRoomPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               MyButton(
-                onPressed: () => _handleJoin(context),
                 text: 'Rejoindre',
+                style: const MyButtonStylePrimary(),
+                onPressed: () => _handleJoin(context),
               ),
             ],
           ),

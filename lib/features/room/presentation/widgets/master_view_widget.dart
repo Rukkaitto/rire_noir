@@ -20,35 +20,38 @@ class MasterViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return PlayerLayoutWidget(
       player: player,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Column(
-            children: [
-              Text(
-                'En attente des réponses...',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFFF5F2F0),
+      child: Padding(
+        padding: const EdgeInsets.all(35),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Column(
+              children: [
+                Text(
+                  'En attente des réponses...',
+                  style: GoogleFonts.inter(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFFF5F2F0),
+                  ),
                 ),
-              ),
-              Text(
-                '(${room.currentRound.donePlayersCount}/${room.playerCount})',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFFF5F2F0),
+                Text(
+                  '(${room.currentRound.donePlayersCount}/${room.playerCount})',
+                  style: GoogleFonts.inter(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFFF5F2F0),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 25),
-          PlayingCardWidget(
-            text: room.currentRound.blackCard.formattedText,
-            style: const PlayingCardStyleBlack(),
-          ),
-        ],
+              ],
+            ),
+            const SizedBox(height: 25),
+            PlayingCardWidget(
+              text: room.currentRound.blackCard.formattedText,
+              style: const PlayingCardStyleBlack(),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:api/entities/player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'score_widget.dart';
 
@@ -17,21 +18,15 @@ class PlayerLayoutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 17,
-            vertical: 35,
-          ),
-          child: ScoreWidget(
-            score: player.score,
-          ),
-        ),
-        Center(
+        SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 60),
-            child: child,
+            padding: const EdgeInsets.symmetric(horizontal: 17),
+            child: ScoreWidget(
+              score: player.score,
+            ),
           ),
         ),
+        child,
       ],
     );
   }

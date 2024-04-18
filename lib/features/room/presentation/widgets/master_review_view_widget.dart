@@ -37,10 +37,13 @@ class MasterReviewViewWidget extends StatelessWidget {
         },
         children: round.whiteCards.values
             .map(
-              (cards) => PlayingCardWidget(
+              (cards) => Padding(
                 key: ValueKey(cards.first.id),
-                text: round.blackCard.fillInBlanks(cards),
-                style: const PlayingCardStyleBlack(),
+                padding: const EdgeInsets.all(35),
+                child: PlayingCardWidget(
+                  text: round.blackCard.fillInBlanks(cards),
+                  style: const PlayingCardStyleBlack(),
+                ),
               ),
             )
             .toList(),

@@ -61,10 +61,13 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
         },
         children: cards
             .map(
-              (card) => PlayingCardWidget(
+              (card) => Padding(
                 key: ValueKey(card.id),
-                text: card.text,
-                style: const PlayingCardStyleWhite(),
+                padding: const EdgeInsets.all(35),
+                child: PlayingCardWidget(
+                  text: card.text,
+                  style: const PlayingCardStyleWhite(),
+                ),
               ),
             )
             .toList(),

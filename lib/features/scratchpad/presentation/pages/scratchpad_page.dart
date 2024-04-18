@@ -5,10 +5,11 @@ import 'package:api/entities/room.dart';
 import 'package:api/entities/round.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
 import 'package:rire_noir/features/room/presentation/bloc/web_socket_state.dart';
+import 'package:rire_noir/features/room/presentation/pages/room_page.dart';
 import 'package:rire_noir/features/room/presentation/widgets/game_widget.dart';
+import 'package:rire_noir/features/room/presentation/widgets/waiting_room_widget.dart';
 
 class ScratchpadPage extends StatelessWidget {
   final room = Room(
@@ -30,7 +31,7 @@ class ScratchpadPage extends StatelessWidget {
         id: 'player2',
         score: 5,
         roomId: 'A8BE92',
-        isReady: true,
+        isReady: false,
         cards: [
           PlayingCard(id: 5, text: 'five', playerId: 'player2'),
           PlayingCard(id: 6, text: 'six', playerId: 'player2'),
@@ -42,8 +43,8 @@ class ScratchpadPage extends StatelessWidget {
         blackCard: PlayingCard(id: 1, text: 'Hello, %@, %@!'),
         whiteCards: {
           'player1': [
-            //PlayingCard(id: 9, text: 'nine', playerId: 'player1'),
-            //PlayingCard(id: 10, text: 'ten', playerId: 'player1'),
+            PlayingCard(id: 9, text: 'nine', playerId: 'player1'),
+            PlayingCard(id: 10, text: 'ten', playerId: 'player1'),
           ],
           'player2': [
             PlayingCard(id: 7, text: 'seven', playerId: 'player2'),
@@ -65,7 +66,7 @@ class ScratchpadPage extends StatelessWidget {
         create: (context) => WebSocketCubit(pinCode: room.id)
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           ..emit(
-            const WebSocketState(uuid: "player1"),
+            const WebSocketState(uuid: "master"),
           ),
         child: GameWidget(room: room),
       ),

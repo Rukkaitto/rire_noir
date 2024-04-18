@@ -4,6 +4,7 @@ import 'package:rire_noir/core/services/environment_service/environment_service.
 import 'package:rire_noir/core/services/router_service/app_routes.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
+import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
 
 class CreateRoomPage extends StatelessWidget {
   final TextEditingController _pointsController = TextEditingController();
@@ -59,8 +60,9 @@ class CreateRoomPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               MyButton(
-                onPressed: () => handleCreate(context),
                 text: 'Créer',
+                style: const MyButtonStylePrimary(),
+                onPressed: () => handleCreate(context),
               ),
             ],
           ),
