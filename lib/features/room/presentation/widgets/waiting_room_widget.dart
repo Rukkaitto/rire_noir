@@ -46,7 +46,7 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
                 children: [
                   PlayingCardTitleWidget(
                     text:
-                        "${widget.room.readyPlayerCount} joueurs prêts sur ${widget.room.playerCount}",
+                        "${widget.room.readyPlayerCount} joueur${widget.room.readyPlayerCount > 1 ? 's' : ''} prêts sur ${widget.room.playerCount}",
                     style: const PlayingCardStyleWhite(),
                   ),
                   Expanded(
@@ -59,7 +59,8 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
                             width: 200,
                             height: 200,
                             child: PrettyQrView.data(
-                              data: widget.room.id,
+                              data:
+                                  "https://lucasgoudin.com/join-room/room?pinCode=${widget.room.id}",
                             ),
                           ),
                           const SizedBox(height: 20),
