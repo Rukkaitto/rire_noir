@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:api/entities/client_event.dart';
+import 'package:api/entities/client_message.dart';
 import 'package:api/entities/event.dart';
 import 'package:api/entities/message.dart';
 import 'package:api/entities/player.dart';
@@ -27,10 +29,10 @@ Handler init() {
       onOpen: (ws) {},
       onClose: (ws) {},
       onMessage: (ws, dynamic data) {
-        final message = Message.fromJson(jsonDecode(data));
+        final message = ClientMessage.fromJson(jsonDecode(data));
 
         switch (message.event) {
-          case Event.joinRoom:
+          case ClientEvent.joinRoom:
             final pinCode = message.data['pinCode'];
             final id = message.data['id'];
 
