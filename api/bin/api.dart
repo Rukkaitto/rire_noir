@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:api/entities/client_event.dart';
 import 'package:api/entities/client_message.dart';
-import 'package:api/entities/event.dart';
-import 'package:api/entities/message.dart';
 import 'package:api/entities/player.dart';
 import 'package:api/entities/room.dart';
 import 'package:api/utils/pin_code_generator.dart';
@@ -54,7 +52,7 @@ Handler init() {
             players.add(player);
 
             room.broadcastChange();
-          case Event.ready:
+          case ClientEvent.ready:
             final isReady = message.data['isReady'];
 
             final player = players.firstWhere((player) => player.ws == ws);
@@ -67,7 +65,7 @@ Handler init() {
             }
 
             room.broadcastChange();
-          case Event.selectCard:
+          case ClientEvent.selectCard:
             final cardId = message.data['cardId'];
 
             final player = players.firstWhere((player) => player.ws == ws);
@@ -80,7 +78,7 @@ Handler init() {
             }
 
             room.broadcastChange();
-          case Event.selectWinner:
+          case ClientEvent.selectWinner:
             final winnerId = message.data['winnerId'];
 
             final player = players.firstWhere((player) => player.ws == ws);
