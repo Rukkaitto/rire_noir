@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:api/entities/client_event.dart';
-import 'package:api/entities/client_message.dart';
+import 'package:api/entities/messages/client/join_room_message.dart';
+import 'package:api/entities/messages/client/ready_message.dart';
+import 'package:api/entities/messages/client/select_card_message.dart';
+import 'package:api/entities/messages/client/winner_card_message.dart';
 import 'package:api/entities/player.dart';
-import 'package:api/entities/room.dart';
+import 'package:api/entities/game.dart';
 import 'package:api/utils/pin_code_generator.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 import 'package:shelf_plus/shelf_plus.dart';
@@ -17,7 +20,7 @@ void main() => shelfRun(
 Handler init() {
   var app = Router().plus;
 
-  var rooms = <Room>[];
+  var games = <Game>[];
   var players = <Player>[];
 
   // Web socket route
@@ -27,81 +30,93 @@ Handler init() {
       onOpen: (ws) {},
       onClose: (ws) {},
       onMessage: (ws, dynamic data) {
-        final message = ClientMessage.fromJson(jsonDecode(data));
+        final jsonData = jsonDecode(data);
+        final event = ClientEventExtension.fromMessageJson(jsonData);
 
-        switch (message.event) {
+        switch (event) {
           case ClientEvent.joinRoom:
-            final pinCode = message.data['pinCode'];
-            final id = message.data['id'];
+            final joinRoomMessage = JoinRoomMessage.fromJson(jsonData);
 
-            Room room = rooms.firstWhere((room) => room.id == pinCode);
+            Game game =
+                games.firstWhere((room) => room.id == joinRoomMessage.pinCode);
 
-            if (room.isGameStarted) {
+            if (game.isGameStarted) {
               ws.send('Game already started');
               return;
             }
 
             final player = Player(
-              id: id,
+              id: joinRoomMessage.playerId,
               score: 0,
               ws: ws,
-              roomId: room.id,
+              gameId: game.id,
             );
 
-            room.addPlayer(player);
+            game.addPlayer(player);
             players.add(player);
 
-            room.broadcastChange();
+            // final serverMessage = ServerMessage(
+            //   ServerEvent.readyPlayersCountChanged,
+            //   {
+            //     'readyPlayerCount': game.readyPlayerCount,
+            //     'playerCount': game.playerCount,
+            //   },
+            // );
+            //
+            // game.broadcastMessage(serverMessage);
+
+            game.broadcastChange();
           case ClientEvent.ready:
-            final isReady = message.data['isReady'];
+            final readyMessage = ReadyMessage.fromJson(jsonData);
 
             final player = players.firstWhere((player) => player.ws == ws);
-            final room = rooms.firstWhere((room) => room.id == player.roomId);
+            final game = games.firstWhere((room) => room.id == player.gameId);
 
-            player.isReady = isReady;
+            player.isReady = readyMessage.isReady;
 
-            if (room.isEveryoneReady) {
-              room.startGame();
+            if (game.isEveryoneReady) {
+              game.startGame();
             }
 
-            room.broadcastChange();
+            game.broadcastChange();
           case ClientEvent.selectCard:
-            final cardId = message.data['cardId'];
+            final selectCardMessage = SelectCardMessage.fromJson(jsonData);
 
             final player = players.firstWhere((player) => player.ws == ws);
-            final room = rooms.firstWhere((room) => room.id == player.roomId);
+            final game = games.firstWhere((room) => room.id == player.gameId);
 
-            final isRoundOver = room.playCard(player.id, cardId);
+            final isRoundOver =
+                game.playCard(player.id, selectCardMessage.cardId);
 
             if (isRoundOver) {
-              room.startReview();
+              game.startReview();
             }
 
-            room.broadcastChange();
+            game.broadcastChange();
           case ClientEvent.selectWinner:
-            final winnerId = message.data['winnerId'];
+            final selectWinnerMessage = SelectWinnerMessage.fromJson(jsonData);
 
             final player = players.firstWhere((player) => player.ws == ws);
-            final room = rooms.firstWhere((room) => room.id == player.roomId);
+            final game = games.firstWhere((room) => room.id == player.gameId);
 
-            room.selectWinner(winnerId);
+            game.selectWinner(selectWinnerMessage.winnerId);
 
-            room.broadcastChange();
+            game.broadcastChange();
         }
       },
     ),
   );
 
   app.get('/api/room/<id>', (Request request, String id) {
-    final room = rooms
-        .cast<Room?>()
+    final game = games
+        .cast<Game?>()
         .firstWhere((room) => room!.id == id, orElse: () => null);
 
-    if (room == null) {
+    if (game == null) {
       return Response.notFound('Room $id not found');
     }
 
-    return Response.ok(jsonEncode(room.toJson()));
+    return Response.ok(jsonEncode(game.toJson()));
   });
 
   app.post('/api/room', (Request request) async {
@@ -117,14 +132,14 @@ Handler init() {
 
     final randomPinCode = PinCodeGenerator.generateRandomPin();
 
-    final room = Room(
+    final game = Game(
       id: randomPinCode,
       winningScore: winningScore,
     );
 
-    rooms.add(room);
+    games.add(game);
 
-    return Response.ok(room.id);
+    return Response.ok(game.id);
   });
 
   return corsHeaders() >> app.call;

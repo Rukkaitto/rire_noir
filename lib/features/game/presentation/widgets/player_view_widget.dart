@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/core/ui_components/dismissible_carousel/dismissible_carousel.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
-import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
-import 'package:rire_noir/features/room/presentation/widgets/player_layout_widget.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
+import 'package:rire_noir/features/game/presentation/widgets/player_layout_widget.dart';
 
 class PlayerViewWidget extends StatefulWidget {
   final Player player;

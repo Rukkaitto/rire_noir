@@ -3,12 +3,13 @@ import 'dart:math';
 
 import 'package:api/entities/player.dart';
 import 'package:api/entities/round.dart';
+import 'package:api/entities/server_message.dart';
 import 'package:api/utils/card_loader.dart';
 
 import 'mode.dart';
 import 'playing_card.dart';
 
-class Room {
+class Game {
   final String id;
   final int winningScore;
   final int whiteCardCount;
@@ -33,7 +34,7 @@ class Room {
     return allPlayers;
   }
 
-  Room({
+  Game({
     required this.id,
     required this.winningScore,
     this.whiteCardCount = 3,
@@ -49,8 +50,8 @@ class Room {
         whiteCards = whiteCards ?? [],
         mode = mode ?? Mode.active;
 
-  factory Room.fromJson(Map<String, dynamic> json) {
-    return Room(
+  factory Game.fromJson(Map<String, dynamic> json) {
+    return Game(
       id: json['id'],
       winningScore: json['winningScore'],
       master: json['master'] != null ? Player.fromJson(json['master']) : null,
@@ -210,5 +211,15 @@ class Room {
     }
 
     master?.ws?.send(encodedRoom);
+  }
+
+  void broadcastMessage(ServerMessage message) {
+    final encodedMessage = jsonEncode(message.toJson());
+
+    for (var player in players) {
+      player.ws?.send(encodedMessage);
+    }
+
+    master?.ws?.send(encodedMessage);
   }
 }

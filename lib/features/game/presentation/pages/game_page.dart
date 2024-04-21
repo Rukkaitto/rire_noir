@@ -2,25 +2,25 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
-import 'package:rire_noir/features/room/presentation/bloc/web_socket_state.dart';
-import 'package:rire_noir/features/room/presentation/widgets/game_widget.dart';
-import 'package:rire_noir/features/room/presentation/widgets/waiting_room_widget.dart';
-import 'package:api/entities/room.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket_state.dart';
+import 'package:rire_noir/features/game/presentation/widgets/game_widget.dart';
+import 'package:rire_noir/features/game/presentation/widgets/waiting_room_widget.dart';
+import 'package:api/entities/game.dart';
 
-class RoomPage extends StatefulWidget {
+class GamePage extends StatefulWidget {
   final String pinCode;
 
-  const RoomPage({
+  const GamePage({
     super.key,
     required this.pinCode,
   });
 
   @override
-  State<RoomPage> createState() => _RoomPageState();
+  State<GamePage> createState() => _GamePageState();
 }
 
-class _RoomPageState extends State<RoomPage> {
+class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<WebSocketCubit>(
@@ -29,9 +29,11 @@ class _RoomPageState extends State<RoomPage> {
         backgroundColor: const Color(0xFF292D30),
         body: BlocBuilder<WebSocketCubit, WebSocketState>(
           builder: (context, state) {
-            return StreamBuilder<Room>(
-              stream: state.channel?.stream
-                  .map((data) => Room.fromJson(jsonDecode(data))),
+            return StreamBuilder<Game>(
+              stream: state.channel?.stream.map((data) {
+                print(data);
+                return Game.fromJson(jsonDecode(data));
+              }),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final room = snapshot.data!;

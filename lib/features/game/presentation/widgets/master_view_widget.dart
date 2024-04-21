@@ -1,14 +1,14 @@
 import 'package:api/entities/player.dart';
-import 'package:api/entities/room.dart';
+import 'package:api/entities/game.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
-import 'package:rire_noir/features/room/presentation/widgets/player_layout_widget.dart';
+import 'package:rire_noir/features/game/presentation/widgets/player_layout_widget.dart';
 
 class MasterViewWidget extends StatelessWidget {
   final Player player;
-  final Room room;
+  final Game room;
 
   const MasterViewWidget({
     super.key,

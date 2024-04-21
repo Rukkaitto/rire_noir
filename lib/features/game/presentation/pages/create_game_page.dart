@@ -6,33 +6,38 @@ import 'package:rire_noir/core/services/router_service/router_service.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
 
-class JoinRoomPage extends StatelessWidget {
-  final TextEditingController _pinCodeController = TextEditingController();
+class CreateGamePage extends StatelessWidget {
+  final TextEditingController _pointsController = TextEditingController();
 
-  JoinRoomPage({super.key});
+  CreateGamePage({super.key});
 
-  void _handleJoin(BuildContext context) async {
-    final pinCode = _pinCodeController.text;
+  void handleCreate(BuildContext context) async {
+    final winningScore = _pointsController.text;
+    final winningScoreInt = int.tryParse(winningScore);
+
+    if (winningScoreInt == null) {
+      return;
+    }
 
     try {
-      await Dio()
-          .getUri(EnvironmentService().uri.resolve('/api/room/$pinCode'));
+      final response = await Dio().postUri<String>(
+        EnvironmentService().uri.resolve('/api/room'),
+        data: {
+          'winningScore': winningScoreInt,
+        },
+      );
+
+      final pinCode = response.data;
 
       if (!context.mounted) {
         return;
       }
 
-      RouterService.of(context).go(AppRoutes.joinedRoom, queryParameters: {
+      RouterService.of(context).go(AppRoutes.createdRoom, queryParameters: {
         'pinCode': pinCode,
       });
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 404) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Code PIN invalide'),
-          ),
-        );
-      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -40,7 +45,7 @@ class JoinRoomPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rejoindre une partie'),
+        title: const Text('Créer une partie'),
       ),
       body: Center(
         child: Form(
@@ -48,16 +53,16 @@ class JoinRoomPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
-                controller: _pinCodeController,
+                controller: _pointsController,
                 decoration: const InputDecoration(
-                  labelText: 'Code PIN du jeu',
+                  labelText: 'Points pour gagner',
                 ),
               ),
               const SizedBox(height: 16),
               MyButton(
-                text: 'Rejoindre',
+                text: 'Créer',
                 style: const MyButtonStylePrimary(),
-                onPressed: () => _handleJoin(context),
+                onPressed: () => handleCreate(context),
               ),
             ],
           ),

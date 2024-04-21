@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rire_noir/core/services/environment_service/environment_service.dart';
 import 'package:rire_noir/features/home/presentation/pages/home_page.dart';
-import 'package:rire_noir/features/room/presentation/pages/create_room_page.dart';
-import 'package:rire_noir/features/room/presentation/pages/join_room_page.dart';
-import 'package:rire_noir/features/room/presentation/pages/room_page.dart';
+import 'package:rire_noir/features/game/presentation/pages/create_game_page.dart';
+import 'package:rire_noir/features/game/presentation/pages/join_game_page.dart';
+import 'package:rire_noir/features/game/presentation/pages/game_page.dart';
 import 'package:rire_noir/features/scratchpad/presentation/pages/scratchpad_page.dart';
 
 import 'app_route.dart';
@@ -42,7 +42,7 @@ class RouterService {
               name: AppRoutes.createRoom.name,
               path: AppRoutes.createRoom.path,
               builder: (context, state) {
-                return CreateRoomPage();
+                return CreateGamePage();
               },
               routes: [
                 GoRoute(
@@ -50,7 +50,7 @@ class RouterService {
                   path: AppRoutes.createdRoom.path,
                   builder: (context, state) {
                     final pinCode = state.uri.queryParameters['pinCode']!;
-                    return RoomPage(pinCode: pinCode);
+                    return GamePage(pinCode: pinCode);
                   },
                 ),
               ],
@@ -59,7 +59,7 @@ class RouterService {
               name: AppRoutes.joinRoom.name,
               path: AppRoutes.joinRoom.path,
               builder: (context, state) {
-                return JoinRoomPage();
+                return JoinGamePage();
               },
               routes: [
                 GoRoute(
@@ -67,7 +67,7 @@ class RouterService {
                   path: AppRoutes.joinedRoom.path,
                   builder: (context, state) {
                     final pinCode = state.uri.queryParameters['pinCode']!;
-                    return RoomPage(pinCode: pinCode);
+                    return GamePage(pinCode: pinCode);
                   },
                 ),
               ],

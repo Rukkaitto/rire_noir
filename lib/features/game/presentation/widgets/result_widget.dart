@@ -1,11 +1,11 @@
 import 'package:api/entities/player.dart';
-import 'package:api/entities/room.dart';
+import 'package:api/entities/game.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ResultWidget extends StatelessWidget {
   final Player player;
-  final Room room;
+  final Game room;
 
   const ResultWidget({
     super.key,

@@ -1,17 +1,17 @@
 import 'package:api/entities/mode.dart';
 import 'package:api/entities/player.dart';
 import 'package:api/entities/playing_card.dart';
-import 'package:api/entities/room.dart';
+import 'package:api/entities/game.dart';
 import 'package:api/entities/round.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Room', () {
-    late Room tRoom;
-    late Room tRoomStarted;
+  group('Game', () {
+    late Game tGame;
+    late Game tGameStarted;
 
     setUp(() {
-      tRoom = Room(
+      tGame = Game(
         id: 'F9A9LE',
         winningScore: 10,
         whiteCardCount: 3,
@@ -25,7 +25,7 @@ void main() {
               text: 'Hello',
             ),
           ],
-          roomId: '1',
+          gameId: '1',
         ),
         players: [
           Player(
@@ -33,14 +33,14 @@ void main() {
             isReady: false,
             score: 0,
             cards: [],
-            roomId: '1',
+            gameId: '1',
           ),
           Player(
             id: 'player3',
             isReady: false,
             score: 0,
             cards: [],
-            roomId: '1',
+            gameId: '1',
           ),
         ],
         rounds: [],
@@ -49,7 +49,7 @@ void main() {
         blackCards: [],
       );
 
-      tRoomStarted = Room(
+      tGameStarted = Game(
         id: 'F9A9LE',
         winningScore: 2,
         master: Player(
@@ -73,7 +73,7 @@ void main() {
               playerId: 'player1',
             ),
           ],
-          roomId: '1',
+          gameId: '1',
         ),
         players: [
           Player(
@@ -97,7 +97,7 @@ void main() {
                 playerId: 'player2',
               ),
             ],
-            roomId: '1',
+            gameId: '1',
           ),
           Player(
             id: 'player3',
@@ -120,7 +120,7 @@ void main() {
                 playerId: 'player3',
               ),
             ],
-            roomId: '1',
+            gameId: '1',
           ),
         ],
         rounds: [
@@ -160,7 +160,7 @@ void main() {
               'text': 'Hello',
             },
           ],
-          'roomId': '1',
+          'gameId': '1',
         },
         'players': [
           {
@@ -173,7 +173,7 @@ void main() {
                 'text': 'World',
               },
             ],
-            'roomId': '1',
+            'gameId': '1',
           },
         ],
         'rounds': [
@@ -201,20 +201,20 @@ void main() {
         'mode': 0,
       };
 
-      final room = Room.fromJson(json);
+      final game = Game.fromJson(json);
 
-      expect(room.id, 'F9A9LE');
-      expect(room.winningScore, 10);
-      expect(room.master?.id, 'player1');
-      expect(room.players.length, 1);
-      expect(room.rounds.length, 1);
-      expect(room.blackCards.length, 0);
-      expect(room.whiteCards.length, 0);
-      expect(room.mode, Mode.active);
+      expect(game.id, 'F9A9LE');
+      expect(game.winningScore, 10);
+      expect(game.master?.id, 'player1');
+      expect(game.players.length, 1);
+      expect(game.rounds.length, 1);
+      expect(game.blackCards.length, 0);
+      expect(game.whiteCards.length, 0);
+      expect(game.mode, Mode.active);
     });
 
     test('toJson', () {
-      final json = tRoomStarted.toJson();
+      final json = tGameStarted.toJson();
 
       expect(json['id'], 'F9A9LE');
       expect(json['winningScore'], 2);
@@ -225,34 +225,34 @@ void main() {
     });
 
     test('playerCount', () {
-      expect(tRoomStarted.playerCount, 2);
+      expect(tGameStarted.playerCount, 2);
     });
 
     test('isEveryoneReady', () {
-      expect(tRoomStarted.isEveryoneReady, true);
+      expect(tGameStarted.isEveryoneReady, true);
     });
 
     test('isGameStarted', () {
-      expect(tRoomStarted.isGameStarted, true);
+      expect(tGameStarted.isGameStarted, true);
     });
 
     test('readyPlayerCount', () {
-      expect(tRoomStarted.readyPlayerCount, 2);
+      expect(tGameStarted.readyPlayerCount, 2);
     });
 
     test('currentRound', () {
-      expect(tRoomStarted.currentRound.blackCard.id, 1);
-      expect(tRoomStarted.currentRound.blackCard.text, 'Hello, %@!');
-      expect(tRoomStarted.currentRound.whiteCards.length, 0);
+      expect(tGameStarted.currentRound.blackCard.id, 1);
+      expect(tGameStarted.currentRound.blackCard.text, 'Hello, %@!');
+      expect(tGameStarted.currentRound.whiteCards.length, 0);
     });
 
     test('currentBlackCard', () {
-      expect(tRoomStarted.currentBlackCard.id, 1);
-      expect(tRoomStarted.currentBlackCard.text, 'Hello, %@!');
+      expect(tGameStarted.currentBlackCard.id, 1);
+      expect(tGameStarted.currentBlackCard.text, 'Hello, %@!');
     });
 
     test('amITheMaster', () {
-      expect(tRoomStarted.amITheMaster('player1'), true);
+      expect(tGameStarted.amITheMaster('player1'), true);
     });
 
     test('addPlayer', () {
@@ -266,51 +266,51 @@ void main() {
             text: 'Hello',
           ),
         ],
-        roomId: '1',
+        gameId: '1',
       );
 
-      tRoomStarted.addPlayer(player);
+      tGameStarted.addPlayer(player);
 
-      expect(tRoomStarted.players.length, 3);
+      expect(tGameStarted.players.length, 3);
     });
 
     test('startGame', () {
-      tRoom.startGame();
+      tGame.startGame();
 
-      expect(tRoom.rounds.length, 1);
-      expect(tRoom.blackCards.isNotEmpty, true);
-      expect(tRoom.whiteCards.isNotEmpty, true);
+      expect(tGame.rounds.length, 1);
+      expect(tGame.blackCards.isNotEmpty, true);
+      expect(tGame.whiteCards.isNotEmpty, true);
     });
 
     test('startReview', () {
-      tRoomStarted.startReview();
+      tGameStarted.startReview();
 
-      expect(tRoomStarted.mode, Mode.review);
+      expect(tGameStarted.mode, Mode.review);
     });
 
     test('selectWinner', () {
-      final player = tRoomStarted.players[0];
-      tRoomStarted.selectWinner(player.id);
+      final player = tGameStarted.players[0];
+      tGameStarted.selectWinner(player.id);
 
       expect(player.score, 1);
     });
 
     test('nextRound', () {
-      tRoomStarted.nextRound();
+      tGameStarted.nextRound();
 
-      expect(tRoomStarted.rounds.length, 2);
-      expect(tRoomStarted.master?.id, 'player2');
-      expect(tRoomStarted.players.length, 2);
+      expect(tGameStarted.rounds.length, 2);
+      expect(tGameStarted.master?.id, 'player2');
+      expect(tGameStarted.players.length, 2);
     });
 
     test('dealWhiteCards', () {
-      final player = tRoomStarted.players[0];
+      final player = tGameStarted.players[0];
       player.cards = [];
 
-      tRoomStarted.dealWhiteCards();
+      tGameStarted.dealWhiteCards();
 
       expect(player.cards.length, 3);
-      expect(tRoomStarted.whiteCards.length, 47);
+      expect(tGameStarted.whiteCards.length, 47);
 
       player.cards = [
         PlayingCard(
@@ -325,34 +325,34 @@ void main() {
         ),
       ];
 
-      tRoomStarted.dealWhiteCards();
+      tGameStarted.dealWhiteCards();
 
       expect(player.cards.length, 3);
-      expect(tRoomStarted.whiteCards.length, 46);
+      expect(tGameStarted.whiteCards.length, 46);
       expect(player.cards.every((card) => card.playerId == player.id), true);
     });
 
     test('pickBlackCard', () {
-      final card = tRoomStarted.pickBlackCard();
+      final card = tGameStarted.pickBlackCard();
 
       expect(card.id, 1);
       expect(card.text, 'Hello, %@, %@!');
-      expect(tRoomStarted.blackCards.length, 0);
+      expect(tGameStarted.blackCards.length, 0);
     });
 
     test('playCard', () {
-      var isRoundOver = tRoomStarted.playCard('player2', 4);
+      var isRoundOver = tGameStarted.playCard('player2', 4);
       expect(isRoundOver, false);
-      isRoundOver = tRoomStarted.playCard('player3', 7);
+      isRoundOver = tGameStarted.playCard('player3', 7);
       expect(isRoundOver, true);
 
-      expect(tRoomStarted.players[0].cards.length, 2);
-      expect(tRoomStarted.players[1].cards.length, 2);
-      expect(tRoomStarted.currentRound.whiteCards.length, 2);
+      expect(tGameStarted.players[0].cards.length, 2);
+      expect(tGameStarted.players[1].cards.length, 2);
+      expect(tGameStarted.currentRound.whiteCards.length, 2);
     });
 
     test('allPlayers', () {
-      expect(tRoomStarted.allPlayers.length, 3);
+      expect(tGameStarted.allPlayers.length, 3);
     });
   });
 }

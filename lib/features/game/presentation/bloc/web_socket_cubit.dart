@@ -1,6 +1,9 @@
 import 'dart:convert';
 
-import 'package:api/entities/event.dart';
+import 'package:api/entities/messages/client/join_room_message.dart';
+import 'package:api/entities/messages/client/ready_message.dart';
+import 'package:api/entities/messages/client/select_card_message.dart';
+import 'package:api/entities/messages/client/winner_card_message.dart';
 import 'package:api/entities/playing_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/core/services/environment_service/environment_service.dart';
@@ -14,6 +17,12 @@ class WebSocketCubit extends Cubit<WebSocketState> {
 
   WebSocketCubit({required this.pinCode})
       : super(const WebSocketState(uuid: ''));
+
+  @override
+  Future<void> close() {
+    state.channel?.sink.close();
+    return super.close();
+  }
 
   void connect() async {
     final uri =
@@ -29,55 +38,40 @@ class WebSocketCubit extends Cubit<WebSocketState> {
   }
 
   void joinRoom() async {
+    final joinRoomMessage = JoinRoomMessage(
+      pinCode: pinCode,
+      playerId: state.uuid,
+    );
+
     state.channel?.sink.add(
-      jsonEncode(
-        {
-          'event': Event.joinRoom.toJson(),
-          'data': {
-            'id': state.uuid,
-            'pinCode': pinCode,
-          },
-        },
-      ),
+      jsonEncode(joinRoomMessage.toJson()),
     );
   }
 
   void ready(bool isReady) {
+    final readyMessage = ReadyMessage(
+      isReady: isReady,
+    );
     state.channel?.sink.add(
-      jsonEncode(
-        {
-          'event': Event.ready.toJson(),
-          'data': {
-            'isReady': isReady,
-          },
-        },
-      ),
+      jsonEncode(readyMessage.toJson()),
     );
   }
 
   void playCard(PlayingCard card) {
+    final selectCardMessage = SelectCardMessage(
+      cardId: card.id,
+    );
     state.channel?.sink.add(
-      jsonEncode(
-        {
-          'event': Event.selectCard.toJson(),
-          'data': {
-            'cardId': card.id,
-          },
-        },
-      ),
+      jsonEncode(selectCardMessage.toJson()),
     );
   }
 
   void selectWinner(String winnerId) {
+    final selectWinnerMessage = SelectWinnerMessage(
+      winnerId: winnerId,
+    );
     state.channel?.sink.add(
-      jsonEncode(
-        {
-          'event': Event.selectWinner.toJson(),
-          'data': {
-            'winnerId': winnerId,
-          },
-        },
-      ),
+      jsonEncode(selectWinnerMessage.toJson()),
     );
   }
 }

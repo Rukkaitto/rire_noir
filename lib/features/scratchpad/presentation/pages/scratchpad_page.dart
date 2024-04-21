@@ -1,18 +1,16 @@
 import 'package:api/entities/mode.dart';
 import 'package:api/entities/player.dart';
 import 'package:api/entities/playing_card.dart';
-import 'package:api/entities/room.dart';
+import 'package:api/entities/game.dart';
 import 'package:api/entities/round.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rire_noir/features/room/presentation/bloc/web_socket_cubit.dart';
-import 'package:rire_noir/features/room/presentation/bloc/web_socket_state.dart';
-import 'package:rire_noir/features/room/presentation/pages/room_page.dart';
-import 'package:rire_noir/features/room/presentation/widgets/game_widget.dart';
-import 'package:rire_noir/features/room/presentation/widgets/waiting_room_widget.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket_state.dart';
+import 'package:rire_noir/features/game/presentation/widgets/game_widget.dart';
 
 class ScratchpadPage extends StatelessWidget {
-  final room = Room(
+  final room = Game(
     id: 'A8BE92',
     winningScore: 10,
     master: Player(id: 'master', score: 2, roomId: 'A8BE92'),

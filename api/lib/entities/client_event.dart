@@ -7,7 +7,9 @@ enum ClientEvent {
 }
 
 extension ClientEventExtension on ClientEvent {
-  static ClientEvent fromJson(String event) {
+  static ClientEvent fromMessageJson(Map<String, dynamic> json) {
+    final event = json['event'] as String;
+
     switch (event) {
       case 'joinRoom':
         return ClientEvent.joinRoom;

@@ -8,7 +8,7 @@ class Player {
   int score;
   List<PlayingCard> cards;
   final WebSocketSession? ws;
-  final String roomId;
+  final String gameId;
 
   Player({
     required this.id,
@@ -16,7 +16,7 @@ class Player {
     required this.score,
     List<PlayingCard>? cards,
     this.ws,
-    required this.roomId,
+    required this.gameId,
   }) : cards = cards ?? [];
 
   factory Player.fromJson(Map<String, dynamic> json) {
@@ -27,7 +27,7 @@ class Player {
       cards: (json['cards'] as List)
           .map((card) => PlayingCard.fromJson(card))
           .toList(),
-      roomId: json['roomId'],
+      gameId: json['gameId'],
     );
   }
 
@@ -37,7 +37,7 @@ class Player {
       'isReady': isReady,
       'score': score,
       'cards': cards.map((card) => card.toJson()).toList(),
-      'roomId': roomId,
+      'gameId': gameId,
     };
   }
 }

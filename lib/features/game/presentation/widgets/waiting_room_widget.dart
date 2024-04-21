@@ -1,4 +1,4 @@
-import 'package:api/entities/room.dart';
+import 'package:api/entities/game.dart';
 import 'package:flutter/material.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
@@ -8,7 +8,7 @@ import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dar
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_title_widget.dart';
 
 class WaitingRoomWidget extends StatefulWidget {
-  final Room room;
+  final Game room;
   final void Function(bool) ready;
 
   const WaitingRoomWidget({

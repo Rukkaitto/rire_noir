@@ -15,7 +15,7 @@ void main() {
             'text': 'Hello',
           },
         ],
-        'roomId': '1',
+        'gameId': '1',
       };
 
       final player = Player.fromJson(json);
@@ -23,7 +23,7 @@ void main() {
       expect(player.isReady, true);
       expect(player.score, 0);
       expect(player.cards.length, 1);
-      expect(player.roomId, '1');
+      expect(player.gameId, '1');
     });
 
     test('toJson', () {
@@ -37,7 +37,7 @@ void main() {
             text: 'Hello, %@, %@!',
           ),
         ],
-        roomId: '1',
+        gameId: '1',
       );
 
       final json = player.toJson();
@@ -45,7 +45,7 @@ void main() {
       expect(json['isReady'], true);
       expect(json['score'], 0);
       expect(json['cards'].length, 1);
-      expect(json['roomId'], '1');
+      expect(json['gameId'], '1');
     });
   });
 }

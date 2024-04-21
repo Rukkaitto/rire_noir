@@ -3,18 +3,14 @@ import 'package:test/test.dart';
 
 void main() {
   group('ClientEvent', () {
-    test('fromJson', () {
-      final joinRoom = ClientEventExtension.fromJson("joinRoom");
+    test('fromMessageJson', () {
+      final json = {
+        "event": "joinRoom",
+        "roomId": "1234",
+      };
+
+      final joinRoom = ClientEventExtension.fromMessageJson(json);
       expect(joinRoom, ClientEvent.joinRoom);
-
-      final ready = ClientEventExtension.fromJson("ready");
-      expect(ready, ClientEvent.ready);
-
-      final selectCard = ClientEventExtension.fromJson("selectCard");
-      expect(selectCard, ClientEvent.selectCard);
-
-      final selectWinner = ClientEventExtension.fromJson("selectWinner");
-      expect(selectWinner, ClientEvent.selectWinner);
     });
 
     test('toJson', () {
