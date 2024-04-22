@@ -134,6 +134,7 @@ Handler init() {
 
     final game = Game(
       id: randomPinCode,
+      whiteCardCount: 10,
       winningScore: winningScore,
     );
 

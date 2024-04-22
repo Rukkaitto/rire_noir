@@ -13,12 +13,12 @@ class ScratchpadPage extends StatelessWidget {
   final room = Game(
     id: 'A8BE92',
     winningScore: 10,
-    master: Player(id: 'master', score: 2, roomId: 'A8BE92'),
+    master: Player(id: 'master', score: 2, gameId: 'A8BE92'),
     players: [
       Player(
         id: 'player1',
         score: 0,
-        roomId: 'A8BE92',
+        gameId: 'A8BE92',
         isReady: true,
         cards: [
           PlayingCard(id: 3, text: 'three', playerId: 'player1'),
@@ -28,7 +28,7 @@ class ScratchpadPage extends StatelessWidget {
       Player(
         id: 'player2',
         score: 5,
-        roomId: 'A8BE92',
+        gameId: 'A8BE92',
         isReady: false,
         cards: [
           PlayingCard(id: 5, text: 'five', playerId: 'player2'),

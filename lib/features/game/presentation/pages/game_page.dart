@@ -30,10 +30,8 @@ class _GamePageState extends State<GamePage> {
         body: BlocBuilder<WebSocketCubit, WebSocketState>(
           builder: (context, state) {
             return StreamBuilder<Game>(
-              stream: state.channel?.stream.map((data) {
-                print(data);
-                return Game.fromJson(jsonDecode(data));
-              }),
+              stream: state.channel?.stream
+                  .map((data) => Game.fromJson(jsonDecode(data))),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final room = snapshot.data!;
