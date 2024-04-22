@@ -21,20 +21,12 @@ class MyTextFormField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       textCapitalization: textCapitalization,
-      cursorColor: Theme.of(context).colorScheme.primary,
       style: GoogleFonts.inter(
-        color: Theme.of(context).colorScheme.primary,
         fontSize: 24,
         fontWeight: FontWeight.bold,
       ),
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        hintStyle: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
-        ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.primary,
