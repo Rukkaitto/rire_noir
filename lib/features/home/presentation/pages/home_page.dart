@@ -12,7 +12,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF29302E),
       body: Center(
         child: ScrollingBackground(
           child: Column(
@@ -27,7 +26,7 @@ class HomePage extends StatelessWidget {
                     children: [
                       MyButton(
                         text: 'Rejoindre',
-                        style: const MyButtonStylePrimary(),
+                        style: MyButtonStylePrimary(context),
                         onPressed: () {
                           RouterService.of(context).go(AppRoutes.joinRoom);
                         },
@@ -35,7 +34,7 @@ class HomePage extends StatelessWidget {
                       const SizedBox(height: 22),
                       MyButton(
                         text: 'Commencer',
-                        style: const MyButtonStyleSecondary(),
+                        style: MyButtonStyleSecondary(context),
                         onPressed: () {
                           RouterService.of(context).go(AppRoutes.createRoom);
                         },

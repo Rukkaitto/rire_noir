@@ -66,7 +66,7 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
                 padding: const EdgeInsets.all(35),
                 child: PlayingCardWidget(
                   text: card.text,
-                  style: const PlayingCardStyleWhite(),
+                  style: PlayingCardStyleWhite(context),
                 ),
               ),
             )

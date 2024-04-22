@@ -26,7 +26,6 @@ class _GamePageState extends State<GamePage> {
     return BlocProvider<WebSocketCubit>(
       create: (context) => WebSocketCubit(pinCode: widget.pinCode)..connect(),
       child: Scaffold(
-        backgroundColor: const Color(0xFF292D30),
         body: BlocBuilder<WebSocketCubit, WebSocketState>(
           builder: (context, state) {
             return StreamBuilder<Game>(

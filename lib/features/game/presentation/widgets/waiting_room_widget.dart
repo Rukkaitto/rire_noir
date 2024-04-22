@@ -28,27 +28,27 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
   Stack buildCardStack() {
     return Stack(
       children: [
-        const PlayingCardBackground(
-          style: PlayingCardStyleBlack(),
+        PlayingCardBackground(
+          style: PlayingCardStyleBlack(context),
         ),
         Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.all(25),
+            Padding(
+              padding: const EdgeInsets.all(25),
               child: PlayingCardTitleWidget(
                 text: "Demande aux joueurs de scanner le QR code ci-dessous",
-                style: PlayingCardStyleBlack(),
+                style: PlayingCardStyleBlack(context),
               ),
             ),
             PlayingCardBackground(
-              style: const PlayingCardStyleWhite(),
+              style: PlayingCardStyleWhite(context),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   PlayingCardTitleWidget(
                     text:
                         "${widget.room.readyPlayerCount} joueurs prêts sur ${widget.room.playerCount}",
-                    style: const PlayingCardStyleWhite(),
+                    style: PlayingCardStyleWhite(context),
                   ),
                   Expanded(
                     child: Center(
@@ -67,7 +67,7 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
                           const SizedBox(height: 20),
                           PlayingCardTitleWidget(
                             text: widget.room.id,
-                            style: const PlayingCardStyleWhite(),
+                            style: PlayingCardStyleWhite(context),
                           ),
                         ],
                       ),
@@ -96,8 +96,8 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
             MyButton(
               text: "Je suis prêt !",
               style: _isReady
-                  ? const MyButtonStyleSecondary()
-                  : const MyButtonStylePrimary(),
+                  ? MyButtonStyleSecondary(context)
+                  : MyButtonStylePrimary(context),
               trailingIcon: _isReady ? Icons.check_rounded : null,
               onPressed: () {
                 setState(() {

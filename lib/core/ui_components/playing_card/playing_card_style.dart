@@ -11,17 +11,17 @@ sealed class PlayingCardStyle {
 }
 
 class PlayingCardStyleWhite extends PlayingCardStyle {
-  const PlayingCardStyleWhite()
+  PlayingCardStyleWhite(BuildContext context)
       : super(
-          backgroundColor: const Color(0xFFF5F2F0),
-          foregroundColor: const Color(0xFF292D30),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
         );
 }
 
 class PlayingCardStyleBlack extends PlayingCardStyle {
-  const PlayingCardStyleBlack()
+  PlayingCardStyleBlack(BuildContext context)
       : super(
-          backgroundColor: const Color(0xFF292D30),
-          foregroundColor: const Color(0xFFF5F2F0),
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          foregroundColor: Theme.of(context).colorScheme.primary,
         );
 }

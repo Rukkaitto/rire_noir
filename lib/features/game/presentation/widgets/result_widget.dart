@@ -24,7 +24,7 @@ class ResultWidget extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: const Color(0xFFF5F2F0),
+                color: Theme.of(context).colorScheme.primary,
               ),
             );
           } else {
@@ -33,7 +33,7 @@ class ResultWidget extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: const Color(0xFFF5F2F0),
+                color: Theme.of(context).colorScheme.primary,
               ),
             );
           }

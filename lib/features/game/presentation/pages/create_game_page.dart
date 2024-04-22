@@ -47,12 +47,11 @@ class CreateGamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF29302E),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        foregroundColor: const Color(0xFFF5F2F0),
+        foregroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Center(
         child: ScrollingBackground(
@@ -75,7 +74,7 @@ class CreateGamePage extends StatelessWidget {
                         const SizedBox(height: 22),
                         MyButton(
                           text: 'Créer',
-                          style: const MyButtonStylePrimary(),
+                          style: MyButtonStylePrimary(context),
                           onPressed: () => handleCreate(context),
                         ),
                       ],

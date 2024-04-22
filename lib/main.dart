@@ -24,7 +24,17 @@ class MyApp extends StatelessWidget {
       routeInformationProvider: _router.routeInformationProvider,
       routerDelegate: _router.routerDelegate,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: const ColorScheme.dark(
+          primary: Color(0xFFF5F2F0),
+          secondary: Color(0xFFF5F2F0),
+          tertiary: Color(0xFFF5F2F0),
+          onPrimary: Color(0xFF29302E),
+          onSecondary: Color(0xFF29302E),
+          onTertiary: Color(0xFF29302E),
+          background: Color(0xFF29302E),
+          surface: Color(0xFF29302E),
+          outline: Color(0xFFF5F2F0),
+        ),
         useMaterial3: true,
       ),
     );

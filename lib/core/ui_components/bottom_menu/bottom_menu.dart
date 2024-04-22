@@ -13,15 +13,15 @@ class BottomMenu extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFF29302E),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
           border: Border(
             top: BorderSide(
-              color: Color(0xFFF5F2F0),
+              color: Theme.of(context).colorScheme.outline,
               width: 3,
             ),
           ),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),
           ),

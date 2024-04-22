@@ -13,19 +13,19 @@ sealed class MyButtonStyle {
 }
 
 class MyButtonStylePrimary extends MyButtonStyle {
-  const MyButtonStylePrimary()
+  MyButtonStylePrimary(BuildContext context)
       : super(
-          backgroundColor: const Color(0xFFF5F2F0),
-          foregroundColor: const Color(0xFF29302E),
-          strokeColor: const Color(0xFFF5F2F0),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          strokeColor: Theme.of(context).colorScheme.onPrimary,
         );
 }
 
 class MyButtonStyleSecondary extends MyButtonStyle {
-  const MyButtonStyleSecondary()
+  MyButtonStyleSecondary(BuildContext context)
       : super(
-          backgroundColor: const Color(0xFF29302E),
-          foregroundColor: const Color(0xFFF5F2F0),
-          strokeColor: const Color(0xFFF5F2F0),
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          foregroundColor: Theme.of(context).colorScheme.primary,
+          strokeColor: Theme.of(context).colorScheme.primary,
         );
 }

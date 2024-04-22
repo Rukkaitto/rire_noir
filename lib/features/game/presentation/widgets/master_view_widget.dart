@@ -32,7 +32,7 @@ class MasterViewWidget extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFFF5F2F0),
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 Text(
@@ -40,7 +40,7 @@ class MasterViewWidget extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFFF5F2F0),
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ],
@@ -48,7 +48,7 @@ class MasterViewWidget extends StatelessWidget {
             const SizedBox(height: 25),
             PlayingCardWidget(
               text: room.currentRound.blackCard.formattedText,
-              style: const PlayingCardStyleBlack(),
+              style: PlayingCardStyleBlack(context),
             ),
           ],
         ),

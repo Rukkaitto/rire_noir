@@ -21,28 +21,28 @@ class MyTextFormField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       textCapitalization: textCapitalization,
-      cursorColor: const Color(0xFFF5F2F0),
+      cursorColor: Theme.of(context).colorScheme.primary,
       style: GoogleFonts.inter(
-        color: const Color(0xFFF5F2F0),
+        color: Theme.of(context).colorScheme.primary,
         fontSize: 24,
         fontWeight: FontWeight.bold,
       ),
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: const TextStyle(
-          color: Color(0xFFF5F2F0),
+        labelStyle: TextStyle(
+          color: Theme.of(context).colorScheme.primary,
         ),
-        hintStyle: const TextStyle(
-          color: Color(0xFFF5F2F0),
+        hintStyle: TextStyle(
+          color: Theme.of(context).colorScheme.primary,
         ),
-        enabledBorder: const UnderlineInputBorder(
+        enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Color(0xFFF5F2F0),
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        focusedBorder: const UnderlineInputBorder(
+        focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Color(0xFFF5F2F0),
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ),

@@ -42,7 +42,7 @@ class MasterReviewViewWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(35),
                 child: PlayingCardWidget(
                   text: round.blackCard.fillInBlanks(cards),
-                  style: const PlayingCardStyleBlack(),
+                  style: PlayingCardStyleBlack(context),
                 ),
               ),
             )
