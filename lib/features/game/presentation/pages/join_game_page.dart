@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:rire_noir/core/services/environment_service/environment_service.dart';
 import 'package:rire_noir/core/services/router_service/app_routes.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
+import 'package:rire_noir/core/ui_components/bottom_menu/bottom_menu.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
+import 'package:rire_noir/core/ui_components/my_text_form_field/my_text_form_field.dart';
+import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
 
 class JoinGamePage extends StatelessWidget {
   final TextEditingController _pinCodeController = TextEditingController();
@@ -12,7 +15,7 @@ class JoinGamePage extends StatelessWidget {
   JoinGamePage({super.key});
 
   void _handleJoin(BuildContext context) async {
-    final pinCode = _pinCodeController.text;
+    final pinCode = _pinCodeController.text.toUpperCase().trim();
 
     try {
       await Dio()
@@ -39,25 +42,42 @@ class JoinGamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF29302E),
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Rejoindre une partie'),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: const Color(0xFFF5F2F0),
       ),
       body: Center(
-        child: Form(
+        child: ScrollingBackground(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextFormField(
-                controller: _pinCodeController,
-                decoration: const InputDecoration(
-                  labelText: 'Code PIN du jeu',
+              Hero(
+                tag: 'bottom-menu',
+                child: BottomMenu(
+                  child: Form(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        MyTextFormField(
+                          controller: _pinCodeController,
+                          labelText: 'Code PIN du jeu',
+                          keyboardType: TextInputType.visiblePassword,
+                          textCapitalization: TextCapitalization.characters,
+                        ),
+                        const SizedBox(height: 22),
+                        MyButton(
+                          text: 'Rejoindre',
+                          style: const MyButtonStylePrimary(),
+                          onPressed: () => _handleJoin(context),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              MyButton(
-                text: 'Rejoindre',
-                style: const MyButtonStylePrimary(),
-                onPressed: () => _handleJoin(context),
               ),
             ],
           ),

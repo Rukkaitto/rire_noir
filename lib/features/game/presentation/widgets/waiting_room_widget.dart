@@ -6,6 +6,7 @@ import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_background.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_title_widget.dart';
+import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
 
 class WaitingRoomWidget extends StatefulWidget {
   final Game room;
@@ -46,7 +47,7 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
                 children: [
                   PlayingCardTitleWidget(
                     text:
-                        "${widget.room.readyPlayerCount} joueur${widget.room.readyPlayerCount > 1 ? 's' : ''} prêts sur ${widget.room.playerCount}",
+                        "${widget.room.readyPlayerCount} joueurs prêts sur ${widget.room.playerCount}",
                     style: const PlayingCardStyleWhite(),
                   ),
                   Expanded(
@@ -83,28 +84,30 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(35),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          buildCardStack(),
-          const SizedBox(height: 20),
-          MyButton(
-            text: "Je suis prêt !",
-            style: _isReady
-                ? const MyButtonStyleSecondary()
-                : const MyButtonStylePrimary(),
-            trailingIcon: _isReady ? Icons.check_rounded : null,
-            onPressed: () {
-              setState(() {
-                _isReady = !_isReady;
-              });
-              widget.ready(_isReady);
-            },
-          ),
-        ],
+    return ScrollingBackground(
+      child: Container(
+        padding: const EdgeInsets.all(35),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            buildCardStack(),
+            const SizedBox(height: 20),
+            MyButton(
+              text: "Je suis prêt !",
+              style: _isReady
+                  ? const MyButtonStyleSecondary()
+                  : const MyButtonStylePrimary(),
+              trailingIcon: _isReady ? Icons.check_rounded : null,
+              onPressed: () {
+                setState(() {
+                  _isReady = !_isReady;
+                });
+                widget.ready(_isReady);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

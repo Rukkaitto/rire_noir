@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:rire_noir/core/services/environment_service/environment_service.dart';
 import 'package:rire_noir/core/services/router_service/app_routes.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
+import 'package:rire_noir/core/ui_components/bottom_menu/bottom_menu.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
+import 'package:rire_noir/core/ui_components/my_text_form_field/my_text_form_field.dart';
+import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
 
 class CreateGamePage extends StatelessWidget {
   final TextEditingController _pointsController = TextEditingController();
@@ -12,7 +15,7 @@ class CreateGamePage extends StatelessWidget {
   CreateGamePage({super.key});
 
   void handleCreate(BuildContext context) async {
-    final winningScore = _pointsController.text;
+    final winningScore = _pointsController.text.trim();
     final winningScoreInt = int.tryParse(winningScore);
 
     if (winningScoreInt == null) {
@@ -44,25 +47,41 @@ class CreateGamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF29302E),
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Créer une partie'),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: const Color(0xFFF5F2F0),
       ),
       body: Center(
-        child: Form(
+        child: ScrollingBackground(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextFormField(
-                controller: _pointsController,
-                decoration: const InputDecoration(
-                  labelText: 'Points pour gagner',
+              Hero(
+                tag: 'bottom-menu',
+                child: BottomMenu(
+                  child: Form(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        MyTextFormField(
+                          controller: _pointsController,
+                          labelText: 'Score gagnant',
+                          keyboardType: TextInputType.number,
+                        ),
+                        const SizedBox(height: 22),
+                        MyButton(
+                          text: 'Créer',
+                          style: const MyButtonStylePrimary(),
+                          onPressed: () => handleCreate(context),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              MyButton(
-                text: 'Créer',
-                style: const MyButtonStylePrimary(),
-                onPressed: () => handleCreate(context),
               ),
             ],
           ),

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket_state.dart';
 import 'package:rire_noir/features/game/presentation/widgets/game_widget.dart';
+import 'package:rire_noir/features/game/presentation/widgets/waiting_room_widget.dart';
 
 class ScratchpadPage extends StatelessWidget {
   final room = Game(
@@ -66,7 +67,7 @@ class ScratchpadPage extends StatelessWidget {
           ..emit(
             const WebSocketState(uuid: "master"),
           ),
-        child: GameWidget(room: room),
+        child: WaitingRoomWidget(room: room, ready: (_) {}),
       ),
     );
   }
