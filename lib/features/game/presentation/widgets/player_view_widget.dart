@@ -1,7 +1,9 @@
 import 'package:api/entities/player.dart';
 import 'package:api/entities/playing_card.dart';
+import 'package:api/entities/round.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rire_noir/core/ui_components/dismissible_carousel/dismissible_carousel.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
@@ -10,11 +12,13 @@ import 'package:rire_noir/features/game/presentation/widgets/player_layout_widge
 
 class PlayerViewWidget extends StatefulWidget {
   final Player player;
+  final Round round;
   final bool canPlay;
 
   const PlayerViewWidget({
     super.key,
     required this.player,
+    required this.round,
     required this.canPlay,
   });
 
@@ -49,29 +53,53 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
     });
   }
 
+  int get remainingCardsToPlay {
+    final playedCardsCount =
+        widget.round.getPlayedWhiteCardCount(widget.player.id);
+    final totalCardsCount = widget.round.blackCard.requiredWhiteCardCount;
+
+    return totalCardsCount - playedCardsCount;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PlayerLayoutWidget(
-      player: widget.player,
-      child: DismissibleCarousel(
-        alignment: Alignment.bottomCenter,
-        canDismiss: widget.canPlay,
-        onDismissed: (index) {
-          _onSwipe(context, index: index);
-        },
-        children: cards
-            .map(
-              (card) => Padding(
-                key: ValueKey(card.id),
-                padding: const EdgeInsets.all(35),
-                child: PlayingCardWidget(
-                  text: card.text,
-                  style: PlayingCardStyleWhite(context),
-                ),
+    return Column(
+      children: [
+        Expanded(
+          child: PlayerLayoutWidget(
+            player: widget.player,
+            child: DismissibleCarousel(
+              alignment: Alignment.bottomCenter,
+              canDismiss: widget.canPlay,
+              onDismissed: (index) {
+                _onSwipe(context, index: index);
+              },
+              children: cards
+                  .map(
+                    (card) => Padding(
+                      key: ValueKey(card.id),
+                      padding: const EdgeInsets.all(35),
+                      child: PlayingCardWidget(
+                        text: card.text,
+                        style: PlayingCardStyleWhite(context),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ),
+        if (remainingCardsToPlay > 0)
+          SafeArea(
+            child: Text(
+              "$remainingCardsToPlay cartes à jouer",
+              style: GoogleFonts.inter(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-            )
-            .toList(),
-      ),
+            ),
+          ),
+      ],
     );
   }
 }

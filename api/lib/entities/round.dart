@@ -34,4 +34,8 @@ class Round {
       }),
     };
   }
+
+  int getPlayedWhiteCardCount(String playerId) {
+    return whiteCards[playerId]?.length ?? 0;
+  }
 }

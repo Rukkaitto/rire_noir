@@ -39,6 +39,7 @@ class GameWidget extends StatelessWidget {
                   } else {
                     return PlayerViewWidget(
                       player: me,
+                      round: room.currentRound,
                       canPlay: room.canIPlay(state.uuid),
                     );
                   }
@@ -51,6 +52,7 @@ class GameWidget extends StatelessWidget {
                   } else {
                     return PlayerViewWidget(
                       player: me,
+                      round: room.currentRound,
                       canPlay: false,
                     );
                   }

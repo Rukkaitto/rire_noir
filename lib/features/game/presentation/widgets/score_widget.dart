@@ -26,48 +26,55 @@ class ScoreWidget extends StatelessWidget {
   void _handleClose(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) {
-        if (Platform.isIOS) {
-          return CupertinoAlertDialog(
-            title: const Text('Quitter la partie'),
-            content: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
-            actions: [
-              CupertinoDialogAction(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Annuler'),
-              ),
-              CupertinoDialogAction(
-                onPressed: () {
-                  _handleDisconnect(context);
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Quitter'),
-              ),
-            ],
-          );
-        } else {
-          return AlertDialog(
-            title: const Text('Quitter la partie'),
-            content: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Annuler'),
-              ),
-              TextButton(
-                onPressed: () {
-                  _handleDisconnect(context);
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Quitter'),
-              ),
-            ],
-          );
-        }
+      builder: (_) {
+        return BlocProvider.value(
+          value: BlocProvider.of<WebSocketCubit>(context),
+          child: Builder(
+            builder: (context) {
+              if (Platform.isIOS) {
+                return CupertinoAlertDialog(
+                  title: const Text('Quitter la partie'),
+                  content: const Text(
+                      'Êtes-vous sûr de vouloir quitter la partie ?'),
+                  actions: [
+                    CupertinoDialogAction(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Annuler'),
+                    ),
+                    CupertinoDialogAction(
+                      onPressed: () {
+                        _handleDisconnect(context);
+                      },
+                      child: const Text('Quitter'),
+                    ),
+                  ],
+                );
+              } else {
+                return AlertDialog(
+                  title: const Text('Quitter la partie'),
+                  content: const Text(
+                      'Êtes-vous sûr de vouloir quitter la partie ?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Annuler'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        _handleDisconnect(context);
+                      },
+                      child: const Text('Quitter'),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+        );
       },
     );
   }
