@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
 
 void main() {
@@ -19,11 +20,23 @@ class MyApp extends StatelessWidget {
     ]);
 
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Rire Noir',
       routeInformationParser: _router.routeInformationParser,
       routeInformationProvider: _router.routeInformationProvider,
       routerDelegate: _router.routerDelegate,
       theme: ThemeData(
+        textTheme: TextTheme(
+          labelLarge: GoogleFonts.inter(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFFF5F2F0),
+          ),
+          labelSmall: GoogleFonts.inter(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFFF5F2F0),
+          ),
+        ),
         colorScheme: const ColorScheme.dark(
           primary: Color(0xFFF5F2F0),
           secondary: Color(0xFFF5F2F0),

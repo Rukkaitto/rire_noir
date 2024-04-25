@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MyTextFormField extends StatelessWidget {
   final TextEditingController? controller;
@@ -21,10 +20,7 @@ class MyTextFormField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       textCapitalization: textCapitalization,
-      style: GoogleFonts.inter(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-      ),
+      style: Theme.of(context).textTheme.labelLarge,
       decoration: InputDecoration(
         labelText: labelText,
         enabledBorder: UnderlineInputBorder(

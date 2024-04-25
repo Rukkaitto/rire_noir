@@ -1,7 +1,6 @@
 import 'package:api/entities/player.dart';
 import 'package:api/entities/game.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ResultWidget extends StatelessWidget {
   final Player player;
@@ -21,20 +20,12 @@ class ResultWidget extends StatelessWidget {
           if (room.didIWin(player.id)) {
             return Text(
               'C\'est gagné !',
-              style: GoogleFonts.inter(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              style: Theme.of(context).textTheme.labelLarge,
             );
           } else {
             return Text(
               'C\'est perdu !',
-              style: GoogleFonts.inter(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              style: Theme.of(context).textTheme.labelLarge,
             );
           }
         },

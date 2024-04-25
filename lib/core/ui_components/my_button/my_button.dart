@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
 
 class MyButton extends StatelessWidget {
@@ -38,10 +37,7 @@ class MyButton extends StatelessWidget {
         children: [
           Text(
             text,
-            style: GoogleFonts.inter(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.labelLarge,
           ),
           if (trailingIcon != null)
             Padding(

@@ -3,7 +3,6 @@ import 'package:api/entities/playing_card.dart';
 import 'package:api/entities/round.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rire_noir/core/ui_components/dismissible_carousel/dismissible_carousel.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
@@ -93,10 +92,7 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
           SafeArea(
             child: Text(
               "$remainingCardsToPlay cartes à jouer",
-              style: GoogleFonts.inter(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.labelLarge,
             ),
           ),
       ],

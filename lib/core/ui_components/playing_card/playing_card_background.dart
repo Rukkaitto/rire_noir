@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 import 'playing_card_style.dart';
 
@@ -39,11 +38,7 @@ class PlayingCardBackground extends StatelessWidget {
               children: [
                 Text(
                   'Rire Noir',
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: style.foregroundColor,
-                  ),
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
                 const SizedBox(width: 10),
                 SvgPicture.asset(

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 import 'package:rire_noir/core/services/router_service/app_routes.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
@@ -97,11 +96,7 @@ class ScoreWidget extends StatelessWidget {
         const SizedBox(width: 10),
         Text(
           score.toString(),
-          style: GoogleFonts.inter(
-            color: Theme.of(context).colorScheme.primary,
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.labelLarge,
         ),
       ],
     );
