@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:api/entities/player.dart';
+import 'package:api/entities/player_with_score.dart';
 import 'package:api/entities/round.dart';
 import 'package:api/entities/server_message.dart';
 import 'package:api/utils/card_loader.dart';
@@ -47,6 +48,13 @@ class Game {
 
   String get winnerName {
     return players.firstWhere((player) => player.score == winningScore).name!;
+  }
+
+  List<PlayerWithScore> get leaderboard {
+    return players
+        .map((player) => PlayerWithScore(player, player.score))
+        .toList()
+      ..sort((a, b) => b.score.compareTo(a.score));
   }
 
   Game({

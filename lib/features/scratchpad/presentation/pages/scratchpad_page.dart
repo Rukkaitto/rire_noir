@@ -23,7 +23,7 @@ class ScratchpadPage extends StatelessWidget {
       Player(
         id: 'player1',
         name: 'player1',
-        score: 0,
+        score: 10,
         gameId: 'A8BE92',
         isReady: true,
         cards: [
@@ -58,7 +58,7 @@ class ScratchpadPage extends StatelessWidget {
         },
       ),
     ],
-    mode: Mode.active,
+    mode: Mode.finished,
   );
 
   ScratchpadPage({super.key});
@@ -70,7 +70,7 @@ class ScratchpadPage extends StatelessWidget {
         create: (context) => WebSocketCubit(pinCode: room.id)
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           ..emit(
-            const WebSocketState(uuid: "master"),
+            const WebSocketState(uuid: "player1"),
           ),
         child: GameWidget(room: room),
       ),

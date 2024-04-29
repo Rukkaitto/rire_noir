@@ -1,6 +1,9 @@
 import 'package:api/entities/player.dart';
 import 'package:api/entities/game.dart';
+import 'package:api/entities/player_with_score.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 
 class ResultWidget extends StatefulWidget {
   final Player player;
@@ -47,10 +50,62 @@ class _ResultWidgetState extends State<ResultWidget>
     return Center(
       child: Transform.scale(
         scale: _animation.value,
-        child: Text(
-          '${widget.room.winnerName} a gagné !',
-          style: Theme.of(context).textTheme.headlineLarge,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              buildTitle(context),
+              const SizedBox(height: 16),
+              buildLeaderboard(context),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget buildTitle(BuildContext context) {
+    return Text(
+      '${widget.room.winnerName} a gagné !',
+      style: Theme.of(context).textTheme.headlineLarge,
+    );
+  }
+
+  Widget buildLeaderboard(BuildContext context) {
+    return Column(
+      children: widget.room.leaderboard
+          .map(
+            (playerWithScore) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  playerWithScore.player.name ?? "",
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                buildScore(context, score: playerWithScore.score),
+              ],
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Widget buildScore(
+    BuildContext context, {
+    required int score,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5),
+      child: Row(
+        children: [
+          SvgPicture.asset(AssetService().svgs.scoreIcon, height: 20),
+          const SizedBox(width: 5),
+          Text(
+            score.toString(),
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
+        ],
       ),
     );
   }
