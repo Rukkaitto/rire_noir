@@ -9,6 +9,7 @@ import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dar
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
 import 'package:rire_noir/features/game/presentation/widgets/player_layout_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlayerViewWidget extends StatefulWidget {
   final Player player;
@@ -94,7 +95,8 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
         if (remainingCardsToPlay > 0)
           SafeArea(
             child: Text(
-              "$remainingCardsToPlay cartes à jouer",
+              AppLocalizations.of(context)!
+                  .playerViewRemainingCardsToPlay(remainingCardsToPlay),
               style: Theme.of(context).textTheme.labelLarge,
             ),
           ),

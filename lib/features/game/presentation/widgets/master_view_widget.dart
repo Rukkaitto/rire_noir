@@ -5,6 +5,7 @@ import 'package:rire_noir/core/ui_components/gyroscope_widget/gyroscope.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
 import 'package:rire_noir/features/game/presentation/widgets/player_layout_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MasterViewWidget extends StatelessWidget {
   final Player player;
@@ -54,7 +55,8 @@ class MasterViewWidget extends StatelessWidget {
 
   Widget buildDonePlayersCount(BuildContext context) {
     return Text(
-      '(${room.currentRound.donePlayersCount}/${room.playerCount})',
+      AppLocalizations.of(context)!.masterViewDonePlayersCount(
+          room.currentRound.donePlayersCount, room.playerCount),
       style: Theme.of(context).textTheme.headlineLarge,
     );
   }

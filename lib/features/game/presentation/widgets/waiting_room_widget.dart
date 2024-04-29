@@ -61,8 +61,8 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
                             width: 200,
                             height: 200,
                             child: PrettyQrView.data(
-                              data:
-                                  "https://lucasgoudin.com/join-room/room?pinCode=${widget.room.id}",
+                              data: AppLocalizations.of(context)!
+                                  .joinDeeplinkUrl(widget.room.id),
                             ),
                           ),
                           const SizedBox(height: 20),

@@ -2,6 +2,7 @@ import 'package:api/entities/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResultWidget extends StatefulWidget {
   final Game room;
@@ -63,7 +64,7 @@ class _ResultWidgetState extends State<ResultWidget>
 
   Widget buildTitle(BuildContext context) {
     return Text(
-      '${widget.room.winnerName} a gagné !',
+      AppLocalizations.of(context)!.resultViewTitle(widget.room.winnerName),
       style: Theme.of(context).textTheme.headlineLarge,
     );
   }

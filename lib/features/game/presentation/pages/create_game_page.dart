@@ -8,6 +8,7 @@ import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
 import 'package:rire_noir/core/ui_components/my_text_form_field/my_text_form_field.dart';
 import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateGamePage extends StatelessWidget {
   final TextEditingController _pointsController = TextEditingController();
@@ -68,12 +69,13 @@ class CreateGamePage extends StatelessWidget {
                       children: [
                         MyTextFormField(
                           controller: _pointsController,
-                          labelText: 'Score gagnant',
+                          labelText: AppLocalizations.of(context)!
+                              .createGameWinningScore,
                           keyboardType: TextInputType.number,
                         ),
                         const SizedBox(height: 22),
                         MyButton(
-                          text: 'Créer',
+                          text: AppLocalizations.of(context)!.start,
                           style: MyButtonStylePrimary(context),
                           onPressed: () => handleCreate(context),
                         ),

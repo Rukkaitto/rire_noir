@@ -8,6 +8,7 @@ import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
 import 'package:rire_noir/core/ui_components/my_text_form_field/my_text_form_field.dart';
 import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class JoinGamePage extends StatelessWidget {
   final TextEditingController _pinCodeController = TextEditingController();
@@ -31,8 +32,8 @@ class JoinGamePage extends StatelessWidget {
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Code PIN invalide'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.joinGameError),
           ),
         );
       }
@@ -63,13 +64,13 @@ class JoinGamePage extends StatelessWidget {
                       children: [
                         MyTextFormField(
                           controller: _pinCodeController,
-                          labelText: 'Code PIN du jeu',
+                          labelText: AppLocalizations.of(context)!.joinGameCode,
                           keyboardType: TextInputType.visiblePassword,
                           textCapitalization: TextCapitalization.characters,
                         ),
                         const SizedBox(height: 22),
                         MyButton(
-                          text: 'Rejoindre',
+                          text: AppLocalizations.of(context)!.join,
                           style: MyButtonStylePrimary(context),
                           onPressed: () => _handleJoin(context),
                         ),

@@ -8,6 +8,7 @@ import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 import 'package:rire_noir/core/services/router_service/app_routes.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ScoreWidget extends StatelessWidget {
   final int score;
@@ -32,41 +33,45 @@ class ScoreWidget extends StatelessWidget {
             builder: (context) {
               if (Platform.isIOS) {
                 return CupertinoAlertDialog(
-                  title: const Text('Quitter la partie'),
-                  content: const Text(
-                      'Êtes-vous sûr de vouloir quitter la partie ?'),
+                  title: Text(AppLocalizations.of(context)!.quitDialogTitle),
+                  content:
+                      Text(AppLocalizations.of(context)!.quitDialogContent),
                   actions: [
                     CupertinoDialogAction(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: const Text('Annuler'),
+                      child:
+                          Text(AppLocalizations.of(context)!.quitDialogCancel),
                     ),
                     CupertinoDialogAction(
                       onPressed: () {
                         _handleDisconnect(context);
                       },
-                      child: const Text('Quitter'),
+                      child:
+                          Text(AppLocalizations.of(context)!.quitDialogConfirm),
                     ),
                   ],
                 );
               } else {
                 return AlertDialog(
-                  title: const Text('Quitter la partie'),
-                  content: const Text(
-                      'Êtes-vous sûr de vouloir quitter la partie ?'),
+                  title: Text(AppLocalizations.of(context)!.quitDialogTitle),
+                  content:
+                      Text(AppLocalizations.of(context)!.quitDialogContent),
                   actions: [
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: const Text('Annuler'),
+                      child:
+                          Text(AppLocalizations.of(context)!.quitDialogCancel),
                     ),
                     TextButton(
                       onPressed: () {
                         _handleDisconnect(context);
                       },
-                      child: const Text('Quitter'),
+                      child:
+                          Text(AppLocalizations.of(context)!.quitDialogConfirm),
                     ),
                   ],
                 );
