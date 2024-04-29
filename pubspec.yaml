@@ -21,6 +21,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_svg: ^2.0.10+1
   pretty_qr_code: ^3.3.0
+  sensors: ^2.0.3
 
 dev_dependencies:
   flutter_test:

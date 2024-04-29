@@ -38,7 +38,9 @@ class PlayingCardBackground extends StatelessWidget {
               children: [
                 Text(
                   'Rire Noir',
-                  style: Theme.of(context).textTheme.labelSmall,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: style.foregroundColor,
+                      ),
                 ),
                 const SizedBox(width: 10),
                 SvgPicture.asset(

@@ -1,6 +1,7 @@
 import 'package:api/entities/player.dart';
 import 'package:api/entities/game.dart';
 import 'package:flutter/material.dart';
+import 'package:rire_noir/core/ui_components/gyroscope_widget/gyroscope.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
 import 'package:rire_noir/features/game/presentation/widgets/player_layout_widget.dart';
@@ -37,9 +38,11 @@ class MasterViewWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 25),
-            PlayingCardWidget(
-              text: room.currentRound.blackCard.formattedText,
-              style: PlayingCardStyleBlack(context),
+            GyroscopeWidget(
+              child: PlayingCardWidget(
+                text: room.currentRound.blackCard.formattedText,
+                style: PlayingCardStyleBlack(context),
+              ),
             ),
           ],
         ),

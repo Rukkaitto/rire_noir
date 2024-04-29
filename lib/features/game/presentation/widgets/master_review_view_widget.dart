@@ -3,6 +3,7 @@ import 'package:api/entities/round.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/core/ui_components/dismissible_carousel/dismissible_carousel.dart';
+import 'package:rire_noir/core/ui_components/gyroscope_widget/gyroscope.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
@@ -40,9 +41,11 @@ class MasterReviewViewWidget extends StatelessWidget {
               (cards) => Padding(
                 key: ValueKey(cards.first.id),
                 padding: const EdgeInsets.all(35),
-                child: PlayingCardWidget(
-                  text: round.blackCard.fillInBlanks(cards),
-                  style: PlayingCardStyleBlack(context),
+                child: GyroscopeWidget(
+                  child: PlayingCardWidget(
+                    text: round.blackCard.fillInBlanks(cards),
+                    style: PlayingCardStyleBlack(context),
+                  ),
                 ),
               ),
             )
