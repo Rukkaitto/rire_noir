@@ -37,13 +37,17 @@ class MyButton extends StatelessWidget {
         children: [
           Text(
             text,
-            style: Theme.of(context).textTheme.labelLarge,
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge
+                ?.copyWith(color: style.foregroundColor),
           ),
           if (trailingIcon != null)
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Icon(
                 trailingIcon,
+                color: style.foregroundColor,
                 size: 30,
               ),
             ),

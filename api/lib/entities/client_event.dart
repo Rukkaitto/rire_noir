@@ -1,6 +1,7 @@
 /// An event that is sent from the client to the server
 enum ClientEvent {
   joinRoom,
+  setName,
   ready,
   selectCard,
   selectWinner,
@@ -13,6 +14,8 @@ extension ClientEventExtension on ClientEvent {
     switch (event) {
       case 'joinRoom':
         return ClientEvent.joinRoom;
+      case 'setName':
+        return ClientEvent.setName;
       case 'ready':
         return ClientEvent.ready;
       case 'selectCard':
@@ -28,6 +31,8 @@ extension ClientEventExtension on ClientEvent {
     switch (this) {
       case ClientEvent.joinRoom:
         return 'joinRoom';
+      case ClientEvent.setName:
+        return 'setName';
       case ClientEvent.ready:
         return 'ready';
       case ClientEvent.selectCard:

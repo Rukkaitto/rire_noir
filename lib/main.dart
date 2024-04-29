@@ -26,6 +26,11 @@ class MyApp extends StatelessWidget {
       routerDelegate: _router.routerDelegate,
       theme: ThemeData(
         textTheme: TextTheme(
+          headlineLarge: GoogleFonts.inter(
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFFF5F2F0),
+          ),
           labelLarge: GoogleFonts.inter(
             fontSize: 24,
             fontWeight: FontWeight.bold,

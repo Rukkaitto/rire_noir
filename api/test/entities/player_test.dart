@@ -29,6 +29,7 @@ void main() {
     test('toJson', () {
       final player = Player(
         id: '1',
+        name: 'player1',
         isReady: true,
         score: 0,
         cards: [

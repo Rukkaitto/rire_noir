@@ -4,6 +4,7 @@ import 'package:api/entities/client_event.dart';
 import 'package:api/entities/messages/client/join_room_message.dart';
 import 'package:api/entities/messages/client/ready_message.dart';
 import 'package:api/entities/messages/client/select_card_message.dart';
+import 'package:api/entities/messages/client/set_name_message.dart';
 import 'package:api/entities/messages/client/winner_card_message.dart';
 import 'package:api/entities/player.dart';
 import 'package:api/entities/game.dart';
@@ -55,15 +56,14 @@ Handler init() {
             game.addPlayer(player);
             players.add(player);
 
-            // final serverMessage = ServerMessage(
-            //   ServerEvent.readyPlayersCountChanged,
-            //   {
-            //     'readyPlayerCount': game.readyPlayerCount,
-            //     'playerCount': game.playerCount,
-            //   },
-            // );
-            //
-            // game.broadcastMessage(serverMessage);
+            game.broadcastChange();
+          case ClientEvent.setName:
+            final setNameMessage = SetNameMessage.fromJson(jsonData);
+
+            final player = players.firstWhere((player) => player.ws == ws);
+            player.name = setNameMessage.name;
+
+            final game = games.firstWhere((room) => room.id == player.gameId);
 
             game.broadcastChange();
           case ClientEvent.ready:

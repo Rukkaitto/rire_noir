@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:api/entities/messages/client/join_room_message.dart';
 import 'package:api/entities/messages/client/ready_message.dart';
 import 'package:api/entities/messages/client/select_card_message.dart';
+import 'package:api/entities/messages/client/set_name_message.dart';
 import 'package:api/entities/messages/client/winner_card_message.dart';
 import 'package:api/entities/playing_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,6 +50,16 @@ class WebSocketCubit extends Cubit<WebSocketState> {
 
     state.channel?.sink.add(
       jsonEncode(joinRoomMessage.toJson()),
+    );
+  }
+
+  void setName(String name) {
+    final setNameMessage = SetNameMessage(
+      name: name,
+    );
+
+    state.channel?.sink.add(
+      jsonEncode(setNameMessage.toJson()),
     );
   }
 

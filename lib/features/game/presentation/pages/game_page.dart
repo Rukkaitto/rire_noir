@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket_state.dart';
+import 'package:rire_noir/features/game/presentation/widgets/choose_name_widget.dart';
 import 'package:rire_noir/features/game/presentation/widgets/game_widget.dart';
 import 'package:rire_noir/features/game/presentation/widgets/waiting_room_widget.dart';
 import 'package:api/entities/game.dart';
@@ -38,12 +39,16 @@ class _GamePageState extends State<GamePage> {
                   if (room.isEveryoneReady) {
                     return GameWidget(room: room);
                   } else {
-                    return WaitingRoomWidget(
-                      room: room,
-                      ready: (isReady) {
-                        context.read<WebSocketCubit>().ready(isReady);
-                      },
-                    );
+                    if (!room.isNameDefined(state.uuid)) {
+                      return ChooseNameWidget();
+                    } else {
+                      return WaitingRoomWidget(
+                        room: room,
+                        ready: (isReady) {
+                          context.read<WebSocketCubit>().ready(isReady);
+                        },
+                      );
+                    }
                   }
                 }
 

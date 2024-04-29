@@ -96,7 +96,7 @@ class ScoreWidget extends StatelessWidget {
         const SizedBox(width: 10),
         Text(
           score.toString(),
-          style: Theme.of(context).textTheme.labelLarge,
+          style: Theme.of(context).textTheme.headlineLarge,
         ),
       ],
     );

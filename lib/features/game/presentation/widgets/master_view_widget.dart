@@ -1,6 +1,7 @@
 import 'package:api/entities/player.dart';
 import 'package:api/entities/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:rire_noir/core/ui_components/gyroscope_widget/gyroscope.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
@@ -21,21 +22,23 @@ class MasterViewWidget extends StatelessWidget {
     return PlayerLayoutWidget(
       player: player,
       child: Padding(
-        padding: const EdgeInsets.all(35),
+        padding: const EdgeInsets.only(
+          left: 35,
+          bottom: 35,
+          right: 35,
+          top: 100,
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                Text(
-                  'En attente des réponses...',
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-                Text(
-                  '(${room.currentRound.donePlayersCount}/${room.playerCount})',
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-              ],
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildPlayerList(context),
+                  buildDonePlayersCount(context),
+                ],
+              ),
             ),
             const SizedBox(height: 25),
             GyroscopeWidget(
@@ -47,6 +50,25 @@ class MasterViewWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildDonePlayersCount(BuildContext context) {
+    return Text(
+      '(${room.currentRound.donePlayersCount}/${room.playerCount})',
+      style: Theme.of(context).textTheme.headlineLarge,
+    );
+  }
+
+  Widget buildPlayerList(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: room.donePlayerNames.map((name) {
+        return Text(
+          name,
+          style: Theme.of(context).textTheme.labelLarge,
+        );
+      }).toList(),
     );
   }
 }

@@ -21,7 +21,9 @@ class Game {
   Mode mode;
 
   int get playerCount => players.length;
-  bool get isEveryoneReady => players.every((player) => player.isReady);
+  bool get isEveryoneReady =>
+      players.every((player) => player.isReady) &&
+      players.every((player) => player.name != null);
   bool get isGameStarted => rounds.isNotEmpty;
   int get readyPlayerCount => players.where((player) => player.isReady).length;
   Round get currentRound => rounds.last;
@@ -32,6 +34,15 @@ class Game {
       allPlayers.add(master!);
     }
     return allPlayers;
+  }
+
+  List<String> get donePlayerNames {
+    return currentRound.whiteCards.entries
+        .where((entry) =>
+            entry.value.length == currentBlackCard.requiredWhiteCardCount)
+        .map((entry) =>
+            players.firstWhere((player) => player.id == entry.key).name!)
+        .toList();
   }
 
   Game({
@@ -74,6 +85,11 @@ class Game {
       'rounds': rounds.map((round) => round.toJson()).toList(),
       'mode': mode.index,
     };
+  }
+
+  bool isNameDefined(String playerId) {
+    return players
+        .any((player) => player.id == playerId && player.name != null);
   }
 
   bool amITheMaster(String playerId) {

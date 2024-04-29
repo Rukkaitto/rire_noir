@@ -17,6 +17,7 @@ void main() {
         whiteCardCount: 3,
         master: Player(
           id: 'player1',
+          name: 'player1',
           isReady: true,
           score: 0,
           cards: [
@@ -30,6 +31,7 @@ void main() {
         players: [
           Player(
             id: 'player2',
+            name: 'player2',
             isReady: false,
             score: 0,
             cards: [],
@@ -37,6 +39,7 @@ void main() {
           ),
           Player(
             id: 'player3',
+            name: 'player3',
             isReady: false,
             score: 0,
             cards: [],
@@ -54,6 +57,7 @@ void main() {
         winningScore: 2,
         master: Player(
           id: 'player1',
+          name: 'player1',
           isReady: true,
           score: 0,
           cards: [
@@ -78,6 +82,7 @@ void main() {
         players: [
           Player(
             id: 'player2',
+            name: 'player2',
             isReady: true,
             score: 0,
             cards: [
@@ -101,6 +106,7 @@ void main() {
           ),
           Player(
             id: 'player3',
+            name: 'player3',
             isReady: true,
             score: 0,
             cards: [
@@ -258,6 +264,7 @@ void main() {
     test('addPlayer', () {
       final player = Player(
         id: 'player1',
+        name: 'player1',
         isReady: true,
         score: 0,
         cards: [
