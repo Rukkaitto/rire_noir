@@ -4,31 +4,20 @@ import 'package:flutter/material.dart';
 
 class ResultWidget extends StatelessWidget {
   final Player player;
-  final Game room;
+  final Game game;
 
   const ResultWidget({
     super.key,
     required this.player,
-    required this.room,
+    required this.game,
   });
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Builder(
-        builder: (context) {
-          if (room.didIWin(player.id)) {
-            return Text(
-              'C\'est gagné !',
-              style: Theme.of(context).textTheme.labelLarge,
-            );
-          } else {
-            return Text(
-              'C\'est perdu !',
-              style: Theme.of(context).textTheme.labelLarge,
-            );
-          }
-        },
+      child: Text(
+        '${game.winnerName} a gagné !',
+        style: Theme.of(context).textTheme.labelLarge,
       ),
     );
   }

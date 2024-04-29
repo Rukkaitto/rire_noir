@@ -45,6 +45,10 @@ class Game {
         .toList();
   }
 
+  String get winnerName {
+    return players.firstWhere((player) => player.score == winningScore).name!;
+  }
+
   Game({
     required this.id,
     required this.winningScore,
