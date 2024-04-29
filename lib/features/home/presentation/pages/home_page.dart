@@ -5,6 +5,7 @@ import 'package:rire_noir/core/ui_components/bottom_menu/bottom_menu.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
 import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -25,7 +26,7 @@ class HomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       MyButton(
-                        text: 'Rejoindre',
+                        text: AppLocalizations.of(context)!.join,
                         style: MyButtonStylePrimary(context),
                         onPressed: () {
                           RouterService.of(context).go(AppRoutes.joinRoom);
@@ -33,7 +34,7 @@ class HomePage extends StatelessWidget {
                       ),
                       const SizedBox(height: 22),
                       MyButton(
-                        text: 'Commencer',
+                        text: AppLocalizations.of(context)!.start,
                         style: MyButtonStyleSecondary(context),
                         onPressed: () {
                           RouterService.of(context).go(AppRoutes.createRoom);

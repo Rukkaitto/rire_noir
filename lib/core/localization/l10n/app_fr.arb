@@ -1,0 +1,21 @@
+{
+  "appName": "Rire Noir",
+  "join": "Rejoindre",
+  "start": "Commencer",
+
+  "waitingRoomDesc": "Demande aux joueurs de scanner le QR code ci-dessous",
+  "waitingRoomReadyPlayers": "{readyPlayerCount, plural, =0{0 joueurs prêts} =1{1 joueur prêt} other{{readyPlayerCount} joueurs prêts}} sur {roomPlayerCount}",
+  "@waitingRoomReadyPlayers": {
+    "placeholders": {
+      "readyPlayerCount": {
+        "type": "int",
+        "format": "compact"
+      },
+      "roomPlayerCount": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "waitingRoomButton": "Je suis prêt !"
+}

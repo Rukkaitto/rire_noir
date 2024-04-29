@@ -1,17 +1,13 @@
-import 'package:api/entities/player.dart';
 import 'package:api/entities/game.dart';
-import 'package:api/entities/player_with_score.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 
 class ResultWidget extends StatefulWidget {
-  final Player player;
   final Game room;
 
   const ResultWidget({
     super.key,
-    required this.player,
     required this.room,
   });
 

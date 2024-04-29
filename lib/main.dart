@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,6 +22,8 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp.router(
       title: 'Rire Noir',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       routeInformationParser: _router.routeInformationParser,
       routeInformationProvider: _router.routeInformationProvider,
       routerDelegate: _router.routerDelegate,

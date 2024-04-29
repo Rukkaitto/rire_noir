@@ -7,6 +7,7 @@ import 'package:rire_noir/core/ui_components/playing_card/playing_card_backgroun
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_title_widget.dart';
 import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WaitingRoomWidget extends StatefulWidget {
   final Game room;
@@ -36,7 +37,7 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
             Padding(
               padding: const EdgeInsets.all(25),
               child: PlayingCardTitleWidget(
-                text: "Demande aux joueurs de scanner le QR code ci-dessous",
+                text: AppLocalizations.of(context)!.waitingRoomDesc,
                 style: PlayingCardStyleBlack(context),
               ),
             ),
@@ -46,8 +47,8 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   PlayingCardTitleWidget(
-                    text:
-                        "${widget.room.readyPlayerCount} joueurs prêts sur ${widget.room.playerCount}",
+                    text: AppLocalizations.of(context)!.waitingRoomReadyPlayers(
+                        widget.room.readyPlayerCount, widget.room.playerCount),
                     style: PlayingCardStyleWhite(context),
                   ),
                   Expanded(
@@ -94,7 +95,7 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
             buildCardStack(),
             const SizedBox(height: 20),
             MyButton(
-              text: "Je suis prêt !",
+              text: AppLocalizations.of(context)!.waitingRoomButton,
               style: _isReady
                   ? MyButtonStyleSecondary(context)
                   : MyButtonStylePrimary(context),

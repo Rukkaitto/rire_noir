@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'playing_card_style.dart';
 
 class PlayingCardBackground extends StatelessWidget {
@@ -37,7 +38,7 @@ class PlayingCardBackground extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Rire Noir',
+                  AppLocalizations.of(context)!.appName,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: style.foregroundColor,
                       ),
