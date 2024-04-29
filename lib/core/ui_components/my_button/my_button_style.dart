@@ -17,7 +17,7 @@ class MyButtonStylePrimary extends MyButtonStyle {
       : super(
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          strokeColor: Theme.of(context).colorScheme.onPrimary,
+          strokeColor: Theme.of(context).colorScheme.primary,
         );
 }
 
