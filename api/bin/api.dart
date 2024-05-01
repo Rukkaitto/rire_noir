@@ -29,7 +29,9 @@ Handler init() {
   app.get(
     '/api/ws',
     () => WebSocketSession(
-      onOpen: (ws) {},
+      onOpen: (ws) {
+        print('Connection opened');
+      },
       onClose: (ws) {
         print('Connection closed');
         final player = players.firstWhereOrNull((p) => p.ws == ws);
@@ -42,6 +44,13 @@ Handler init() {
         // Remove player from game
         game.players.removeWhere((p) => p.id == player.id);
 
+        // If game is empty, remove it
+        if (game.players.isEmpty) {
+          print('Game ${game.id} removed');
+          games.remove(game);
+          return;
+        }
+
         // If player is master, pick a new master
         if (game.master?.id == player.id) {
           game.nextRound();
@@ -51,12 +60,6 @@ Handler init() {
         players.removeWhere((player) => player.ws == ws);
 
         game.broadcastChange();
-
-        // If game is empty, remove it
-        if (game.players.isEmpty) {
-          print('Game ${game.id} removed');
-          games.remove(game);
-        }
       },
       onMessage: (ws, dynamic data) {
         final jsonData = jsonDecode(data);
@@ -69,20 +72,31 @@ Handler init() {
             Game game =
                 games.firstWhere((room) => room.id == joinRoomMessage.pinCode);
 
-            if (game.isGameStarted) {
-              ws.send('Game already started');
-              return;
-            }
-
-            final player = Player(
-              id: joinRoomMessage.playerId,
-              score: 0,
-              ws: ws,
-              gameId: game.id,
+            // Check if player is already in the game
+            // In that case, replace the ws
+            final existingPlayer = players.firstWhereOrNull(
+              (player) =>
+                  player.id == joinRoomMessage.playerId &&
+                  player.gameId == game.id,
             );
 
-            game.addPlayer(player);
-            players.add(player);
+            if (existingPlayer != null) {
+              print('Player ${existingPlayer.id} reconnected');
+              existingPlayer.ws = ws;
+            } else {
+              if (game.isGameStarted) return;
+
+              print('Player ${joinRoomMessage.playerId} joined');
+              final player = Player(
+                id: joinRoomMessage.playerId,
+                score: 0,
+                ws: ws,
+                gameId: game.id,
+              );
+
+              game.addPlayer(player);
+              players.add(player);
+            }
 
             game.broadcastChange();
           case ClientEvent.setName:

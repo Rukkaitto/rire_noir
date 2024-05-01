@@ -8,7 +8,7 @@ class Player {
   bool isReady;
   int score;
   List<PlayingCard> cards;
-  final WebSocketSession? ws;
+  WebSocketSession? ws;
   final String gameId;
 
   Player({
