@@ -92,7 +92,7 @@ class ScoreWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         IconButton(
-          icon: const Icon(Icons.close),
+          icon: const Icon(Icons.exit_to_app_rounded),
           iconSize: 30,
           color: Theme.of(context).colorScheme.primary,
           onPressed: () {

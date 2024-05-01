@@ -47,11 +47,13 @@ class Game {
   }
 
   String get winnerName {
-    return players.firstWhere((player) => player.score == winningScore).name!;
+    return allPlayers
+        .firstWhere((player) => player.score == winningScore)
+        .name!;
   }
 
   List<PlayerWithScore> get leaderboard {
-    return players
+    return allPlayers
         .map((player) => PlayerWithScore(player, player.score))
         .toList()
       ..sort((a, b) => b.score.compareTo(a.score));
