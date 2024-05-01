@@ -33,7 +33,9 @@ class MyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
       opacity: enabled ? 1 : 0.5,
       child: FilledButton(
         onPressed: enabled ? onPressed : null,
