@@ -3,6 +3,9 @@
   "join": "Rejoindre",
   "start": "Créer",
 
+  "tutorialSwipeUp": "Glisser vers le haut pour choisir une carte",
+  "tutorialSwipeLeft": "Parcourir les cartes",
+
   "createGameWinningScore": "Score gagnant",
   "createGameError": "Erreur lors de la création de la partie",
 

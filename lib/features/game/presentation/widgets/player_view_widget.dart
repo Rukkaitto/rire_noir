@@ -7,6 +7,7 @@ import 'package:rire_noir/core/ui_components/dismissible_carousel/dismissible_ca
 import 'package:rire_noir/core/ui_components/gyroscope_widget/gyroscope.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
+import 'package:rire_noir/core/ui_components/tutorial_overlay/tutorial_overlay.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
 import 'package:rire_noir/features/game/presentation/widgets/player_layout_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -64,43 +65,45 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: PlayerLayoutWidget(
-            player: widget.player,
-            child: DismissibleCarousel(
-              alignment: Alignment.bottomCenter,
-              canDismiss: widget.canPlay,
-              onDismissed: (index) {
-                _onSwipe(context, index: index);
-              },
-              children: cards
-                  .map(
-                    (card) => Padding(
-                      key: ValueKey(card.id),
-                      padding: const EdgeInsets.all(35),
-                      child: GyroscopeWidget(
-                        child: PlayingCardWidget(
-                          text: card.text,
-                          style: PlayingCardStyleWhite(context),
+    return TutorialOverlay(
+      child: Column(
+        children: [
+          Expanded(
+            child: PlayerLayoutWidget(
+              player: widget.player,
+              child: DismissibleCarousel(
+                alignment: Alignment.bottomCenter,
+                canDismiss: widget.canPlay,
+                onDismissed: (index) {
+                  _onSwipe(context, index: index);
+                },
+                children: cards
+                    .map(
+                      (card) => Padding(
+                        key: ValueKey(card.id),
+                        padding: const EdgeInsets.all(35),
+                        child: GyroscopeWidget(
+                          child: PlayingCardWidget(
+                            text: card.text,
+                            style: PlayingCardStyleWhite(context),
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                    )
+                    .toList(),
+              ),
             ),
           ),
-        ),
-        if (remainingCardsToPlay > 0)
-          SafeArea(
-            child: Text(
-              AppLocalizations.of(context)!
-                  .playerViewRemainingCardsToPlay(remainingCardsToPlay),
-              style: Theme.of(context).textTheme.labelLarge,
+          if (remainingCardsToPlay > 0)
+            SafeArea(
+              child: Text(
+                AppLocalizations.of(context)!
+                    .playerViewRemainingCardsToPlay(remainingCardsToPlay),
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -59,7 +59,7 @@ class ScratchpadPage extends StatelessWidget {
         },
       ),
     ],
-    mode: Mode.finished,
+    mode: Mode.review,
   );
 
   ScratchpadPage({super.key});
@@ -71,7 +71,7 @@ class ScratchpadPage extends StatelessWidget {
         create: (context) => WebSocketCubit(pinCode: room.id)
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           ..emit(
-            const WebSocketState(uuid: "player1"),
+            const WebSocketState(uuid: "master"),
           ),
         child: GameWidget(room: room),
       ),
