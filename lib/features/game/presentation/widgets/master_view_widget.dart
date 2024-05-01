@@ -43,7 +43,7 @@ class MasterViewWidget extends StatelessWidget {
             const SizedBox(height: 25),
             GyroscopeWidget(
               child: PlayingCardWidget(
-                text: room.currentRound.blackCard.formattedText,
+                text: room.currentBlackCard.formattedText,
                 style: PlayingCardStyleBlack(context),
               ),
             ),

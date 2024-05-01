@@ -169,13 +169,7 @@ class Game {
     // This is done before the master is changed so that the master doesn't get a card
     dealWhiteCards();
 
-    // Re-add the master to the players list
-    final masterIndex = players.indexWhere((player) => player.id == master!.id);
-    players.add(master!);
-
-    // Pick a new master
-    master = players[masterIndex + 1 % playerCount];
-    players.remove(master);
+    pickNewMaster();
 
     final round = Round(
       blackCard: pickBlackCard(),
@@ -187,6 +181,16 @@ class Game {
     rounds.add(round);
 
     mode = Mode.active;
+  }
+
+  void pickNewMaster() {
+    // Re-add the master to the players list
+    final masterIndex = players.indexWhere((player) => player.id == master!.id);
+    players.add(master!);
+
+    // Pick a new master
+    master = players[masterIndex + 1 % playerCount];
+    players.remove(master);
   }
 
   void dealWhiteCards() {

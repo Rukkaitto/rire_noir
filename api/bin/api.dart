@@ -11,6 +11,7 @@ import 'package:api/entities/game.dart';
 import 'package:api/utils/pin_code_generator.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 import 'package:shelf_plus/shelf_plus.dart';
+import 'package:collection/collection.dart';
 
 void main() => shelfRun(
       init,
@@ -29,7 +30,34 @@ Handler init() {
     '/api/ws',
     () => WebSocketSession(
       onOpen: (ws) {},
-      onClose: (ws) {},
+      onClose: (ws) {
+        print('Connection closed');
+        final player = players.firstWhereOrNull((p) => p.ws == ws);
+        final game = games.firstWhereOrNull((g) => g.id == player?.gameId);
+
+        if (player == null || game == null) {
+          return;
+        }
+
+        // Remove player from game
+        game.players.removeWhere((p) => p.id == player.id);
+
+        // If player is master, pick a new master
+        if (game.master?.id == player.id) {
+          game.nextRound();
+        }
+
+        // Remove player from players list
+        players.removeWhere((player) => player.ws == ws);
+
+        game.broadcastChange();
+
+        // If game is empty, remove it
+        if (game.players.isEmpty) {
+          print('Game ${game.id} removed');
+          games.remove(game);
+        }
+      },
       onMessage: (ws, dynamic data) {
         final jsonData = jsonDecode(data);
         final event = ClientEventExtension.fromMessageJson(jsonData);

@@ -4,6 +4,7 @@ version: 1.0.0
 environment:
   sdk: ^3.3.3
 dependencies:
+  collection: ^1.18.0
   equatable: ^2.0.5
   shelf_cors_headers: ^0.1.5
   shelf_plus: ^1.9.1
