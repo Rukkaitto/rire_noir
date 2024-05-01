@@ -73,17 +73,18 @@ Handler init() {
                 games.firstWhere((room) => room.id == joinRoomMessage.pinCode);
 
             // Check if player is already in the game
-            // In that case, replace the ws
             final existingPlayer = players.firstWhereOrNull(
               (player) =>
                   player.id == joinRoomMessage.playerId &&
                   player.gameId == game.id,
             );
 
+            // In that case, replace the ws
             if (existingPlayer != null) {
               print('Player ${existingPlayer.id} reconnected');
               existingPlayer.ws = ws;
             } else {
+              // Otherwise, add the player to the game
               if (game.isGameStarted) return;
 
               print('Player ${joinRoomMessage.playerId} joined');

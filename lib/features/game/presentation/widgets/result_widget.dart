@@ -1,15 +1,19 @@
 import 'package:api/entities/game.dart';
+import 'package:api/entities/player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rire_noir/features/game/presentation/widgets/player_layout_widget.dart';
 
 class ResultWidget extends StatefulWidget {
-  final Game room;
+  final Player player;
+  final Game game;
 
   const ResultWidget({
     super.key,
-    required this.room,
+    required this.player,
+    required this.game,
   });
 
   @override
@@ -33,8 +37,13 @@ class _ResultWidgetState extends State<ResultWidget>
         curve: Curves.elasticOut,
       ),
     );
+
     _controller.reset();
-    _controller.forward();
+
+    Future.delayed(const Duration(seconds: 1), () {
+      _controller.forward();
+    });
+
     _controller.addListener(() {
       setState(() {});
     });
@@ -44,18 +53,21 @@ class _ResultWidgetState extends State<ResultWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Transform.scale(
-        scale: _animation.value,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              buildTitle(context),
-              const SizedBox(height: 16),
-              buildLeaderboard(context),
-            ],
+    return PlayerLayoutWidget(
+      player: widget.player,
+      child: Center(
+        child: Transform.scale(
+          scale: _animation.value,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                buildTitle(context),
+                const SizedBox(height: 16),
+                buildLeaderboard(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -64,14 +76,14 @@ class _ResultWidgetState extends State<ResultWidget>
 
   Widget buildTitle(BuildContext context) {
     return Text(
-      AppLocalizations.of(context)!.resultViewTitle(widget.room.winnerName),
+      AppLocalizations.of(context)!.resultViewTitle(widget.game.winnerName),
       style: Theme.of(context).textTheme.headlineLarge,
     );
   }
 
   Widget buildLeaderboard(BuildContext context) {
     return Column(
-      children: widget.room.leaderboard
+      children: widget.game.leaderboard
           .map(
             (playerWithScore) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

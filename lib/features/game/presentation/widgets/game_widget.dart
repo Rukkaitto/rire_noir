@@ -58,7 +58,8 @@ class GameWidget extends StatelessWidget {
                   }
                 case Mode.finished:
                   return ResultWidget(
-                    room: room,
+                    player: me,
+                    game: room,
                   );
               }
             },
