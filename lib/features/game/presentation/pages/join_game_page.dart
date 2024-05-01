@@ -72,7 +72,8 @@ class _JoinGamePageState extends State<JoinGamePage> {
                           controller: _pinCodeController,
                           onChanged: (value) {
                             setState(() {
-                              _isFormValid = value.isNotEmpty;
+                              _isFormValid =
+                                  value.isNotEmpty && value.trim().length == 6;
                             });
                           },
                           labelText: AppLocalizations.of(context)!.joinGameCode,

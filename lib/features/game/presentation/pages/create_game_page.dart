@@ -47,7 +47,11 @@ class _CreateGamePageState extends State<CreateGamePage> {
         'pinCode': pinCode,
       });
     } catch (e) {
-      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.createGameError),
+        ),
+      );
     }
   }
 

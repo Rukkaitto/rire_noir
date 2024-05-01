@@ -26,38 +26,41 @@ class _GamePageState extends State<GamePage> {
   Widget build(BuildContext context) {
     return BlocProvider<WebSocketCubit>(
       create: (context) => WebSocketCubit(pinCode: widget.pinCode)..connect(),
-      child: Scaffold(
-        body: BlocBuilder<WebSocketCubit, WebSocketState>(
-          builder: (context, state) {
-            return StreamBuilder<Game>(
-              stream: state.channel?.stream
-                  .map((data) => Game.fromJson(jsonDecode(data))),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final room = snapshot.data!;
+      child: PopScope(
+        canPop: false,
+        child: Scaffold(
+          body: BlocBuilder<WebSocketCubit, WebSocketState>(
+            builder: (context, state) {
+              return StreamBuilder<Game>(
+                stream: state.channel?.stream
+                    .map((data) => Game.fromJson(jsonDecode(data))),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final room = snapshot.data!;
 
-                  if (room.isEveryoneReady) {
-                    return GameWidget(room: room);
-                  } else {
-                    if (!room.isNameDefined(state.uuid)) {
-                      return ChooseNameWidget();
+                    if (room.isEveryoneReady) {
+                      return GameWidget(room: room);
                     } else {
-                      return WaitingRoomWidget(
-                        room: room,
-                        ready: (isReady) {
-                          context.read<WebSocketCubit>().ready(isReady);
-                        },
-                      );
+                      if (!room.isNameDefined(state.uuid)) {
+                        return const ChooseNameWidget();
+                      } else {
+                        return WaitingRoomWidget(
+                          room: room,
+                          ready: (isReady) {
+                            context.read<WebSocketCubit>().ready(isReady);
+                          },
+                        );
+                      }
                     }
                   }
-                }
 
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            );
-          },
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );

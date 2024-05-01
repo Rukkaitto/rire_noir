@@ -25,8 +25,8 @@ class WebSocketCubit extends Cubit<WebSocketState> {
     return super.close();
   }
 
-  void disconnect() {
-    state.channel?.sink.close();
+  Future<void> disconnect() async {
+    await state.channel?.sink.close();
   }
 
   void connect() async {

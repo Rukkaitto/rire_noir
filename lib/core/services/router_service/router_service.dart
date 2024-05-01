@@ -42,7 +42,7 @@ class RouterService {
               name: AppRoutes.createRoom.name,
               path: AppRoutes.createRoom.path,
               builder: (context, state) {
-                return CreateGamePage();
+                return const CreateGamePage();
               },
               routes: [
                 GoRoute(
@@ -59,7 +59,7 @@ class RouterService {
               name: AppRoutes.joinRoom.name,
               path: AppRoutes.joinRoom.path,
               builder: (context, state) {
-                return JoinGamePage();
+                return const JoinGamePage();
               },
               routes: [
                 GoRoute(

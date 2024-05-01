@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
-import 'package:rire_noir/core/services/router_service/app_routes.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,9 +17,12 @@ class ScoreWidget extends StatelessWidget {
     required this.score,
   });
 
-  void _handleDisconnect(BuildContext context) {
-    context.read<WebSocketCubit>().disconnect();
-    RouterService.of(context).go(AppRoutes.home);
+  void _handleDisconnect(BuildContext context) async {
+    await context.read<WebSocketCubit>().disconnect();
+
+    if (!context.mounted) return;
+
+    RouterService.of(context).pop();
   }
 
   void _handleClose(BuildContext context) {
@@ -46,6 +48,7 @@ class ScoreWidget extends StatelessWidget {
                     ),
                     CupertinoDialogAction(
                       onPressed: () {
+                        Navigator.of(context).pop();
                         _handleDisconnect(context);
                       },
                       child:

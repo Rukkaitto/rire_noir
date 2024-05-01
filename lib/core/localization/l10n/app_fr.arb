@@ -1,9 +1,10 @@
 {
   "appName": "Rire Noir",
   "join": "Rejoindre",
-  "start": "Commencer",
+  "start": "Créer",
 
   "createGameWinningScore": "Score gagnant",
+  "createGameError": "Erreur lors de la création de la partie",
 
   "joinGameCode": "Code de la partie",
   "joinGameError": "Code PIN invalide",
