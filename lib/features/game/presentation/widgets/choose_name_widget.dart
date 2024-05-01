@@ -8,10 +8,16 @@ import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_back
 import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ChooseNameWidget extends StatelessWidget {
-  final TextEditingController _nameController = TextEditingController();
+class ChooseNameWidget extends StatefulWidget {
+  const ChooseNameWidget({super.key});
 
-  ChooseNameWidget({super.key});
+  @override
+  State<ChooseNameWidget> createState() => _ChooseNameWidgetState();
+}
+
+class _ChooseNameWidgetState extends State<ChooseNameWidget> {
+  final TextEditingController _nameController = TextEditingController();
+  bool _isFormValid = false;
 
   void _handleJoin(BuildContext context) async {
     final name = _nameController.text.trim();
@@ -35,15 +41,21 @@ class ChooseNameWidget extends StatelessWidget {
                   children: [
                     MyTextFormField(
                       controller: _nameController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isFormValid = value.isNotEmpty;
+                        });
+                      },
                       labelText: AppLocalizations.of(context)!.chooseNameLabel,
-                      keyboardType: TextInputType.visiblePassword,
-                      textCapitalization: TextCapitalization.characters,
+                      keyboardType: TextInputType.name,
+                      textCapitalization: TextCapitalization.words,
                     ),
                     const SizedBox(height: 22),
                     MyButton(
                       text: AppLocalizations.of(context)!.join,
                       style: MyButtonStylePrimary(context),
                       onPressed: () => _handleJoin(context),
+                      enabled: _isFormValid,
                     ),
                   ],
                 ),

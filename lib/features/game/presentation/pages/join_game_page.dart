@@ -10,10 +10,16 @@ import 'package:rire_noir/core/ui_components/my_text_form_field/my_text_form_fie
 import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class JoinGamePage extends StatelessWidget {
-  final TextEditingController _pinCodeController = TextEditingController();
+class JoinGamePage extends StatefulWidget {
+  const JoinGamePage({super.key});
 
-  JoinGamePage({super.key});
+  @override
+  State<JoinGamePage> createState() => _JoinGamePageState();
+}
+
+class _JoinGamePageState extends State<JoinGamePage> {
+  final TextEditingController _pinCodeController = TextEditingController();
+  bool _isFormValid = false;
 
   void _handleJoin(BuildContext context) async {
     final pinCode = _pinCodeController.text.toUpperCase().trim();
@@ -64,6 +70,11 @@ class JoinGamePage extends StatelessWidget {
                       children: [
                         MyTextFormField(
                           controller: _pinCodeController,
+                          onChanged: (value) {
+                            setState(() {
+                              _isFormValid = value.isNotEmpty;
+                            });
+                          },
                           labelText: AppLocalizations.of(context)!.joinGameCode,
                           keyboardType: TextInputType.visiblePassword,
                           textCapitalization: TextCapitalization.characters,
@@ -73,6 +84,7 @@ class JoinGamePage extends StatelessWidget {
                           text: AppLocalizations.of(context)!.join,
                           style: MyButtonStylePrimary(context),
                           onPressed: () => _handleJoin(context),
+                          enabled: _isFormValid,
                         ),
                       ],
                     ),

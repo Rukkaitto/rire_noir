@@ -10,10 +10,16 @@ import 'package:rire_noir/core/ui_components/my_text_form_field/my_text_form_fie
 import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CreateGamePage extends StatelessWidget {
-  final TextEditingController _pointsController = TextEditingController();
+class CreateGamePage extends StatefulWidget {
+  const CreateGamePage({super.key});
 
-  CreateGamePage({super.key});
+  @override
+  State<CreateGamePage> createState() => _CreateGamePageState();
+}
+
+class _CreateGamePageState extends State<CreateGamePage> {
+  final TextEditingController _pointsController = TextEditingController();
+  bool _isFormValid = false;
 
   void handleCreate(BuildContext context) async {
     final winningScore = _pointsController.text.trim();
@@ -69,6 +75,11 @@ class CreateGamePage extends StatelessWidget {
                       children: [
                         MyTextFormField(
                           controller: _pointsController,
+                          onChanged: (value) {
+                            setState(() {
+                              _isFormValid = value.isNotEmpty;
+                            });
+                          },
                           labelText: AppLocalizations.of(context)!
                               .createGameWinningScore,
                           keyboardType: TextInputType.number,
@@ -78,6 +89,7 @@ class CreateGamePage extends StatelessWidget {
                           text: AppLocalizations.of(context)!.start,
                           style: MyButtonStylePrimary(context),
                           onPressed: () => handleCreate(context),
+                          enabled: _isFormValid,
                         ),
                       ],
                     ),

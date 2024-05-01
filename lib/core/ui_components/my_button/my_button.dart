@@ -6,6 +6,7 @@ class MyButton extends StatelessWidget {
   final MyButtonStyle style;
   final IconData? trailingIcon;
   final void Function() onPressed;
+  final bool enabled;
 
   const MyButton({
     super.key,
@@ -13,6 +14,7 @@ class MyButton extends StatelessWidget {
     required this.style,
     this.trailingIcon,
     required this.onPressed,
+    this.enabled = true,
   });
 
   ButtonStyle buildStyle() {
@@ -20,6 +22,8 @@ class MyButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       backgroundColor: style.backgroundColor,
       foregroundColor: style.foregroundColor,
+      disabledBackgroundColor: style.backgroundColor,
+      disabledForegroundColor: style.foregroundColor,
       side: BorderSide(
         color: style.strokeColor,
         width: 3,
@@ -29,29 +33,32 @@ class MyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: onPressed,
-      style: buildStyle(),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            text,
-            style: Theme.of(context)
-                .textTheme
-                .labelLarge
-                ?.copyWith(color: style.foregroundColor),
-          ),
-          if (trailingIcon != null)
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Icon(
-                trailingIcon,
-                color: style.foregroundColor,
-                size: 30,
-              ),
+    return Opacity(
+      opacity: enabled ? 1 : 0.5,
+      child: FilledButton(
+        onPressed: enabled ? onPressed : null,
+        style: buildStyle(),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              text,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge
+                  ?.copyWith(color: style.foregroundColor),
             ),
-        ],
+            if (trailingIcon != null)
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Icon(
+                  trailingIcon,
+                  color: style.foregroundColor,
+                  size: 30,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

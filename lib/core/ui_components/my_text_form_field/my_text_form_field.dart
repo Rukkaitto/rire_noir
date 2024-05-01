@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyTextFormField extends StatelessWidget {
   final TextEditingController? controller;
+  final void Function(String)? onChanged;
   final String? labelText;
   final TextInputType? keyboardType;
   final TextCapitalization textCapitalization;
@@ -9,6 +10,7 @@ class MyTextFormField extends StatelessWidget {
   const MyTextFormField({
     super.key,
     this.controller,
+    this.onChanged,
     this.labelText,
     this.keyboardType,
     this.textCapitalization = TextCapitalization.none,
@@ -18,6 +20,7 @@ class MyTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      onChanged: onChanged,
       keyboardType: keyboardType,
       textCapitalization: textCapitalization,
       style: Theme.of(context).textTheme.labelLarge,
