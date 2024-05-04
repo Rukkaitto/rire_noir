@@ -71,7 +71,7 @@ class ScratchpadPage extends StatelessWidget {
         create: (context) => WebSocketCubit(pinCode: room.id)
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           ..emit(
-            const WebSocketState(uuid: "master"),
+            const WebSocketState(uuid: "player1"),
           ),
         child: GameWidget(room: room),
       ),

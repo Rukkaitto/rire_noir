@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
+import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
+import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -22,7 +24,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
   static const String tutorialShownKey = 'tutorialShown';
 
   int _currentStep = 1;
-  bool _showTutorial = false;
+  bool _showTutorial = true;
 
   @override
   void initState() {
@@ -47,7 +49,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
     await prefs.setBool(tutorialShownKey, true);
   }
 
-  void handleOnTap() {
+  void _incrementStep() {
     setState(() {
       _currentStep++;
 
@@ -74,24 +76,22 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
           return Stack(
             children: [
               widget.child,
-              GestureDetector(
-                onTap: handleOnTap,
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 10.0,
-                    sigmaY: 10.0,
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(25),
-                    width: double.infinity,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 500),
-                      switchInCurve: Curves.easeInOut,
-                      switchOutCurve: Curves.easeInOut,
-                      child: SafeArea(
-                        key: ValueKey(_currentStep),
-                        child: buildStep(context),
-                      ),
+              BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 10.0,
+                  sigmaY: 10.0,
+                ),
+                child: Container(
+                  color: Colors.black.withOpacity(0.5),
+                  padding: const EdgeInsets.all(25),
+                  width: double.infinity,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    switchInCurve: Curves.easeInOut,
+                    switchOutCurve: Curves.easeInOut,
+                    child: SafeArea(
+                      key: ValueKey(_currentStep),
+                      child: buildStep(context),
                     ),
                   ),
                 ),
@@ -117,6 +117,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
   Widget buildStep1(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           AppLocalizations.of(context)!.tutorialSwipeUp,
@@ -127,6 +128,11 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
           AssetService().lotties.swipeUp,
           frameRate: FrameRate.max,
         ),
+        MyButton(
+          text: AppLocalizations.of(context)!.tutorialNextButton,
+          style: MyButtonStylePrimary(context),
+          onPressed: _incrementStep,
+        ),
       ],
     );
   }
@@ -134,6 +140,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
   Widget buildStep2(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           AppLocalizations.of(context)!.tutorialSwipeLeft,
@@ -143,6 +150,11 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
         Lottie.asset(
           AssetService().lotties.swipeLeft,
           frameRate: FrameRate.max,
+        ),
+        MyButton(
+          text: AppLocalizations.of(context)!.tutorialBeginButton,
+          style: MyButtonStylePrimary(context),
+          onPressed: _incrementStep,
         ),
       ],
     );

@@ -3,6 +3,8 @@
   "join": "Rejoindre",
   "start": "Créer",
 
+  "tutorialNextButton": "Suivant",
+  "tutorialBeginButton": "C'est compris !",
   "tutorialSwipeUp": "Glisser vers le haut pour choisir une carte",
   "tutorialSwipeLeft": "Parcourir les cartes",
 
