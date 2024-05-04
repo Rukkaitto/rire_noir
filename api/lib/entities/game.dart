@@ -238,16 +238,7 @@ class Game {
   }
 
   void broadcastChange() {
-    final encodedRoom = jsonEncode(toJson());
-
-    for (var player in players) {
-      player.ws?.send(encodedRoom);
-    }
-
-    master?.ws?.send(encodedRoom);
-  }
-
-  void broadcastMessage(ServerMessage message) {
+    final message = GameChangedMessage(game: this);
     final encodedMessage = jsonEncode(message.toJson());
 
     for (var player in players) {

@@ -5,7 +5,7 @@ import 'package:rire_noir/core/ui_components/my_button/my_button.dart';
 import 'package:rire_noir/core/ui_components/my_button/my_button_style.dart';
 import 'package:rire_noir/core/ui_components/my_text_form_field/my_text_form_field.dart';
 import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
-import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChooseNameWidget extends StatefulWidget {

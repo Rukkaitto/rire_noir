@@ -3,8 +3,8 @@ import 'package:api/entities/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
-import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
-import 'package:rire_noir/features/game/presentation/bloc/web_socket_state.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_state.dart';
 import 'package:rire_noir/features/game/presentation/widgets/master_review_view_widget.dart';
 import 'package:rire_noir/features/game/presentation/widgets/result_widget.dart';
 

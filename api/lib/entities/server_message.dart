@@ -1,23 +1,39 @@
+import 'package:api/entities/game.dart';
 import 'package:api/entities/server_event.dart';
 
 /// A message that is sent from the server to the client
-class ServerMessage {
+sealed class ServerMessage {
   final ServerEvent event;
-  final dynamic data;
 
-  ServerMessage(this.event, this.data);
+  ServerMessage(this.event);
+
+  Map<String, dynamic> toJson();
 
   factory ServerMessage.fromJson(Map<String, dynamic> json) {
-    return ServerMessage(
-      ServerEventExtension.fromJson(json['event']),
-      json['data'],
-    );
+    final event = ServerEventExtension.fromJson(json['event']);
+    switch (event) {
+      case ServerEvent.gameChanged:
+        return GameChangedMessage.fromJson(json);
+    }
   }
+}
 
+class GameChangedMessage extends ServerMessage {
+  final Game game;
+
+  GameChangedMessage({required this.game}) : super(ServerEvent.gameChanged);
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'event': event.toJson(),
-      'data': data,
+      'game': game.toJson(),
     };
+  }
+
+  factory GameChangedMessage.fromJson(Map<String, dynamic> json) {
+    return GameChangedMessage(
+      game: Game.fromJson(json['game']),
+    );
   }
 }

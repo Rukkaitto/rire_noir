@@ -7,7 +7,7 @@ import 'package:rire_noir/core/ui_components/gyroscope_widget/gyroscope.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
 import 'package:rire_noir/core/ui_components/tutorial_overlay/tutorial_overlay.dart';
-import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
 import 'package:rire_noir/features/game/presentation/widgets/player_layout_widget.dart';
 
 class MasterReviewViewWidget extends StatelessWidget {

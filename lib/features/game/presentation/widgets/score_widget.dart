@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 import 'package:rire_noir/core/services/router_service/router_service.dart';
-import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ScoreWidget extends StatelessWidget {

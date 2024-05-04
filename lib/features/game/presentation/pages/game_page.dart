@@ -1,15 +1,17 @@
 import 'dart:convert';
 
+import 'package:api/entities/server_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
-import 'package:rire_noir/features/game/presentation/bloc/web_socket_state.dart';
+import 'package:rire_noir/features/game/presentation/bloc/game/game_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_state.dart';
 import 'package:rire_noir/features/game/presentation/widgets/choose_name_widget.dart';
 import 'package:rire_noir/features/game/presentation/widgets/game_widget.dart';
 import 'package:rire_noir/features/game/presentation/widgets/waiting_room_widget.dart';
 import 'package:api/entities/game.dart';
 
-class GamePage extends StatefulWidget {
+class GamePage extends StatelessWidget {
   final String pinCode;
 
   const GamePage({
@@ -17,45 +19,78 @@ class GamePage extends StatefulWidget {
     required this.pinCode,
   });
 
-  @override
-  State<GamePage> createState() => _GamePageState();
-}
+  Widget buildGame(
+    BuildContext context, {
+    required Game game,
+    required String uuid,
+  }) {
+    if (game.isEveryoneReady) {
+      return GameWidget(room: game);
+    } else {
+      if (!game.isNameDefined(uuid)) {
+        return const ChooseNameWidget();
+      } else {
+        return WaitingRoomWidget(
+          room: game,
+          ready: (isReady) {
+            context.read<WebSocketCubit>().ready(isReady);
+          },
+        );
+      }
+    }
+  }
 
-class _GamePageState extends State<GamePage> {
+  void handleSocketMessage(
+    BuildContext context, {
+    required ServerMessage message,
+  }) {
+    switch (message) {
+      case GameChangedMessage(game: var game):
+        context.read<GameCubit>().setGame(game);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<WebSocketCubit>(
-      create: (context) => WebSocketCubit(pinCode: widget.pinCode)..connect(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<WebSocketCubit>(
+          create: (context) => WebSocketCubit(pinCode: pinCode)..connect(),
+        ),
+        BlocProvider<GameCubit>(
+          create: (context) => GameCubit(),
+        ),
+      ],
       child: PopScope(
         canPop: false,
         child: Scaffold(
           body: BlocBuilder<WebSocketCubit, WebSocketState>(
             builder: (context, state) {
-              return StreamBuilder<Game>(
+              return StreamBuilder<ServerMessage>(
                 stream: state.channel?.stream
-                    .map((data) => Game.fromJson(jsonDecode(data))),
+                    .map((data) => ServerMessage.fromJson(jsonDecode(data))),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    final room = snapshot.data!;
+                    final message = snapshot.data!;
 
-                    if (room.isEveryoneReady) {
-                      return GameWidget(room: room);
-                    } else {
-                      if (!room.isNameDefined(state.uuid)) {
-                        return const ChooseNameWidget();
-                      } else {
-                        return WaitingRoomWidget(
-                          room: room,
-                          ready: (isReady) {
-                            context.read<WebSocketCubit>().ready(isReady);
-                          },
-                        );
-                      }
-                    }
+                    handleSocketMessage(context, message: message);
                   }
 
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return BlocBuilder<GameCubit, Game?>(
+                    builder: (context, game) {
+                      if (game == null) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      return buildGame(
+                        context,
+                        game: game,
+                        uuid: state.uuid,
+                      );
+                    },
                   );
                 },
               );

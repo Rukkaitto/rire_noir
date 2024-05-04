@@ -5,10 +5,9 @@ import 'package:api/entities/game.dart';
 import 'package:api/entities/round.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rire_noir/features/game/presentation/bloc/web_socket_cubit.dart';
-import 'package:rire_noir/features/game/presentation/bloc/web_socket_state.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_state.dart';
 import 'package:rire_noir/features/game/presentation/widgets/game_widget.dart';
-import 'package:rire_noir/features/game/presentation/widgets/waiting_room_widget.dart';
 
 class ScratchpadPage extends StatelessWidget {
   final room = Game(
