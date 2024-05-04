@@ -10,4 +10,8 @@ class CardsDealtCubit extends Cubit<CardsDealtState> {
   void newCardsWereDealt(List<PlayingCard> cards) {
     emit(CardsDealt(cards: cards));
   }
+
+  void reset() {
+    emit(CardsDealtInitial());
+  }
 }

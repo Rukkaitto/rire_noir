@@ -5,6 +5,7 @@ import 'package:api/entities/game.dart';
 import 'package:api/entities/round.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rire_noir/core/ui_components/new_cards_indicator/new_cards_indicator.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_state.dart';
 import 'package:rire_noir/features/game/presentation/widgets/game_widget.dart';
@@ -72,7 +73,11 @@ class ScratchpadPage extends StatelessWidget {
           ..emit(
             const WebSocketState(uuid: "player1"),
           ),
-        child: GameWidget(room: room),
+        child: Center(
+          child: NewCardsIndicator(
+            newCardsCount: 3,
+          ),
+        ),
       ),
     );
   }

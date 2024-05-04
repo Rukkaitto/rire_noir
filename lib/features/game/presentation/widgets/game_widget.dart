@@ -2,6 +2,7 @@ import 'package:api/entities/mode.dart';
 import 'package:api/entities/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rire_noir/core/ui_components/new_cards_indicator/new_cards_indicator.dart';
 import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
 import 'package:rire_noir/features/game/presentation/bloc/cards_dealt/cards_dealt_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
@@ -22,58 +23,74 @@ class GameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CardsDealtCubit, CardsDealtState>(
-      listener: (context, state) {
-        if (state is CardsDealt) {
-          // TODO: show +N cards
-        }
-      },
-      child: BlocBuilder<WebSocketCubit, WebSocketState>(
-        builder: (context, state) {
-          final me =
-              room.allPlayers.firstWhere((player) => player.id == state.uuid);
+    return BlocBuilder<WebSocketCubit, WebSocketState>(
+      builder: (context, state) {
+        final me =
+            room.allPlayers.firstWhere((player) => player.id == state.uuid);
 
-          return ScrollingBackground(
-            child: Builder(
-              builder: (context) {
-                switch (room.mode) {
-                  case Mode.active:
-                    if (room.amITheMaster(state.uuid)) {
-                      return MasterViewWidget(
+        return ScrollingBackground(
+          child: Stack(
+            children: [
+              Builder(
+                builder: (context) {
+                  switch (room.mode) {
+                    case Mode.active:
+                      if (room.amITheMaster(state.uuid)) {
+                        return MasterViewWidget(
+                          player: me,
+                          room: room,
+                        );
+                      } else {
+                        return PlayerViewWidget(
+                          player: me,
+                          round: room.currentRound,
+                          canPlay: room.canIPlay(state.uuid),
+                        );
+                      }
+                    case Mode.review:
+                      if (room.amITheMaster(state.uuid)) {
+                        return MasterReviewViewWidget(
+                          player: me,
+                          round: room.currentRound,
+                        );
+                      } else {
+                        return PlayerViewWidget(
+                          player: me,
+                          round: room.currentRound,
+                          canPlay: false,
+                        );
+                      }
+                    case Mode.finished:
+                      return ResultWidget(
                         player: me,
-                        room: room,
+                        game: room,
                       );
-                    } else {
-                      return PlayerViewWidget(
-                        player: me,
-                        round: room.currentRound,
-                        canPlay: room.canIPlay(state.uuid),
-                      );
-                    }
-                  case Mode.review:
-                    if (room.amITheMaster(state.uuid)) {
-                      return MasterReviewViewWidget(
-                        player: me,
-                        round: room.currentRound,
-                      );
-                    } else {
-                      return PlayerViewWidget(
-                        player: me,
-                        round: room.currentRound,
-                        canPlay: false,
-                      );
-                    }
-                  case Mode.finished:
-                    return ResultWidget(
-                      player: me,
-                      game: room,
+                  }
+                },
+              ),
+              BlocBuilder<CardsDealtCubit, CardsDealtState>(
+                builder: (context, state) {
+                  if (state is CardsDealt) {
+                    return Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: SafeArea(
+                          child: NewCardsIndicator(
+                            newCardsCount: state.cards.length,
+                          ),
+                        ),
+                      ),
                     );
-                }
-              },
-            ),
-          );
-        },
-      ),
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
