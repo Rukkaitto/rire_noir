@@ -1,3 +1,4 @@
+import 'package:api/entities/web_socket_client.dart';
 import 'package:shelf_plus/shelf_plus.dart';
 
 import 'playing_card.dart';
@@ -8,8 +9,10 @@ class Player {
   bool isReady;
   int score;
   List<PlayingCard> cards;
-  WebSocketSession? ws;
   final String gameId;
+  final WebSocketClient? client;
+
+  get ws => client?.ws;
 
   Player({
     required this.id,
@@ -17,9 +20,10 @@ class Player {
     this.isReady = false,
     required this.score,
     List<PlayingCard>? cards,
-    this.ws,
+    WebSocketSession? ws,
     required this.gameId,
-  }) : cards = cards ?? [];
+  })  : cards = cards ?? [],
+        client = ws != null ? WebSocketClient(ws: ws) : null;
 
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(

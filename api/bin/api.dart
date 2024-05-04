@@ -82,7 +82,7 @@ Handler init() {
             // In that case, replace the ws
             if (existingPlayer != null) {
               print('Player ${existingPlayer.id} reconnected');
-              existingPlayer.ws = ws;
+              existingPlayer.client?.ws = ws;
             } else {
               // Otherwise, add the player to the game
               if (game.isGameStarted) return;

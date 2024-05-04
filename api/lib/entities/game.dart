@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:api/entities/player.dart';
@@ -211,11 +210,8 @@ class Game {
       player.cards.addAll(dealtCards);
 
       // Signal the player that they have new cards
-      // Delay the message to avoid conflicts with the gameChanged message
-      Future.delayed(Duration(milliseconds: 300), () {
-        final message = CardsDealtMessage(cards: dealtCards);
-        player.ws?.send(jsonEncode(message.toJson()));
-      });
+      final message = CardsDealtMessage(cards: dealtCards);
+      player.client?.sendMessage(message);
     }
   }
 
@@ -240,8 +236,8 @@ class Game {
   }
 
   void broadcastToMaster() {
-    final encodedRoom = jsonEncode(toJson());
-    master?.ws?.send(encodedRoom);
+    final message = GameChangedMessage(game: this);
+    master?.client?.sendMessage(message);
   }
 
   void broadcastChange() {
@@ -250,12 +246,10 @@ class Game {
   }
 
   void broadcastMessage(ServerMessage message) {
-    final encodedMessage = jsonEncode(message.toJson());
-
     for (var player in players) {
-      player.ws?.send(encodedMessage);
+      player.client?.sendMessage(message);
     }
 
-    master?.ws?.send(encodedMessage);
+    master?.client?.sendMessage(message);
   }
 }

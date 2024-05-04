@@ -50,7 +50,6 @@ class GamePage extends StatelessWidget {
         context.read<GameCubit>().setGame(game);
         break;
       case CardsDealtMessage(cards: var cards):
-        print('CARDS DEAAAAAAAAAAAAAALT');
         context.read<CardsDealtCubit>().newCardsWereDealt(cards);
         break;
     }

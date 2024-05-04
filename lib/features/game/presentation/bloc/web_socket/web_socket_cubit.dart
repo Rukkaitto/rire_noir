@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:api/entities/messages/client/join_room_message.dart';
 import 'package:api/entities/messages/client/ready_message.dart';
 import 'package:api/entities/messages/client/select_card_message.dart';
