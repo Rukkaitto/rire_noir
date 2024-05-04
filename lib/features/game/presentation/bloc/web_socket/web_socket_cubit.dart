@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:api/entities/messages/client/join_room_message.dart';
 import 'package:api/entities/messages/client/ready_message.dart';
 import 'package:api/entities/messages/client/select_card_message.dart';
 import 'package:api/entities/messages/client/set_name_message.dart';
 import 'package:api/entities/messages/client/winner_card_message.dart';
 import 'package:api/entities/playing_card.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:rire_noir/core/services/environment_service/environment_service.dart';
@@ -33,7 +35,13 @@ class WebSocketCubit extends Cubit<WebSocketState> {
     final uri =
         EnvironmentService().uri.replace(scheme: 'ws').resolve('/api/ws');
     final channel = WebSocketChannel.connect(uri);
-    final uuid = await PlatformDeviceId.getDeviceId ?? const Uuid().v4();
+
+    String uuid = await PlatformDeviceId.getDeviceId ?? const Uuid().v4();
+
+    // For debugging purposes
+    if (kIsWeb) {
+      uuid = const Uuid().v4();
+    }
 
     emit(WebSocketState(uuid: uuid, channel: channel));
 

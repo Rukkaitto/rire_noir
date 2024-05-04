@@ -24,7 +24,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
   static const String tutorialShownKey = 'tutorialShown';
 
   int _currentStep = 1;
-  bool _showTutorial = true;
+  bool _showTutorial = false;
 
   @override
   void initState() {

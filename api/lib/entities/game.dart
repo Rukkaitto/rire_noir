@@ -209,6 +209,13 @@ class Game {
 
       // Add the cards to the player
       player.cards.addAll(dealtCards);
+
+      // Signal the player that they have new cards
+      // Delay the message to avoid conflicts with the gameChanged message
+      Future.delayed(Duration(milliseconds: 300), () {
+        final message = CardsDealtMessage(cards: dealtCards);
+        player.ws?.send(jsonEncode(message.toJson()));
+      });
     }
   }
 
@@ -239,6 +246,10 @@ class Game {
 
   void broadcastChange() {
     final message = GameChangedMessage(game: this);
+    broadcastMessage(message);
+  }
+
+  void broadcastMessage(ServerMessage message) {
     final encodedMessage = jsonEncode(message.toJson());
 
     for (var player in players) {
