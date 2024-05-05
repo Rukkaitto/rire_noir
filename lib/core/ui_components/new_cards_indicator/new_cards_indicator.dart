@@ -25,7 +25,7 @@ class _NewCardsIndicatorState extends State<NewCardsIndicator>
   @override
   void initState() {
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
@@ -40,7 +40,7 @@ class _NewCardsIndicatorState extends State<NewCardsIndicator>
 
     _yPosition = Tween<double>(
       begin: 0,
-      end: 50,
+      end: 30,
     ).animate(
       CurvedAnimation(
         parent: _controller,
