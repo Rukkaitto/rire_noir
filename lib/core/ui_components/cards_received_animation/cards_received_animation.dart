@@ -146,39 +146,42 @@ class _CardsReceivedAnimationState extends State<CardsReceivedAnimation>
 
     _controller.forward();
     _opacityController.forward();
-
-    _controller.addListener(() {
-      setState(() {});
-    });
-
-    _opacityController.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black.withOpacity(_backgroundOpacity.value),
-      child: Align(
-        alignment: _alignment.value,
-        child: Transform.scale(
-          scale: _scale.value,
-          child: Transform(
-            alignment: FractionalOffset.center,
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.001) // Perspective
-              ..rotateY(_rotationX.value),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: PlayingCardWidget(
-                text: _currentCard.text,
-                style: PlayingCardStyleWhite(context),
-              ),
+    return AnimatedBuilder(
+      animation: _opacityController,
+      builder: (context, child) {
+        return AnimatedBuilder(
+          animation: _controller,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: PlayingCardWidget(
+              text: _currentCard.text,
+              style: PlayingCardStyleWhite(context),
             ),
           ),
-        ),
-      ),
+          builder: (context, child) {
+            return Container(
+              color: Colors.black.withOpacity(_backgroundOpacity.value),
+              child: Align(
+                alignment: _alignment.value,
+                child: Transform.scale(
+                  scale: _scale.value,
+                  child: Transform(
+                    alignment: FractionalOffset.center,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.001) // Perspective
+                      ..rotateY(_rotationX.value),
+                    child: child,
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

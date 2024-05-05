@@ -23,7 +23,7 @@ class ResultWidget extends StatefulWidget {
 class _ResultWidgetState extends State<ResultWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _animation;
+  late List<Animation<double>> _rowAnimations;
 
   @override
   void initState() {
@@ -31,22 +31,25 @@ class _ResultWidgetState extends State<ResultWidget>
       duration: const Duration(seconds: 1),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.elasticOut,
+
+    _rowAnimations = List.generate(
+      widget.game.leaderboard.length,
+      (index) => Tween<double>(
+        begin: 0,
+        end: 1,
+      ).animate(
+        CurvedAnimation(
+          parent: _controller,
+          curve: Interval(
+            (index / widget.game.leaderboard.length),
+            1.0,
+            curve: Curves.easeOut,
+          ),
+        ),
       ),
     );
 
-    _controller.reset();
-
-    Future.delayed(const Duration(seconds: 1), () {
-      _controller.forward();
-    });
-
-    _controller.addListener(() {
-      setState(() {});
-    });
+    _controller.forward();
 
     super.initState();
   }
@@ -56,18 +59,15 @@ class _ResultWidgetState extends State<ResultWidget>
     return PlayerLayoutWidget(
       player: widget.player,
       child: Center(
-        child: Transform.scale(
-          scale: _animation.value,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                buildTitle(context),
-                const SizedBox(height: 16),
-                buildLeaderboard(context),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              buildTitle(context),
+              const SizedBox(height: 16),
+              buildLeaderboard(context),
+            ],
           ),
         ),
       ),
@@ -83,9 +83,22 @@ class _ResultWidgetState extends State<ResultWidget>
 
   Widget buildLeaderboard(BuildContext context) {
     return Column(
-      children: widget.game.leaderboard
-          .map(
-            (playerWithScore) => Row(
+      children: List.generate(
+        widget.game.leaderboard.length,
+        (index) {
+          final playerWithScore = widget.game.leaderboard[index];
+          return AnimatedBuilder(
+            animation: _rowAnimations[index],
+            builder: (context, child) {
+              return Opacity(
+                opacity: _rowAnimations[index].value,
+                child: Transform.translate(
+                  offset: Offset(0.0, 50.0 * (1 - _rowAnimations[index].value)),
+                  child: child,
+                ),
+              );
+            },
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -95,8 +108,9 @@ class _ResultWidgetState extends State<ResultWidget>
                 buildScore(context, score: playerWithScore.score),
               ],
             ),
-          )
-          .toList(),
+          );
+        },
+      ),
     );
   }
 
