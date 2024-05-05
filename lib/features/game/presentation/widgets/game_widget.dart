@@ -2,9 +2,9 @@ import 'package:api/entities/mode.dart';
 import 'package:api/entities/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rire_noir/core/ui_components/new_cards_indicator/new_cards_indicator.dart';
+import 'package:rire_noir/core/ui_components/round_won_indicator/round_won_indicator.dart';
 import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
-import 'package:rire_noir/features/game/presentation/bloc/cards_dealt/cards_dealt_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/round_won/round_won_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_state.dart';
 import 'package:rire_noir/features/game/presentation/widgets/master_review_view_widget.dart';
@@ -68,17 +68,15 @@ class GameWidget extends StatelessWidget {
                   }
                 },
               ),
-              BlocBuilder<CardsDealtCubit, CardsDealtState>(
+              BlocBuilder<RoundWonCubit, RoundWonState>(
                 builder: (context, state) {
-                  if (state is CardsDealt) {
-                    return Align(
+                  if (state is RoundWonReceived) {
+                    return const Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 20),
+                        padding: EdgeInsets.only(top: 20),
                         child: SafeArea(
-                          child: NewCardsIndicator(
-                            newCardsCount: state.cards.length,
-                          ),
+                          child: RoundWonIndicator(),
                         ),
                       ),
                     );

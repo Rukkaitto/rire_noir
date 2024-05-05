@@ -28,7 +28,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       _checkIfTutorialIsNeeded();
     });
     super.initState();

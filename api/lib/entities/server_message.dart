@@ -1,5 +1,4 @@
 import 'package:api/entities/game.dart';
-import 'package:api/entities/playing_card.dart';
 import 'package:api/entities/server_event.dart';
 
 /// A message that is sent from the server to the client
@@ -16,8 +15,8 @@ sealed class ServerMessage {
     switch (event) {
       case ServerEvent.gameChanged:
         return GameChangedMessage.fromJson(json);
-      case ServerEvent.cardsDealt:
-        return CardsDealtMessage.fromJson(json);
+      case ServerEvent.roundWon:
+        return RoundWonMessage.fromJson(json);
     }
   }
 }
@@ -42,24 +41,17 @@ class GameChangedMessage extends ServerMessage {
   }
 }
 
-class CardsDealtMessage extends ServerMessage {
-  final List<PlayingCard> cards;
-
-  CardsDealtMessage({required this.cards}) : super(ServerEvent.cardsDealt);
+class RoundWonMessage extends ServerMessage {
+  RoundWonMessage() : super(ServerEvent.roundWon);
 
   @override
   Map<String, dynamic> toJson() {
     return {
       'event': event.toJson(),
-      'cards': cards.map((card) => card.toJson()).toList(),
     };
   }
 
-  factory CardsDealtMessage.fromJson(Map<String, dynamic> json) {
-    return CardsDealtMessage(
-      cards: (json['cards'] as List)
-          .map((card) => PlayingCard.fromJson(card))
-          .toList(),
-    );
+  factory RoundWonMessage.fromJson(Map<String, dynamic> json) {
+    return RoundWonMessage();
   }
 }

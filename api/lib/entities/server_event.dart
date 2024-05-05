@@ -1,7 +1,7 @@
 /// An event that is sent from the server to the client
 enum ServerEvent {
   gameChanged,
-  cardsDealt,
+  roundWon,
 }
 
 extension ServerEventExtension on ServerEvent {
@@ -9,8 +9,8 @@ extension ServerEventExtension on ServerEvent {
     switch (event) {
       case 'gameChanged':
         return ServerEvent.gameChanged;
-      case 'cardsDealt':
-        return ServerEvent.cardsDealt;
+      case 'roundWon':
+        return ServerEvent.roundWon;
       default:
         throw Exception('Event $event not found');
     }
@@ -20,8 +20,8 @@ extension ServerEventExtension on ServerEvent {
     switch (this) {
       case ServerEvent.gameChanged:
         return 'gameChanged';
-      case ServerEvent.cardsDealt:
-        return 'cardsDealt';
+      case ServerEvent.roundWon:
+        return 'roundWon';
     }
   }
 }

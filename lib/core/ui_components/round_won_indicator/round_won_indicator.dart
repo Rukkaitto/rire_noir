@@ -2,21 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
-import 'package:rire_noir/features/game/presentation/bloc/cards_dealt/cards_dealt_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/round_won/round_won_cubit.dart';
 
-class NewCardsIndicator extends StatefulWidget {
-  final int newCardsCount;
-
-  const NewCardsIndicator({
-    super.key,
-    required this.newCardsCount,
-  });
+class RoundWonIndicator extends StatefulWidget {
+  const RoundWonIndicator({super.key});
 
   @override
-  State<NewCardsIndicator> createState() => _NewCardsIndicatorState();
+  State<RoundWonIndicator> createState() => _RoundWonIndicatorState();
 }
 
-class _NewCardsIndicatorState extends State<NewCardsIndicator>
+class _RoundWonIndicatorState extends State<RoundWonIndicator>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _opacity;
@@ -25,7 +20,7 @@ class _NewCardsIndicatorState extends State<NewCardsIndicator>
   @override
   void initState() {
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 400),
       vsync: this,
     );
 
@@ -54,7 +49,7 @@ class _NewCardsIndicatorState extends State<NewCardsIndicator>
           _controller.reverse();
         });
       } else if (status == AnimationStatus.dismissed) {
-        context.read<CardsDealtCubit>().reset();
+        context.read<RoundWonCubit>().reset();
       }
     });
 
@@ -75,10 +70,10 @@ class _NewCardsIndicatorState extends State<NewCardsIndicator>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(AssetService().svgs.whiteCardIcon),
+            SvgPicture.asset(AssetService().svgs.scoreIcon),
             const SizedBox(width: 10),
             Text(
-              '+${widget.newCardsCount}',
+              '+1',
               style: Theme.of(context).textTheme.headlineLarge,
             ),
           ],

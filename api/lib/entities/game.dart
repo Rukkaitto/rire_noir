@@ -160,6 +160,8 @@ class Game {
     if (winner.score == winningScore) {
       mode = Mode.finished;
     } else {
+      final message = RoundWonMessage();
+      winner.client?.sendMessage(message);
       nextRound();
     }
   }
@@ -208,10 +210,6 @@ class Game {
 
       // Add the cards to the player
       player.cards.addAll(dealtCards);
-
-      // Signal the player that they have new cards
-      final message = CardsDealtMessage(cards: dealtCards);
-      player.client?.sendMessage(message);
     }
   }
 
