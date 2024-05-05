@@ -11,7 +11,7 @@ class CardsReceivedCubit extends Cubit<List<PlayingCard>> {
     emit(cards);
   }
 
-  // void stop() {
-  //   emit(CardsReceivedStopped());
-  // }
+  void reset() {
+    emit([]);
+  }
 }

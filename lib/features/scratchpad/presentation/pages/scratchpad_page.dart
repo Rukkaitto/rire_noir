@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+
 import 'package:api/entities/mode.dart';
 import 'package:api/entities/player.dart';
 import 'package:api/entities/playing_card.dart';
@@ -6,9 +8,12 @@ import 'package:api/entities/round.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/core/ui_components/cards_received_animation/cards_received_animation.dart';
-import 'package:rire_noir/core/ui_components/round_won_indicator/round_won_indicator.dart';
+import 'package:rire_noir/features/game/presentation/bloc/cards_received/cards_received_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/game/game_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/round_won/round_won_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_state.dart';
+import 'package:rire_noir/features/game/presentation/widgets/game_widget.dart';
 
 class ScratchpadPage extends StatelessWidget {
   final room = Game(
@@ -67,19 +72,29 @@ class ScratchpadPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider<WebSocketCubit>(
-        create: (context) => WebSocketCubit(pinCode: room.id)
-          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-          ..emit(
-            const WebSocketState(uuid: "player1"),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider<WebSocketCubit>(
+            create: (context) => WebSocketCubit(pinCode: room.id)
+              ..emit(
+                const WebSocketState(uuid: "player1"),
+              ),
           ),
+          BlocProvider<GameCubit>(
+            create: (context) => GameCubit()..setGame(room),
+          ),
+          BlocProvider<RoundWonCubit>(
+            create: (context) => RoundWonCubit(),
+          ),
+          BlocProvider<CardsReceivedCubit>(
+            create: (context) => CardsReceivedCubit()
+              ..update([
+                PlayingCard(id: 11, text: 'eleven', playerId: 'player1'),
+              ]),
+          ),
+        ],
         child: Center(
-          child: CardsReceivedAnimation(
-            cards: [
-              PlayingCard(id: 9, text: 'nine', playerId: 'player1'),
-              PlayingCard(id: 10, text: 'ten', playerId: 'player1'),
-            ],
-          ),
+          child: GameWidget(room: room),
         ),
       ),
     );

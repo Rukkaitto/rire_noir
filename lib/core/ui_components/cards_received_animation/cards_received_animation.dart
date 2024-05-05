@@ -2,8 +2,10 @@ import 'dart:math';
 
 import 'package:api/entities/playing_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_style.dart';
 import 'package:rire_noir/core/ui_components/playing_card/playing_card_widget.dart';
+import 'package:rire_noir/features/game/presentation/bloc/cards_received/cards_received_cubit.dart';
 
 class CardsReceivedAnimation extends StatefulWidget {
   final List<PlayingCard> cards;
@@ -132,15 +134,30 @@ class _CardsReceivedAnimationState extends State<CardsReceivedAnimation>
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {
-          widget.cards.removeAt(0);
           if (widget.cards.isNotEmpty) {
-            _currentCard = widget.cards.first;
-            _controller.reset();
-            _controller.forward();
-          } else {
-            _opacityController.reverse();
+            // Remove the current card when its animation is done
+            widget.cards.removeAt(0);
+
+            final card = widget.cards.firstOrNull;
+
+            if (card != null) {
+              // Restart the animation with the next card
+              _currentCard = card;
+              _controller.reset();
+              _controller.forward();
+            } else {
+              // Start fading out if there are no more cards
+              _opacityController.reverse();
+            }
           }
         });
+      }
+    });
+
+    _opacityController.addStatusListener((status) {
+      // End of animation
+      if (status == AnimationStatus.dismissed) {
+        context.read<CardsReceivedCubit>().reset();
       }
     });
 
