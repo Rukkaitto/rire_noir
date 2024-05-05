@@ -5,6 +5,7 @@ import 'package:api/entities/game.dart';
 import 'package:api/entities/round.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rire_noir/core/ui_components/cards_received_animation/cards_received_animation.dart';
 import 'package:rire_noir/core/ui_components/round_won_indicator/round_won_indicator.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_state.dart';
@@ -72,8 +73,13 @@ class ScratchpadPage extends StatelessWidget {
           ..emit(
             const WebSocketState(uuid: "player1"),
           ),
-        child: const Center(
-          child: RoundWonIndicator(),
+        child: Center(
+          child: CardsReceivedAnimation(
+            cards: [
+              PlayingCard(id: 9, text: 'nine', playerId: 'player1'),
+              PlayingCard(id: 10, text: 'ten', playerId: 'player1'),
+            ],
+          ),
         ),
       ),
     );

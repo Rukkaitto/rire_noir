@@ -133,7 +133,7 @@ class Game {
     blackCards = CardLoader.loadCards(path: 'data/black_cards.json');
     whiteCards = CardLoader.loadCards(path: 'data/white_cards.json');
 
-    dealWhiteCards();
+    dealWhiteCards(notifyPlayers: false);
 
     // Pick a master once the cards have been dealt
     master = players[Random().nextInt(playerCount)];
@@ -194,7 +194,7 @@ class Game {
     players.remove(master);
   }
 
-  void dealWhiteCards() {
+  void dealWhiteCards({bool notifyPlayers = true}) {
     for (var player in players) {
       final needed = whiteCardCount - player.cards.length;
 
@@ -210,6 +210,12 @@ class Game {
 
       // Add the cards to the player
       player.cards.addAll(dealtCards);
+
+      if (notifyPlayers) {
+        // Signal the player that they have received cards
+        final message = CardsReceivedMessage(cards: dealtCards);
+        player.client?.sendMessage(message);
+      }
     }
   }
 

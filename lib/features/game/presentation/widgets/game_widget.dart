@@ -1,9 +1,12 @@
 import 'package:api/entities/mode.dart';
 import 'package:api/entities/game.dart';
+import 'package:api/entities/playing_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rire_noir/core/ui_components/cards_received_animation/cards_received_animation.dart';
 import 'package:rire_noir/core/ui_components/round_won_indicator/round_won_indicator.dart';
 import 'package:rire_noir/core/ui_components/scrolling_background/scrolling_background.dart';
+import 'package:rire_noir/features/game/presentation/bloc/cards_received/cards_received_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/round_won/round_won_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_state.dart';
@@ -66,6 +69,15 @@ class GameWidget extends StatelessWidget {
                         game: room,
                       );
                   }
+                },
+              ),
+              BlocBuilder<CardsReceivedCubit, List<PlayingCard>>(
+                builder: (context, cards) {
+                  if (cards.isEmpty) {
+                    return const SizedBox();
+                  }
+
+                  return CardsReceivedAnimation(cards: cards);
                 },
               ),
               BlocBuilder<RoundWonCubit, RoundWonState>(

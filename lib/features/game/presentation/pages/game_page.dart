@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:api/entities/server_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rire_noir/features/game/presentation/bloc/cards_received/cards_received_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/round_won/round_won_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/game/game_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
@@ -52,6 +53,9 @@ class GamePage extends StatelessWidget {
       case RoundWonMessage():
         context.read<RoundWonCubit>().roundWon();
         break;
+      case CardsReceivedMessage(cards: var cards):
+        context.read<CardsReceivedCubit>().update(cards);
+        break;
     }
   }
 
@@ -71,6 +75,9 @@ class GamePage extends StatelessWidget {
         ),
         BlocProvider<RoundWonCubit>(
           create: (context) => RoundWonCubit(),
+        ),
+        BlocProvider<CardsReceivedCubit>(
+          create: (context) => CardsReceivedCubit(),
         ),
       ],
       child: PopScope(
