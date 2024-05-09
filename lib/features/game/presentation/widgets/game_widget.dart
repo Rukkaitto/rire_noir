@@ -64,10 +64,7 @@ class GameWidget extends StatelessWidget {
                         );
                       }
                     case Mode.finished:
-                      return ResultWidget(
-                        player: me,
-                        game: room,
-                      );
+                      return const ResultWidget();
                   }
                 },
               ),

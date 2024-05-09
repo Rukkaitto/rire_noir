@@ -2,14 +2,16 @@
 
 import 'package:api/entities/mode.dart';
 import 'package:api/entities/player.dart';
+import 'package:api/entities/player_with_score.dart';
 import 'package:api/entities/playing_card.dart';
 import 'package:api/entities/game.dart';
 import 'package:api/entities/round.dart';
+import 'package:api/entities/server_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rire_noir/core/ui_components/cards_received_animation/cards_received_animation.dart';
 import 'package:rire_noir/features/game/presentation/bloc/cards_received/cards_received_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/game/game_cubit.dart';
+import 'package:rire_noir/features/game/presentation/bloc/game_ended/game_ended_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/round_won/round_won_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_cubit.dart';
 import 'package:rire_noir/features/game/presentation/bloc/web_socket/web_socket_state.dart';
@@ -64,7 +66,7 @@ class ScratchpadPage extends StatelessWidget {
         },
       ),
     ],
-    mode: Mode.review,
+    mode: Mode.finished,
   );
 
   ScratchpadPage({super.key});
@@ -91,6 +93,34 @@ class ScratchpadPage extends StatelessWidget {
               ..update([
                 PlayingCard(id: 11, text: 'eleven', playerId: 'player1'),
               ]),
+          ),
+          BlocProvider<GameEndedCubit>(
+            create: (context) => GameEndedCubit()
+              ..update(
+                GameEndedMessage(
+                  winnerName: 'player1',
+                  leaderboard: [
+                    PlayerWithScore(
+                      Player(
+                        id: 'player1',
+                        name: 'player1',
+                        score: 10,
+                        gameId: 'A8BE92',
+                      ),
+                      10,
+                    ),
+                    PlayerWithScore(
+                      Player(
+                        id: 'player2',
+                        name: 'player2',
+                        score: 5,
+                        gameId: 'A8BE92',
+                      ),
+                      5,
+                    ),
+                  ],
+                ),
+              ),
           ),
         ],
         child: Center(

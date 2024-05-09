@@ -6,6 +6,7 @@ import 'package:api/entities/messages/client/ready_message.dart';
 import 'package:api/entities/messages/client/select_card_message.dart';
 import 'package:api/entities/messages/client/set_name_message.dart';
 import 'package:api/entities/messages/client/winner_card_message.dart';
+import 'package:api/entities/mode.dart';
 import 'package:api/entities/player.dart';
 import 'package:api/entities/game.dart';
 import 'package:api/utils/pin_code_generator.dart';
@@ -52,7 +53,7 @@ Handler init() {
         }
 
         // If player is master, pick a new master
-        if (game.master?.id == player.id) {
+        if (game.master?.id == player.id && game.mode != Mode.finished) {
           game.nextRound();
         }
 

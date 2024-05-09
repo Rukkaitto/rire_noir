@@ -1,19 +1,16 @@
-import 'package:api/entities/game.dart';
-import 'package:api/entities/player.dart';
+import 'package:api/entities/player_with_score.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:rire_noir/features/game/presentation/widgets/player_layout_widget.dart';
+import 'package:rire_noir/core/ui_components/logout_button/logout_button.dart';
+import 'package:rire_noir/features/game/presentation/bloc/game_ended/game_ended_cubit.dart';
 
 class ResultWidget extends StatefulWidget {
-  final Player player;
-  final Game game;
-
   const ResultWidget({
     super.key,
-    required this.player,
-    required this.game,
   });
 
   @override
@@ -32,8 +29,12 @@ class _ResultWidgetState extends State<ResultWidget>
       vsync: this,
     );
 
+    super.initState();
+  }
+
+  void startAnimation(List<PlayerWithScore> leaderboard) {
     _rowAnimations = List.generate(
-      widget.game.leaderboard.length,
+      leaderboard.length,
       (index) => Tween<double>(
         begin: 0,
         end: 1,
@@ -41,7 +42,7 @@ class _ResultWidgetState extends State<ResultWidget>
         CurvedAnimation(
           parent: _controller,
           curve: Interval(
-            (index / widget.game.leaderboard.length),
+            (index / leaderboard.length),
             1.0,
             curve: Curves.easeOut,
           ),
@@ -50,43 +51,61 @@ class _ResultWidgetState extends State<ResultWidget>
     );
 
     _controller.forward();
-
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return PlayerLayoutWidget(
-      player: widget.player,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              buildTitle(context),
-              const SizedBox(height: 16),
-              buildLeaderboard(context),
-            ],
+    return Stack(
+      children: [
+        const SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(left: 17),
+            child: LogoutButton(),
           ),
         ),
-      ),
+        BlocBuilder<GameEndedCubit, GameEndedState>(
+          builder: (context, state) {
+            if (state is GameEndedReceived) {
+              startAnimation(state.leaderboard);
+
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      buildTitle(context, winnerName: state.winnerName),
+                      const SizedBox(height: 16),
+                      buildLeaderboard(context, leaderboard: state.leaderboard),
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              return const SizedBox();
+            }
+          },
+        ),
+      ],
     );
   }
 
-  Widget buildTitle(BuildContext context) {
+  Widget buildTitle(BuildContext context, {required String winnerName}) {
     return Text(
-      AppLocalizations.of(context)!.resultViewTitle(widget.game.winnerName),
+      AppLocalizations.of(context)!.resultViewTitle(winnerName),
       style: Theme.of(context).textTheme.headlineLarge,
     );
   }
 
-  Widget buildLeaderboard(BuildContext context) {
+  Widget buildLeaderboard(
+    BuildContext context, {
+    required List<PlayerWithScore> leaderboard,
+  }) {
     return Column(
       children: List.generate(
-        widget.game.leaderboard.length,
+        leaderboard.length,
         (index) {
-          final playerWithScore = widget.game.leaderboard[index];
+          final playerWithScore = leaderboard[index];
           return AnimatedBuilder(
             animation: _rowAnimations[index],
             builder: (context, child) {

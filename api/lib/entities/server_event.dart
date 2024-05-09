@@ -3,6 +3,7 @@ enum ServerEvent {
   gameChanged,
   roundWon,
   cardsReceived,
+  gameEnded,
 }
 
 extension ServerEventExtension on ServerEvent {
@@ -14,6 +15,8 @@ extension ServerEventExtension on ServerEvent {
         return ServerEvent.roundWon;
       case 'cardsReceived':
         return ServerEvent.cardsReceived;
+      case 'gameEnded':
+        return ServerEvent.gameEnded;
       default:
         throw Exception('Event $event not found');
     }
@@ -27,6 +30,8 @@ extension ServerEventExtension on ServerEvent {
         return 'roundWon';
       case ServerEvent.cardsReceived:
         return 'cardsReceived';
+      case ServerEvent.gameEnded:
+        return 'gameEnded';
     }
   }
 }

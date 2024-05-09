@@ -159,6 +159,11 @@ class Game {
 
     if (winner.score == winningScore) {
       mode = Mode.finished;
+      final message = GameEndedMessage(
+        winnerName: winner.name!,
+        leaderboard: leaderboard,
+      );
+      broadcastMessage(message);
     } else {
       final message = RoundWonMessage();
       winner.client?.sendMessage(message);

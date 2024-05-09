@@ -1,4 +1,5 @@
 import 'package:api/entities/game.dart';
+import 'package:api/entities/player_with_score.dart';
 import 'package:api/entities/playing_card.dart';
 import 'package:api/entities/server_event.dart';
 
@@ -20,6 +21,8 @@ sealed class ServerMessage {
         return RoundWonMessage.fromJson(json);
       case ServerEvent.cardsReceived:
         return CardsReceivedMessage.fromJson(json);
+      case ServerEvent.gameEnded:
+        return GameEndedMessage.fromJson(json);
     }
   }
 }
@@ -78,6 +81,34 @@ class CardsReceivedMessage extends ServerMessage {
     return CardsReceivedMessage(
       cards: (json['cards'] as List)
           .map((card) => PlayingCard.fromJson(card))
+          .toList(),
+    );
+  }
+}
+
+class GameEndedMessage extends ServerMessage {
+  final String winnerName;
+  final List<PlayerWithScore> leaderboard;
+
+  GameEndedMessage({
+    required this.winnerName,
+    required this.leaderboard,
+  }) : super(ServerEvent.gameEnded);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'winnerName': winnerName,
+      'leaderboard': leaderboard.map((entry) => entry.toJson()).toList(),
+      'event': event.toJson(),
+    };
+  }
+
+  factory GameEndedMessage.fromJson(Map<String, dynamic> json) {
+    return GameEndedMessage(
+      winnerName: json['winnerName'],
+      leaderboard: (json['leaderboard'] as List)
+          .map((entry) => PlayerWithScore.fromJson(entry))
           .toList(),
     );
   }
