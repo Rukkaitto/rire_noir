@@ -41,22 +41,25 @@ class _ScrollingBackgroundState extends State<ScrollingBackground>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          top: -_controller!.value,
-          left: -_controller!.value,
-          child: SizedBox(
-            width: 2048,
-            height: 2048,
-            child: Image.asset(
-              AssetService().images.bgTile,
-              repeat: ImageRepeat.repeat,
+    return Container(
+      color: Theme.of(context).colorScheme.surface,
+      child: Stack(
+        children: [
+          Positioned(
+            top: -_controller!.value,
+            left: -_controller!.value,
+            child: SizedBox(
+              width: 2048,
+              height: 2048,
+              child: Image.asset(
+                AssetService().images.bgTile,
+                repeat: ImageRepeat.repeat,
+              ),
             ),
           ),
-        ),
-        widget.child,
-      ],
+          widget.child,
+        ],
+      ),
     );
   }
 }
