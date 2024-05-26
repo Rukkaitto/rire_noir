@@ -41,41 +41,8 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
                 style: PlayingCardStyleBlack(context),
               ),
             ),
-            PlayingCardBackground(
-              style: PlayingCardStyleWhite(context),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PlayingCardTitleWidget(
-                    text: AppLocalizations.of(context)!.waitingRoomReadyPlayers(
-                        widget.room.readyPlayerCount, widget.room.playerCount),
-                    style: PlayingCardStyleWhite(context),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 200,
-                            height: 200,
-                            child: PrettyQrView.data(
-                              data: AppLocalizations.of(context)!
-                                  .joinDeeplinkUrl(widget.room.id),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          PlayingCardTitleWidget(
-                            text: widget.room.id,
-                            style: PlayingCardStyleWhite(context),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            Flexible(
+              child: buildWhiteCard(),
             ),
           ],
         ),
@@ -83,31 +50,77 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
     );
   }
 
+  Widget buildWhiteCard() {
+    return PlayingCardBackground(
+      style: PlayingCardStyleWhite(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PlayingCardTitleWidget(
+            text: AppLocalizations.of(context)!.waitingRoomReadyPlayers(
+                widget.room.readyPlayerCount, widget.room.playerCount),
+            style: PlayingCardStyleWhite(context),
+          ),
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: PrettyQrView.data(
+                      data: AppLocalizations.of(context)!
+                          .joinDeeplinkUrl(widget.room.id),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  PlayingCardTitleWidget(
+                    text: widget.room.id,
+                    style: PlayingCardStyleWhite(context),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  MyButton buildButton(BuildContext context) {
+    return MyButton(
+      text: AppLocalizations.of(context)!.waitingRoomButton,
+      style: _isReady
+          ? MyButtonStyleSecondary(context)
+          : MyButtonStylePrimary(context),
+      trailingIcon: _isReady ? Icons.check_rounded : null,
+      onPressed: () {
+        setState(() {
+          _isReady = !_isReady;
+        });
+        widget.ready(_isReady);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScrollingBackground(
       child: Container(
-        padding: const EdgeInsets.all(35),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            buildCardStack(),
-            const SizedBox(height: 20),
-            MyButton(
-              text: AppLocalizations.of(context)!.waitingRoomButton,
-              style: _isReady
-                  ? MyButtonStyleSecondary(context)
-                  : MyButtonStylePrimary(context),
-              trailingIcon: _isReady ? Icons.check_rounded : null,
-              onPressed: () {
-                setState(() {
-                  _isReady = !_isReady;
-                });
-                widget.ready(_isReady);
-              },
-            ),
-          ],
+        padding: const EdgeInsets.symmetric(horizontal: 35),
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: buildCardStack(),
+              ),
+              buildButton(context),
+            ],
+          ),
         ),
       ),
     );

@@ -23,25 +23,25 @@ class ScratchpadPage extends StatelessWidget {
     winningScore: 10,
     master: Player(
       id: 'master',
-      name: 'master',
+      name: 'Tom',
       score: 2,
       gameId: 'A8BE92',
     ),
     players: [
       Player(
         id: 'player1',
-        name: 'player1',
+        name: 'Marion',
         score: 10,
         gameId: 'A8BE92',
         isReady: true,
         cards: [
-          PlayingCard(id: 3, text: 'three', playerId: 'player1'),
+          PlayingCard(id: 3, text: 'Une étagère IKEA', playerId: 'player1'),
           PlayingCard(id: 4, text: 'four', playerId: 'player1'),
         ],
       ),
       Player(
         id: 'player2',
-        name: 'player2',
+        name: 'Adrien',
         score: 5,
         gameId: 'A8BE92',
         isReady: true,
@@ -53,16 +53,15 @@ class ScratchpadPage extends StatelessWidget {
     ],
     rounds: [
       Round(
-        blackCard: PlayingCard(id: 1, text: 'Hello, %@, %@!'),
+        blackCard: PlayingCard(
+          id: 1,
+          text: '%@, c\'est tout le bonheur que je te souhaite, ma fille.',
+        ),
         whiteCards: {
           'player1': [
             PlayingCard(id: 9, text: 'nine', playerId: 'player1'),
-            PlayingCard(id: 10, text: 'ten', playerId: 'player1'),
           ],
-          'player2': [
-            PlayingCard(id: 7, text: 'seven', playerId: 'player2'),
-            PlayingCard(id: 8, text: 'eight', playerId: 'player2'),
-          ],
+          'player2': [],
         },
       ),
     ],
@@ -79,7 +78,7 @@ class ScratchpadPage extends StatelessWidget {
           BlocProvider<WebSocketCubit>(
             create: (context) => WebSocketCubit(pinCode: room.id)
               ..emit(
-                const WebSocketState(uuid: "player1"),
+                const WebSocketState(uuid: "master"),
               ),
           ),
           BlocProvider<GameCubit>(
@@ -89,21 +88,21 @@ class ScratchpadPage extends StatelessWidget {
             create: (context) => RoundWonCubit(),
           ),
           BlocProvider<CardsReceivedCubit>(
-            create: (context) => CardsReceivedCubit()
-              ..update([
-                PlayingCard(id: 11, text: 'eleven', playerId: 'player1'),
-              ]),
-          ),
+              create: (context) => CardsReceivedCubit()
+              // ..update([
+              //   PlayingCard(id: 11, text: 'eleven', playerId: 'player1'),
+              // ]),
+              ),
           BlocProvider<GameEndedCubit>(
             create: (context) => GameEndedCubit()
               ..update(
                 GameEndedMessage(
-                  winnerName: 'player1',
+                  winnerName: 'Marion',
                   leaderboard: [
                     PlayerWithScore(
                       Player(
                         id: 'player1',
-                        name: 'player1',
+                        name: 'Marion',
                         score: 10,
                         gameId: 'A8BE92',
                       ),
@@ -111,12 +110,21 @@ class ScratchpadPage extends StatelessWidget {
                     ),
                     PlayerWithScore(
                       Player(
-                        id: 'player2',
-                        name: 'player2',
+                        id: 'player1',
+                        name: 'Adrien',
                         score: 5,
                         gameId: 'A8BE92',
                       ),
                       5,
+                    ),
+                    PlayerWithScore(
+                      Player(
+                        id: 'player2',
+                        name: 'Tom',
+                        score: 2,
+                        gameId: 'A8BE92',
+                      ),
+                      2,
                     ),
                   ],
                 ),

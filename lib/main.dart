@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp.router(
       title: 'Rire Noir',
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       routeInformationParser: _router.routeInformationParser,
