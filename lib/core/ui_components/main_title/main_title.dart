@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 
 class MainTitle extends StatefulWidget {
