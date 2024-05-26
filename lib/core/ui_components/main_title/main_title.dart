@@ -37,8 +37,11 @@ class _MainTitleState extends State<MainTitle>
       builder: (context, child) {
         return Transform.translate(
           offset: Offset(0, 20 * (1 - _animation.value)),
-          child: Image.asset(
-            AssetService().images.title,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Image.asset(
+              AssetService().images.title,
+            ),
           ),
         );
       },
