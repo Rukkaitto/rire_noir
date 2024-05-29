@@ -66,44 +66,46 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
   @override
   Widget build(BuildContext context) {
     return TutorialOverlay(
-      child: Column(
-        children: [
-          Expanded(
-            child: PlayerLayoutWidget(
-              player: widget.player,
-              child: DismissibleCarousel(
-                alignment: Alignment.bottomCenter,
-                canDismiss: widget.canPlay,
-                onDismissed: (index) {
-                  _onSwipe(context, index: index);
-                },
-                children: cards
-                    .map(
-                      (card) => Padding(
-                        key: ValueKey(card.id),
-                        padding: const EdgeInsets.all(35),
-                        child: GyroscopeWidget(
-                          child: PlayingCardWidget(
-                            text: card.text,
-                            style: PlayingCardStyleWhite(context),
+      child: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: PlayerLayoutWidget(
+                player: widget.player,
+                child: DismissibleCarousel(
+                  alignment: Alignment.bottomCenter,
+                  canDismiss: widget.canPlay,
+                  onDismissed: (index) {
+                    _onSwipe(context, index: index);
+                  },
+                  children: cards
+                      .map(
+                        (card) => Padding(
+                          key: ValueKey(card.id),
+                          padding: const EdgeInsets.all(35),
+                          child: GyroscopeWidget(
+                            child: PlayingCardWidget(
+                              text: card.text,
+                              style: PlayingCardStyleWhite(context),
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                    .toList(),
+                      )
+                      .toList(),
+                ),
               ),
             ),
-          ),
-          if (remainingCardsToPlay > 0)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Text(
-                AppLocalizations.of(context)!
-                    .playerViewRemainingCardsToPlay(remainingCardsToPlay),
-                style: Theme.of(context).textTheme.labelLarge,
+            if (remainingCardsToPlay > 0)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Text(
+                  AppLocalizations.of(context)!
+                      .playerViewRemainingCardsToPlay(remainingCardsToPlay),
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

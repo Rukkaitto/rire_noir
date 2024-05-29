@@ -89,7 +89,10 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
                     duration: const Duration(milliseconds: 500),
                     switchInCurve: Curves.easeInOut,
                     switchOutCurve: Curves.easeInOut,
-                    child: buildStep(context),
+                    child: SafeArea(
+                      key: ValueKey(_currentStep),
+                      child: buildStep(context),
+                    ),
                   ),
                 ),
               ),

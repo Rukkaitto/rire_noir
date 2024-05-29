@@ -34,41 +34,39 @@ class GameWidget extends StatelessWidget {
         return ScrollingBackground(
           child: Stack(
             children: [
-              SafeArea(
-                child: Builder(
-                  builder: (context) {
-                    switch (room.mode) {
-                      case Mode.active:
-                        if (room.amITheMaster(state.uuid)) {
-                          return MasterViewWidget(
-                            player: me,
-                            room: room,
-                          );
-                        } else {
-                          return PlayerViewWidget(
-                            player: me,
-                            round: room.currentRound,
-                            canPlay: room.canIPlay(state.uuid),
-                          );
-                        }
-                      case Mode.review:
-                        if (room.amITheMaster(state.uuid)) {
-                          return MasterReviewViewWidget(
-                            player: me,
-                            round: room.currentRound,
-                          );
-                        } else {
-                          return PlayerViewWidget(
-                            player: me,
-                            round: room.currentRound,
-                            canPlay: false,
-                          );
-                        }
-                      case Mode.finished:
-                        return const ResultWidget();
-                    }
-                  },
-                ),
+              Builder(
+                builder: (context) {
+                  switch (room.mode) {
+                    case Mode.active:
+                      if (room.amITheMaster(state.uuid)) {
+                        return MasterViewWidget(
+                          player: me,
+                          room: room,
+                        );
+                      } else {
+                        return PlayerViewWidget(
+                          player: me,
+                          round: room.currentRound,
+                          canPlay: room.canIPlay(state.uuid),
+                        );
+                      }
+                    case Mode.review:
+                      if (room.amITheMaster(state.uuid)) {
+                        return MasterReviewViewWidget(
+                          player: me,
+                          round: room.currentRound,
+                        );
+                      } else {
+                        return PlayerViewWidget(
+                          player: me,
+                          round: room.currentRound,
+                          canPlay: false,
+                        );
+                      }
+                    case Mode.finished:
+                      return const ResultWidget();
+                  }
+                },
               ),
               BlocBuilder<CardsReceivedCubit, List<PlayingCard>>(
                 builder: (context, cards) {

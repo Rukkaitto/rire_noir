@@ -1,6 +1,5 @@
 import 'package:api/entities/player_with_score.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
@@ -58,37 +57,39 @@ class _ResultWidgetState extends State<ResultWidget>
     return SizedBox(
       width: double.infinity,
       height: double.infinity,
-      child: Stack(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 17),
-            child: LogoutButton(),
-          ),
-          BlocBuilder<GameEndedCubit, GameEndedState>(
-            builder: (context, state) {
-              if (state is GameEndedReceived) {
-                startAnimation(state.leaderboard);
+      child: SafeArea(
+        child: Stack(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 17),
+              child: LogoutButton(),
+            ),
+            BlocBuilder<GameEndedCubit, GameEndedState>(
+              builder: (context, state) {
+                if (state is GameEndedReceived) {
+                  startAnimation(state.leaderboard);
 
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        buildTitle(context, winnerName: state.winnerName),
-                        const SizedBox(height: 16),
-                        buildLeaderboard(context,
-                            leaderboard: state.leaderboard),
-                      ],
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          buildTitle(context, winnerName: state.winnerName),
+                          const SizedBox(height: 16),
+                          buildLeaderboard(context,
+                              leaderboard: state.leaderboard),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              } else {
-                return const SizedBox();
-              }
-            },
-          ),
-        ],
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

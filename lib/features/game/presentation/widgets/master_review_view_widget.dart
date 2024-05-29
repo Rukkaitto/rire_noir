@@ -31,27 +31,29 @@ class MasterReviewViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TutorialOverlay(
-      child: PlayerLayoutWidget(
-        player: player,
-        child: DismissibleCarousel(
-          alignment: Alignment.bottomCenter,
-          onDismissed: (index) {
-            _onSwipe(context, index: index);
-          },
-          children: round.whiteCards.values
-              .map(
-                (cards) => Padding(
-                  key: ValueKey(cards.first.id),
-                  padding: const EdgeInsets.all(35),
-                  child: GyroscopeWidget(
-                    child: PlayingCardWidget(
-                      text: round.blackCard.fillInBlanks(cards),
-                      style: PlayingCardStyleBlack(context),
+      child: SafeArea(
+        child: PlayerLayoutWidget(
+          player: player,
+          child: DismissibleCarousel(
+            alignment: Alignment.bottomCenter,
+            onDismissed: (index) {
+              _onSwipe(context, index: index);
+            },
+            children: round.whiteCards.values
+                .map(
+                  (cards) => Padding(
+                    key: ValueKey(cards.first.id),
+                    padding: const EdgeInsets.all(35),
+                    child: GyroscopeWidget(
+                      child: PlayingCardWidget(
+                        text: round.blackCard.fillInBlanks(cards),
+                        style: PlayingCardStyleBlack(context),
+                      ),
                     ),
                   ),
-                ),
-              )
-              .toList(),
+                )
+                .toList(),
+          ),
         ),
       ),
     );

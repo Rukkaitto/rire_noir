@@ -19,35 +19,37 @@ class MasterViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlayerLayoutWidget(
-      player: player,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 35,
-          bottom: 35,
-          right: 35,
-          top: 100,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildPlayerList(context),
-                  buildDonePlayersCount(context),
-                ],
+    return SafeArea(
+      child: PlayerLayoutWidget(
+        player: player,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 35,
+            bottom: 35,
+            right: 35,
+            top: 100,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    buildPlayerList(context),
+                    buildDonePlayersCount(context),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 25),
-            GyroscopeWidget(
-              child: PlayingCardWidget(
-                text: room.currentBlackCard.formattedText,
-                style: PlayingCardStyleBlack(context),
+              const SizedBox(height: 25),
+              GyroscopeWidget(
+                child: PlayingCardWidget(
+                  text: room.currentBlackCard.formattedText,
+                  style: PlayingCardStyleBlack(context),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

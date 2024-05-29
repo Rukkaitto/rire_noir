@@ -59,15 +59,15 @@ class ScratchpadPage extends StatelessWidget {
         ),
         whiteCards: {
           'player1': [
-            PlayingCard(id: 9, text: 'nine', playerId: 'player1'),
+            // PlayingCard(id: 9, text: 'nine', playerId: 'player1'),
           ],
           'player2': [
-            PlayingCard(id: 10, text: 'ten', playerId: 'player2'),
+            // PlayingCard(id: 10, text: 'ten', playerId: 'player2'),
           ],
         },
       ),
     ],
-    mode: Mode.finished,
+    mode: Mode.active,
   );
 
   ScratchpadPage({super.key});
@@ -79,7 +79,7 @@ class ScratchpadPage extends StatelessWidget {
         BlocProvider<WebSocketCubit>(
           create: (context) => WebSocketCubit(pinCode: room.id)
             ..emit(
-              const WebSocketState(uuid: "master"),
+              const WebSocketState(uuid: "player1"),
             ),
         ),
         BlocProvider<GameCubit>(
