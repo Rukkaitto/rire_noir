@@ -17,6 +17,7 @@ class DismissibleCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      clipBehavior: Clip.none,
       physics: const PageScrollPhysics(
         parent: BouncingScrollPhysics(),
       ),

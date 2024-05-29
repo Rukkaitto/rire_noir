@@ -97,12 +97,10 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
           if (remainingCardsToPlay > 0)
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
-              child: SafeArea(
-                child: Text(
-                  AppLocalizations.of(context)!
-                      .playerViewRemainingCardsToPlay(remainingCardsToPlay),
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
+              child: Text(
+                AppLocalizations.of(context)!
+                    .playerViewRemainingCardsToPlay(remainingCardsToPlay),
+                style: Theme.of(context).textTheme.labelLarge,
               ),
             ),
         ],

@@ -61,7 +61,9 @@ class ScratchpadPage extends StatelessWidget {
           'player1': [
             PlayingCard(id: 9, text: 'nine', playerId: 'player1'),
           ],
-          'player2': [],
+          'player2': [
+            PlayingCard(id: 10, text: 'ten', playerId: 'player2'),
+          ],
         },
       ),
     ],
@@ -97,7 +99,7 @@ class ScratchpadPage extends StatelessWidget {
         ),
       ],
       child: Builder(builder: (context) {
-        // Wait 2 seconds before showing leaderboard
+        //Wait 2 seconds before showing leaderboard
         Future.delayed(const Duration(seconds: 2), () {
           context.read<GameEndedCubit>().update(
                 GameEndedMessage(

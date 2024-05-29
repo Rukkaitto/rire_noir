@@ -16,17 +16,15 @@ class PlayerLayoutWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 17),
-            child: ScoreWidget(
-              score: player.score,
-            ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 17),
+          child: ScoreWidget(
+            score: player.score,
           ),
         ),
-        child,
+        Expanded(child: child),
       ],
     );
   }

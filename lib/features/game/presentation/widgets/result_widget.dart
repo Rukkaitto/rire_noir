@@ -60,11 +60,9 @@ class _ResultWidgetState extends State<ResultWidget>
       height: double.infinity,
       child: Stack(
         children: [
-          const SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(left: 17),
-              child: LogoutButton(),
-            ),
+          const Padding(
+            padding: EdgeInsets.only(left: 17),
+            child: LogoutButton(),
           ),
           BlocBuilder<GameEndedCubit, GameEndedState>(
             builder: (context, state) {
