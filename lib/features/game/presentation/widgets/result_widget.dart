@@ -55,38 +55,43 @@ class _ResultWidgetState extends State<ResultWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        const SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(left: 17),
-            child: LogoutButton(),
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: Stack(
+        children: [
+          const SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(left: 17),
+              child: LogoutButton(),
+            ),
           ),
-        ),
-        BlocBuilder<GameEndedCubit, GameEndedState>(
-          builder: (context, state) {
-            if (state is GameEndedReceived) {
-              startAnimation(state.leaderboard);
+          BlocBuilder<GameEndedCubit, GameEndedState>(
+            builder: (context, state) {
+              if (state is GameEndedReceived) {
+                startAnimation(state.leaderboard);
 
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      buildTitle(context, winnerName: state.winnerName),
-                      const SizedBox(height: 16),
-                      buildLeaderboard(context, leaderboard: state.leaderboard),
-                    ],
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        buildTitle(context, winnerName: state.winnerName),
+                        const SizedBox(height: 16),
+                        buildLeaderboard(context,
+                            leaderboard: state.leaderboard),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            } else {
-              return const SizedBox();
-            }
-          },
-        ),
-      ],
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 

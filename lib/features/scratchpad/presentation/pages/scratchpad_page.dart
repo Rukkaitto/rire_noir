@@ -72,30 +72,34 @@ class ScratchpadPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider<WebSocketCubit>(
-            create: (context) => WebSocketCubit(pinCode: room.id)
-              ..emit(
-                const WebSocketState(uuid: "master"),
-              ),
-          ),
-          BlocProvider<GameCubit>(
-            create: (context) => GameCubit()..setGame(room),
-          ),
-          BlocProvider<RoundWonCubit>(
-            create: (context) => RoundWonCubit(),
-          ),
-          BlocProvider<CardsReceivedCubit>(
-              create: (context) => CardsReceivedCubit()
-              // ..update([
-              //   PlayingCard(id: 11, text: 'eleven', playerId: 'player1'),
-              // ]),
-              ),
-          BlocProvider<GameEndedCubit>(
-            create: (context) => GameEndedCubit()
-              ..update(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<WebSocketCubit>(
+          create: (context) => WebSocketCubit(pinCode: room.id)
+            ..emit(
+              const WebSocketState(uuid: "master"),
+            ),
+        ),
+        BlocProvider<GameCubit>(
+          create: (context) => GameCubit()..setGame(room),
+        ),
+        BlocProvider<RoundWonCubit>(
+          create: (context) => RoundWonCubit(),
+        ),
+        BlocProvider<CardsReceivedCubit>(
+            create: (context) => CardsReceivedCubit()
+            // ..update([
+            //   PlayingCard(id: 11, text: 'eleven', playerId: 'player1'),
+            // ]),
+            ),
+        BlocProvider<GameEndedCubit>(
+          create: (context) => GameEndedCubit(),
+        ),
+      ],
+      child: Builder(builder: (context) {
+        // Wait 2 seconds before showing leaderboard
+        Future.delayed(const Duration(seconds: 2), () {
+          context.read<GameEndedCubit>().update(
                 GameEndedMessage(
                   winnerName: 'Marion',
                   leaderboard: [
@@ -128,13 +132,15 @@ class ScratchpadPage extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
+              );
+        });
+        return PopScope(
+          canPop: false,
+          child: Scaffold(
+            body: GameWidget(room: room),
           ),
-        ],
-        child: Center(
-          child: GameWidget(room: room),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
