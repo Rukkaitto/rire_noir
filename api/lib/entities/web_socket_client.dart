@@ -16,7 +16,7 @@ class WebSocketClient {
 
   WebSocketClient({
     required this.ws,
-    this.delay = const Duration(milliseconds: 100),
+    this.delay = const Duration(milliseconds: 200),
   }) {
     _controller.stream.listen((message) {
       _queue.add(message);
