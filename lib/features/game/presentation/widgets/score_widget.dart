@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rire_noir/core/services/asset_service/asset_service.dart';
 import 'package:rire_noir/core/ui_components/logout_button/logout_button.dart';
+import 'package:rire_noir/core/ui_components/share_button/share_button.dart';
 
 class ScoreWidget extends StatelessWidget {
   final int score;
@@ -17,6 +18,7 @@ class ScoreWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const LogoutButton(),
+        const ShareButton(),
         const Spacer(),
         SvgPicture.asset(AssetService().svgs.scoreIcon),
         const SizedBox(width: 10),
