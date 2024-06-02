@@ -108,17 +108,19 @@ class _WaitingRoomWidgetState extends State<WaitingRoomWidget> {
   @override
   Widget build(BuildContext context) {
     return ScrollingBackground(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 35),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: buildCardStack(),
-            ),
-            buildButton(context),
-          ],
+      child: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 35),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: buildCardStack(),
+              ),
+              buildButton(context),
+            ],
+          ),
         ),
       ),
     );
